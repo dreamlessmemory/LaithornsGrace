@@ -1,0 +1,17 @@
+name: StumpedTreeWarp
+version: 1.0.0
+description: Create special trees allow players to warp
+main: com.dreamless.treewarp.TreeWarp
+api-version: 1.13
+authors: [DreamlessMemory/MemoryReborn]
+prefix: Laithorn
+depend: [ItemNBTAPI]
+commands:
+  TreeWarp:
+    description: Command for Administration
+    aliases: [laithorn, laith, lg]
+permissions:
+  treewarp.admin:
+    description: All permissions related to setup of Laithorn's Grace
+  treewarp.user:
+    description: Allows access to all functions once the tutorial is completed
