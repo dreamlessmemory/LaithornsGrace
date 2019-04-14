@@ -32,6 +32,10 @@ public class LaithornUtils {
 	public static String serializeLocation(Location location) {
 		return gson.toJson(location.serialize());
 	}
+	
+	public static HashMap<String, Boolean> deseralizeFlagMap(String json){
+		return gson.fromJson(json, new TypeToken<HashMap<String, Boolean>>(){}.getType());
+	}
 
 	public static Location deserializeLocation(String json) {
 		return Location.deserialize(gson.fromJson(json, new TypeToken<HashMap<String, Object>>() {

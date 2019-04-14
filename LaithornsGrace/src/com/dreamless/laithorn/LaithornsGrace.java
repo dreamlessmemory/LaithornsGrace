@@ -10,6 +10,8 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.dreamless.laithorn.LanguageReader;
+import com.dreamless.laithorn.listeners.PlayerListener;
+import com.dreamless.laithorn.player.CacheHandler;
 import com.mysql.jdbc.Connection;
 
 public class LaithornsGrace extends JavaPlugin{
@@ -25,6 +27,9 @@ public class LaithornsGrace extends JavaPlugin{
 	private String url;
 	private static String database;
 	private static String testdatabase;
+	
+	// Listeners
+	private PlayerListener playerListener;
 
 	// debug
 	public static boolean debug;
@@ -70,7 +75,12 @@ public class LaithornsGrace extends JavaPlugin{
 		// Load Cache
 
 		// Listeners
-
+		playerListener = new PlayerListener();
+		
+		grace.getServer().getPluginManager().registerEvents(playerListener, grace);
+		
+		// Runables
+		new CacheHandler.PeriodicCacheSave().runTaskTimer(grace, 3600, 3600);
 
 		PlayerMessager.log(this.getDescription().getName() + " enabled!");
 	}
@@ -78,6 +88,9 @@ public class LaithornsGrace extends JavaPlugin{
 	@Override
 	public void onDisable() {
 
+		// Save data
+		CacheHandler.saveCacheToDatabase();
+		
 		// Disable listeners
 		HandlerList.unregisterAll(this);
 

@@ -1,5 +1,7 @@
 package com.dreamless.laithorn.player;
 
+import java.util.HashMap;
+
 public class PlayerData {
 
 	private int attunementEXPNeeded;
@@ -7,14 +9,20 @@ public class PlayerData {
 	private int smithingEXPNeeded;
 	private int smithingLevel;
 	private int essenceStorage;
-	
+	private HashMap<String, Boolean> flags;
+
 	public PlayerData(int attunementEXPNeeded, int attunementLevel, int smithingEXPNeeded, int smithingLevel,
-			int essenceStorage) {
+			int essenceStorage, HashMap<String, Boolean> flags) {
 		this.attunementEXPNeeded = attunementEXPNeeded;
 		this.attunementLevel = attunementLevel;
 		this.smithingEXPNeeded = smithingEXPNeeded;
 		this.smithingLevel = smithingLevel;
 		this.essenceStorage = essenceStorage;
+		if (flags == null) {
+			this.flags = new HashMap<String, Boolean>();
+		} else {
+			this.flags = flags;
+		}
 	}
 
 	public int getAttunementEXPNeeded() {
@@ -56,6 +64,12 @@ public class PlayerData {
 	public void setEssenceStorage(int essenceStorage) {
 		this.essenceStorage = essenceStorage;
 	}
-	
-	
+
+	public HashMap<String, Boolean> getFlags() {
+		return flags;
+	}
+
+	public boolean getFlag(String flagName) {
+		return (flags.containsKey(flagName) ? flags.get(flagName) : false);
+	}
 }

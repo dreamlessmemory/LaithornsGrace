@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -15,26 +17,34 @@ public class CacheHandler {
 	private static Map<UUID, PlayerData> playerCache = new HashMap<UUID, PlayerData>();
 	
 	public static void loadPlayer(Player player) {
+		PlayerMessager.debugLog("Loading " + player.getDisplayName() + " into cache");
 		playerCache.put(player.getUniqueId(), DatabaseHandler.retreivePlayerData(player));
 	}
 	
-	public static void unloadPlayer(Player player) {
+	public static void unloadPlayer(OfflinePlayer player) {
+		PlayerMessager.debugLog("Removed " + player.getName() + " from cache");
 		playerCache.remove(player.getUniqueId());
 	}
 	
-	public class periodicCacheSave extends BukkitRunnable{
-
+	public static void saveCacheToDatabase() {
+		PlayerMessager.debugLog("Starting save of data cache");	
+		for(Entry<UUID, PlayerData> entry : playerCache.entrySet()){
+			OfflinePlayer player = Bukkit.getOfflinePlayer(entry.getKey());
+			
+			PlayerMessager.debugLog("Saving data: " + player.getName() + ".");
+			DatabaseHandler.updatePlayerData(entry.getKey(), entry.getValue());
+			
+			// Remove player from cache if they are offline
+			if(!player.isOnline()) {
+				unloadPlayer(player);
+			}
+		}
+	}
+	
+	public static class PeriodicCacheSave extends BukkitRunnable{
 		@Override
 		public void run() {
-			// TODO Auto-generated method stub
-			
-			PlayerMessager.debugLog("Starting save of data cache");
-			
-			for(Entry<UUID, PlayerData> entry : playerCache.entrySet()){
-				DatabaseHandler.updatePlayerData(entry.getKey(), entry.getValue());
-			}
-			
+			saveCacheToDatabase();
 		}
-		
 	}
 }
