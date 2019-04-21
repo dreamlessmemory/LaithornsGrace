@@ -12,6 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.dreamless.laithorn.LanguageReader;
 import com.dreamless.laithorn.listeners.PlayerListener;
 import com.dreamless.laithorn.player.CacheHandler;
+import com.dreamless.laithorn.listeners.CommandListener;
 import com.mysql.jdbc.Connection;
 
 public class LaithornsGrace extends JavaPlugin{
@@ -76,6 +77,8 @@ public class LaithornsGrace extends JavaPlugin{
 
 		// Listeners
 		playerListener = new PlayerListener();
+		
+		getCommand("Laithorn").setExecutor(new CommandListener());
 		
 		grace.getServer().getPluginManager().registerEvents(playerListener, grace);
 		

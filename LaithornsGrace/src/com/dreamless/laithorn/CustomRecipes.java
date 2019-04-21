@@ -22,7 +22,7 @@ public class CustomRecipes {
 			type = type.concat("_DULL");
 		else {
 			for(String parameter : types) {
-				type = type.concat("_"+parameter);
+				type = type.concat("_"+parameter.toUpperCase());
 			}
 		}
 		
@@ -44,7 +44,7 @@ public class CustomRecipes {
 		//nbti.addCompound("Laithorn");
 		NBTCompound laithorn = nbti.addCompound("Laithorn");
 		for(int i = 0; i < types.length; i++) {
-			laithorn.setString("Fragment_" + i, types[i]);
+			laithorn.setString("Fragment_" + i, types[i].toUpperCase());
 		}
 		
 		item = nbti.getItem();

@@ -1,5 +1,7 @@
 package com.dreamless.laithorn.listeners;
 
+import static org.junit.Assert.fail;
+
 import java.text.ParseException;
 
 import org.bukkit.Bukkit;
@@ -49,7 +51,11 @@ public class CommandListener implements CommandExecutor {
 
 	private void cmdFragment(CommandSender sender, String[] args) {
 		if (sender instanceof Player) {
-			((Player) sender).getInventory().addItem(CustomRecipes.fragmentItem(args));
+			String[] types = new String[Math.max(0, args.length -1)];
+			for(int i = 1; i < args.length; i++) {
+				types[i-1] = args[i];
+			}
+			((Player) sender).getInventory().addItem(CustomRecipes.fragmentItem(types));
 		}
 	}
 
