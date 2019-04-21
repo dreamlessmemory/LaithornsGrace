@@ -72,4 +72,12 @@ public class PlayerData {
 	public boolean getFlag(String flagName) {
 		return (flags.containsKey(flagName) ? flags.get(flagName) : false);
 	}
+	
+	public void setFlag(String flag, boolean value) {
+		flags.put(flag, value);
+	}
+	
+	public void removeFlag(String flag) {
+		flags.remove(flag);
+	}
 }
