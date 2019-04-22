@@ -16,8 +16,8 @@ public class DataHandler {
 
 	public static void saveSpawnArea(Location first, Location second) {
 
-		configuration.set("spawn1", (first != null ? first.serialize() : null));
-		configuration.set("spawn2", (second != null ? second.serialize() : null));
+		configuration.set("well1", (first != null ? first.serialize() : null));
+		configuration.set("well2", (second != null ? second.serialize() : null));
 		try {
 			configuration.save(fileReader);
 		} catch (IOException e) {
@@ -26,7 +26,7 @@ public class DataHandler {
 	}
 
 	public static void loadSpawnArea() {
-		PlayerMessager.debugLog("Loading spawn...");
+		PlayerMessager.debugLog("Loading well...");
 		
 		try {
 			configuration.load(fileReader);
@@ -34,15 +34,15 @@ public class DataHandler {
 			e.printStackTrace();
 		}
 		
-		if(configuration.contains("spawn1")) {
-		WellHandler.loadFirstCorner(new Location(Bukkit.getWorld(configuration.getString("spawn1.world")),
-				configuration.getDouble("spawn1.x"), configuration.getDouble("spawn1.y"),
-				configuration.getDouble("spawn1.z")));
+		if(configuration.contains("well1")) {
+		WellHandler.loadFirstCorner(new Location(Bukkit.getWorld(configuration.getString("well1.world")),
+				configuration.getDouble("well1.x"), configuration.getDouble("well1.y"),
+				configuration.getDouble("well1.z")));
 		}
-		if(configuration.contains("spawn2")) {
-		WellHandler.loadSecondCorner(new Location(Bukkit.getWorld(configuration.getString("spawn2.world")),
-				configuration.getDouble("spawn2.x"), configuration.getDouble("spawn2.y"),
-				configuration.getDouble("spawn2.z")));
+		if(configuration.contains("well2")) {
+		WellHandler.loadSecondCorner(new Location(Bukkit.getWorld(configuration.getString("well2.world")),
+				configuration.getDouble("well2.x"), configuration.getDouble("well2.y"),
+				configuration.getDouble("well2.z")));
 		}
 	}
 }
