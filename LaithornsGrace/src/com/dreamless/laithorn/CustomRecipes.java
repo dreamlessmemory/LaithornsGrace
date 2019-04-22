@@ -11,7 +11,7 @@ import de.tr7zw.itemnbtapi.NBTItem;
 public class CustomRecipes {
 	
 	public static ItemStack fragmentItem(String...types) {
-		ItemStack item = new ItemStack(Material.FLINT);
+		ItemStack item = new ItemStack(LaithornsGrace.FRAGMENT_MATERIAL);
 		
 		/*** Item Meta ***/
 		ItemMeta itemMeta = item.getItemMeta();

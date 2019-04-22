@@ -14,7 +14,7 @@ public class DataHandler {
 	public static File fileReader = new File(LaithornsGrace.grace.getDataFolder(), "data.yml");
 	private static FileConfiguration configuration = new YamlConfiguration();
 
-	public static void saveSpawnArea(Location first, Location second) {
+	public static void saveWellArea(Location first, Location second) {
 
 		configuration.set("well1", (first != null ? first.serialize() : null));
 		configuration.set("well2", (second != null ? second.serialize() : null));
@@ -25,7 +25,7 @@ public class DataHandler {
 		}
 	}
 
-	public static void loadSpawnArea() {
+	public static void loadWellArea() {
 		PlayerMessager.debugLog("Loading well...");
 		
 		try {
@@ -35,14 +35,17 @@ public class DataHandler {
 		}
 		
 		if(configuration.contains("well1")) {
-		WellHandler.loadFirstCorner(new Location(Bukkit.getWorld(configuration.getString("well1.world")),
+		WellLocationHandler.loadFirstCorner(new Location(Bukkit.getWorld(configuration.getString("well1.world")),
 				configuration.getDouble("well1.x"), configuration.getDouble("well1.y"),
 				configuration.getDouble("well1.z")));
 		}
 		if(configuration.contains("well2")) {
-		WellHandler.loadSecondCorner(new Location(Bukkit.getWorld(configuration.getString("well2.world")),
+		WellLocationHandler.loadSecondCorner(new Location(Bukkit.getWorld(configuration.getString("well2.world")),
 				configuration.getDouble("well2.x"), configuration.getDouble("well2.y"),
 				configuration.getDouble("well2.z")));
 		}
+		
+		if(WellLocationHandler.bothCornersDefined())
+			WellLocationHandler.calculateEdges();
 	}
 }

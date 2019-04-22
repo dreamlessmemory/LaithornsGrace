@@ -7,6 +7,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
 //import org.bukkit.event.player.PlayerQuitEvent;
 
+import com.dreamless.laithorn.PlayerMessager;
+import com.dreamless.laithorn.events.PlayerExperienceGainEvent;
 import com.dreamless.laithorn.player.CacheHandler;
 
 public class PlayerListener implements Listener{
@@ -25,4 +27,9 @@ public class PlayerListener implements Listener{
 		CacheHandler.unloadPlayer(player);
 	}
 	*/
+	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+	public void onPlayerExperienceGain(PlayerExperienceGainEvent event) {
+		Player player = event.getPlayer();
+		PlayerMessager.msg(player, "You gained: " + event.getExpGain() + " EXP");
+	}
 }

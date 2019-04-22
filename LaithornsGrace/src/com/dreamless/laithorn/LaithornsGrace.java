@@ -4,6 +4,7 @@ import java.io.File;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.HandlerList;
@@ -11,6 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.dreamless.laithorn.LanguageReader;
 import com.dreamless.laithorn.listeners.PlayerListener;
+import com.dreamless.laithorn.listeners.WellListener;
 import com.dreamless.laithorn.player.CacheHandler;
 import com.dreamless.laithorn.listeners.CommandListener;
 import com.mysql.jdbc.Connection;
@@ -31,6 +33,7 @@ public class LaithornsGrace extends JavaPlugin{
 	
 	// Listeners
 	private PlayerListener playerListener;
+	private WellListener wellListener;
 
 	// debug
 	public static boolean debug;
@@ -38,6 +41,9 @@ public class LaithornsGrace extends JavaPlugin{
 	
 	//Language
 	public LanguageReader languageReader;
+	
+	// Control variables
+	public static Material FRAGMENT_MATERIAL;
 	
 	@Override
 	public void onEnable() {
@@ -57,6 +63,7 @@ public class LaithornsGrace extends JavaPlugin{
 		}
 		
 		// Load data
+		DataHandler.loadWellArea();
 
 
 		// SQL Setup
@@ -77,10 +84,12 @@ public class LaithornsGrace extends JavaPlugin{
 
 		// Listeners
 		playerListener = new PlayerListener();
+		wellListener = new WellListener();
 		
 		getCommand("Laithorn").setExecutor(new CommandListener());
 		
 		grace.getServer().getPluginManager().registerEvents(playerListener, grace);
+		grace.getServer().getPluginManager().registerEvents(wellListener	, grace);
 		
 		// Runables
 		new CacheHandler.PeriodicCacheSave().runTaskTimer(grace, 3600, 3600);
@@ -141,7 +150,8 @@ public class LaithornsGrace extends JavaPlugin{
 		// Effects
 
 		
-		// Balancing
+		// Control
+		FRAGMENT_MATERIAL = Material.getMaterial(currentConfig.getString("material", "FLINT"));
 	
 		/*** text.yml ***/
 		currentFile = new File(grace.getDataFolder(), "text.yml");
@@ -175,6 +185,10 @@ public class LaithornsGrace extends JavaPlugin{
 	public static String getDatabase() {
 			return development ? testdatabase : database;
 
+	}
+	
+	public static Material getFragmentMaterial() {
+		return FRAGMENT_MATERIAL;
 	}
 	
 }

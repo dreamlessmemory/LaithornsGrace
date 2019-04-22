@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
 import com.dreamless.laithorn.CustomRecipes;
 import com.dreamless.laithorn.LanguageReader;
 import com.dreamless.laithorn.PlayerMessager;
-import com.dreamless.laithorn.WellHandler;
+import com.dreamless.laithorn.WellLocationHandler;
 import com.dreamless.laithorn.LaithornsGrace;
 import com.dreamless.laithorn.LaithornUtils;
 
@@ -88,13 +88,13 @@ public class CommandListener implements CommandExecutor {
 			Location targetLocationetLocation = new Location(currentLocation.getWorld(), currentLocation.getBlockX(),
 					currentLocation.getBlockY(), currentLocation.getBlockZ());
 
-			if (WellHandler.addCorner(targetLocationetLocation)) {
+			if (WellLocationHandler.addCorner(targetLocationetLocation)) {
 				PlayerMessager.msg(sender, LanguageReader.getText("CMD_Well_Success"));
 			} else {
 				PlayerMessager.msg(sender, LanguageReader.getText("CMD_Well_Failure"));
 			}
 		} else if (args[1].equalsIgnoreCase("clear")) {
-			WellHandler.clearSpawn();
+			WellLocationHandler.clearSpawn();
 			PlayerMessager.msg(sender, LanguageReader.getText("CMD_Well_Cleared"));
 		}
 	}
