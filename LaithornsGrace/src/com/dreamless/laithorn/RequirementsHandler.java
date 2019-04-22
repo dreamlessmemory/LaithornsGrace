@@ -24,9 +24,11 @@ public class RequirementsHandler {
 
 		PlayerData data = CacheHandler.getPlayer(player);
 
-		for (String flag : flags) {
-			if(!data.getFlag(flag))
-				return false;
+		if (flags != null) {
+			for (String flag : flags) {
+				if (!data.getFlag(flag))
+					return false;
+			}
 		}
 		return data.getSmithingLevel() >= levelRequirements.get(action);
 	}
