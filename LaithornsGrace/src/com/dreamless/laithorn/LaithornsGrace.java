@@ -89,7 +89,7 @@ public class LaithornsGrace extends JavaPlugin{
 		getCommand("Laithorn").setExecutor(new CommandListener());
 		
 		grace.getServer().getPluginManager().registerEvents(playerListener, grace);
-		grace.getServer().getPluginManager().registerEvents(wellListener	, grace);
+		grace.getServer().getPluginManager().registerEvents(wellListener, grace);
 		
 		// Runables
 		new CacheHandler.PeriodicCacheSave().runTaskTimer(grace, 3600, 3600);

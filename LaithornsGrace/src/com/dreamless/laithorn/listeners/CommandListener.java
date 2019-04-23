@@ -3,6 +3,7 @@ package com.dreamless.laithorn.listeners;
 import static org.junit.Assert.fail;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -51,11 +52,23 @@ public class CommandListener implements CommandExecutor {
 
 	private void cmdFragment(CommandSender sender, String[] args) {
 		if (sender instanceof Player) {
-			String[] types = new String[Math.max(0, args.length -1)];
-			for(int i = 1; i < args.length; i++) {
-				types[i-1] = args[i];
+			String level = "DULL";
+			String type = "RAW";
+
+			if (args.length >= 3) {
+				level = args[1].toUpperCase();
+				type = args[2].toUpperCase();
+			} else if (args.length == 2) {
+				level = args[1].toUpperCase();
+				type = "RAW";
 			}
-			((Player) sender).getInventory().addItem(CustomRecipes.fragmentItem(types));
+
+			ArrayList<String> additionalFlags = new ArrayList<String>();
+			for (int i = 3; i < args.length; i++) {
+				additionalFlags.add(args[i].toUpperCase());
+			}
+
+			((Player) sender).getInventory().addItem(CustomRecipes.fragmentItem(level, type, additionalFlags));
 		}
 	}
 

@@ -43,39 +43,36 @@ public class WellDropEvent extends BukkitRunnable {
 
 		ItemStack itemStack = item.getItemStack();
 		ArrayList<String> keywords = new ArrayList<String>();
-		
+
 		NBTItem nbti = new NBTItem(itemStack);
 		NBTCompound laithorn = nbti.getCompound("Laithorn");
 		if (laithorn == null) {
 			PlayerMessager.debugLog("No dice, what's wrong?");
 			return;
 		}
-			
+
+		String level = laithorn.getString("level");
+		keywords.add(laithorn.getString("type"));
+
 		for (String key : laithorn.getKeys()) {
-			keywords.add(laithorn.getString(key));
+			if (key.contains("Loot_"))
+				keywords.add(laithorn.getString(key));
 		}
-		
+
 		item.remove();
-		
+
 		// Drop items
-		List<ItemStack> drops = dropItems(keywords);
+		List<ItemStack> drops = DropTableLookup.dropItems(keywords, level);
 		dropLocation.getWorld().playSound(dropLocation, Sound.ENTITY_PLAYER_LEVELUP, 0.5f, 0.5f);
-		for(ItemStack drop: drops) {
+		for (ItemStack drop : drops) {
 			dropLocation.getWorld().dropItemNaturally(dropLocation.clone().add(0, 1, 0), drop);
-			dropLocation.getWorld().spawnParticle(Particle.END_ROD, dropLocation.clone().add(0, 1, 0), 15, 0.5, 0.5, 0.5);
+			dropLocation.getWorld().spawnParticle(Particle.END_ROD, dropLocation.clone().add(0, 1, 0), 15, 0.5, 0.5,
+					0.5);
 		}
-		
+
 		// Give EXP
 		Bukkit.getPluginManager().callEvent(new PlayerExperienceGainEvent(player, 100, GainType.ATTUNEMENT));
-		
-	}
-	
-	private List<ItemStack> dropItems(List<String> keywords){
-		ArrayList<ItemStack> drops = new ArrayList<ItemStack>();
-		drops.add(new ItemStack(Material.DIAMOND));
-		drops.add(new ItemStack(Material.DIAMOND));
-		drops.add(new ItemStack(Material.DIAMOND));
-		return drops;
+
 	}
 
 }

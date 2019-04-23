@@ -1,5 +1,7 @@
 package com.dreamless.laithorn;
 
+import java.util.List;
+
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
@@ -10,27 +12,25 @@ import de.tr7zw.itemnbtapi.NBTItem;
 
 public class CustomRecipes {
 	
-	public static ItemStack fragmentItem(String...types) {
+	public static ItemStack fragmentItem(String level, String type, List<String>flags) {
 		ItemStack item = new ItemStack(LaithornsGrace.FRAGMENT_MATERIAL);
 		
 		/*** Item Meta ***/
 		ItemMeta itemMeta = item.getItemMeta();
 		
-		String type = "";
-		
-		if(types.length == 0)
-			type = type.concat("_DULL");
-		else {
-			for(String parameter : types) {
-				type = type.concat("_"+parameter.toUpperCase());
-			}
-		}
-		
 		// Set Name
-		itemMeta.setDisplayName(LanguageReader.getText("Essence_Item_Name" + type));
+		String displayName = LanguageReader.getText(level + "_title") 
+				+ " "
+				+ LanguageReader.getText(type + "_title") 
+				+ " "
+				+ LanguageReader.getText("Title");
+		itemMeta.setDisplayName(displayName);
 		
 		// Set flavor text
-		itemMeta.setLore(LaithornUtils.wrapText(LanguageReader.getText("Essence_Item_Text" + type)));
+		String loreText = LanguageReader.getText(level + "_desc") 
+				+ " "
+				+ LanguageReader.getText(type + "_desc"); 
+		itemMeta.setLore(LaithornUtils.wrapText(loreText));
 		
 		// Set cosmetic enchantment
 		itemMeta.addEnchant(Enchantment.MENDING, 1, true);
@@ -43,8 +43,10 @@ public class CustomRecipes {
 		
 		//nbti.addCompound("Laithorn");
 		NBTCompound laithorn = nbti.addCompound("Laithorn");
-		for(int i = 0; i < types.length; i++) {
-			laithorn.setString("Fragment_" + i, types[i].toUpperCase());
+		laithorn.setString("level", level);
+		laithorn.setString("type", type);
+		for(int i = 0; i < flags.size(); i++) {
+			laithorn.setString("Loot_" + i, flags.get(i).toUpperCase());
 		}
 		
 		item = nbti.getItem();
