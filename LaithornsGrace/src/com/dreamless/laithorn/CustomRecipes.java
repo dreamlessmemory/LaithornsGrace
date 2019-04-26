@@ -2,7 +2,6 @@ package com.dreamless.laithorn;
 
 import java.util.List;
 
-import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;

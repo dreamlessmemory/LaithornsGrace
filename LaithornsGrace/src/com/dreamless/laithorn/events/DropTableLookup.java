@@ -15,10 +15,7 @@ import com.dreamless.laithorn.LaithornUtils;
 import com.dreamless.laithorn.LaithornsGrace;
 import com.dreamless.laithorn.PlayerMessager;
 import com.dreamless.laithorn.events.DropTableEntry.LootPool;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonIOException;
-import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 
 public class DropTableLookup {
@@ -69,4 +66,20 @@ public class DropTableLookup {
 		}
 
 	}
+	
+	public static int calculateEXPValue(List<String> keywords, String rarity) {
+		int total = 0;
+		
+		// Add base exp
+		total += PlayerExperienceVariables.experienceValues.get(rarity);
+		
+		// Add tags
+		
+		for(String keyword : keywords) {
+			total += PlayerExperienceVariables.experienceValues.get(keyword);
+		}
+		
+		return total;
+	}
+	
 }

@@ -57,17 +57,17 @@ public class DatabaseHandler {
 			
 			// Assignment
 			stmt.setString(1, uuid.toString());
-			stmt.setInt(2, playerData.getAttunementEXPNeeded());
+			stmt.setInt(2, playerData.getAttunementEXP());
 			stmt.setInt(3, playerData.getAttunementLevel());
-			stmt.setInt(4, playerData.getSmithingEXPNeeded());
+			stmt.setInt(4, playerData.getSmithingEXP());
 			stmt.setInt(5, playerData.getSmithingLevel());
 			stmt.setInt(6, playerData.getEssenceStorage());
 			stmt.setString(7, serializedFlagString);
 			
 			// On Update
-			stmt.setInt(8, playerData.getAttunementEXPNeeded());
+			stmt.setInt(8, playerData.getAttunementEXP());
 			stmt.setInt(9, playerData.getAttunementLevel());
-			stmt.setInt(10, playerData.getSmithingEXPNeeded());
+			stmt.setInt(10, playerData.getSmithingEXP());
 			stmt.setInt(11, playerData.getSmithingLevel());
 			stmt.setInt(12, playerData.getEssenceStorage());
 			stmt.setString(13, serializedFlagString);

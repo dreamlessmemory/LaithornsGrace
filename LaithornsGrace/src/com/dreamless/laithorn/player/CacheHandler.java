@@ -28,6 +28,10 @@ public class CacheHandler {
 		playerCache.remove(player.getUniqueId());
 	}
 
+	public static void updatePlayer(Player player, PlayerData data) {
+		playerCache.put(player.getUniqueId(), data);
+	}
+	
 	public static void saveCacheToDatabase() {
 		PlayerMessager.debugLog("Starting save of data cache");
 		for (Entry<UUID, PlayerData> entry : playerCache.entrySet()) {

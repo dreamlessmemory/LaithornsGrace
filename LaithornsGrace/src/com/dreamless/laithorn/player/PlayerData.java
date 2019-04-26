@@ -4,18 +4,18 @@ import java.util.HashMap;
 
 public class PlayerData {
 
-	private int attunementEXPNeeded;
+	private int attunementEXP;
 	private int attunementLevel;
-	private int smithingEXPNeeded;
+	private int smithingEXP;
 	private int smithingLevel;
 	private int essenceStorage;
 	private HashMap<String, Boolean> flags;
 
-	public PlayerData(int attunementEXPNeeded, int attunementLevel, int smithingEXPNeeded, int smithingLevel,
+	public PlayerData(int attunementEXP, int attunementLevel, int smithingEXPNeeded, int smithingLevel,
 			int essenceStorage, HashMap<String, Boolean> flags) {
-		this.attunementEXPNeeded = attunementEXPNeeded;
+		this.attunementEXP = attunementEXP;
 		this.attunementLevel = attunementLevel;
-		this.smithingEXPNeeded = smithingEXPNeeded;
+		this.smithingEXP = smithingEXPNeeded;
 		this.smithingLevel = smithingLevel;
 		this.essenceStorage = essenceStorage;
 		if (flags == null) {
@@ -25,12 +25,12 @@ public class PlayerData {
 		}
 	}
 
-	public int getAttunementEXPNeeded() {
-		return attunementEXPNeeded;
+	public int getAttunementEXP() {
+		return attunementEXP;
 	}
 
-	public void setAttunementEXPNeeded(int attunementEXPNeeded) {
-		this.attunementEXPNeeded = attunementEXPNeeded;
+	public void setAttunementEXP(int attunementEXP) {
+		this.attunementEXP = attunementEXP;
 	}
 
 	public int getAttunementLevel() {
@@ -41,12 +41,12 @@ public class PlayerData {
 		this.attunementLevel = attunementLevel;
 	}
 
-	public int getSmithingEXPNeeded() {
-		return smithingEXPNeeded;
+	public int getSmithingEXP() {
+		return smithingEXP;
 	}
 
-	public void setSmithingEXPNeeded(int smithingEXPNeeded) {
-		this.smithingEXPNeeded = smithingEXPNeeded;
+	public void setSmithingEXP(int smithingEXP) {
+		this.smithingEXP = smithingEXP;
 	}
 
 	public int getSmithingLevel() {

@@ -1,14 +1,13 @@
 package com.dreamless.laithorn.events;
-public interface PlayerExperienceVariables {
-	public static enum GainType implements PlayerExperienceVariables{
+
+import java.util.HashMap;
+
+public class PlayerExperienceVariables {
+	
+	public static HashMap<String, Integer> experienceValues = new HashMap<String, Integer>();
+	
+	public enum GainType {
 		ATTUNEMENT, SMITHING;
 	}
 }
 
-/**
-public class PlayerExperienceVariables {
-	public static enum GainType{
-		ATTUNEMENT, SMITHING;
-	}
-}
-*/

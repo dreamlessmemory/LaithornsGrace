@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Item;
@@ -13,7 +12,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import com.dreamless.laithorn.LaithornsGrace;
 import com.dreamless.laithorn.PlayerMessager;
 import com.dreamless.laithorn.WellLocationHandler;
 import com.dreamless.laithorn.events.PlayerExperienceVariables.GainType;
@@ -69,9 +67,12 @@ public class WellDropEvent extends BukkitRunnable {
 			dropLocation.getWorld().spawnParticle(Particle.END_ROD, dropLocation.clone().add(0, 1, 0), 15, 0.5, 0.5,
 					0.5);
 		}
+		
+		// Calculate EXP
+		int expGain = DropTableLookup.calculateEXPValue(keywords, level);
 
 		// Give EXP
-		Bukkit.getPluginManager().callEvent(new PlayerExperienceGainEvent(player, 100, GainType.ATTUNEMENT));
+		Bukkit.getPluginManager().callEvent(new PlayerExperienceGainEvent(player, expGain, GainType.ATTUNEMENT));
 
 	}
 

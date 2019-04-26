@@ -5,12 +5,14 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.dreamless.laithorn.LanguageReader;
+import com.dreamless.laithorn.events.PlayerExperienceVariables;
 import com.dreamless.laithorn.listeners.PlayerListener;
 import com.dreamless.laithorn.listeners.WellListener;
 import com.dreamless.laithorn.player.CacheHandler;
@@ -152,6 +154,15 @@ public class LaithornsGrace extends JavaPlugin{
 		
 		// Control
 		FRAGMENT_MATERIAL = Material.getMaterial(currentConfig.getString("material", "FLINT"));
+		
+		// Balancing
+		ConfigurationSection tagEXP = currentConfig.getConfigurationSection("tag_experience");
+		PlayerExperienceVariables.experienceValues.clear();
+		for(String key: tagEXP.getKeys(false)) {
+			PlayerExperienceVariables.experienceValues.put(key, tagEXP.getInt(key));
+		}
+		
+		
 	
 		/*** text.yml ***/
 		currentFile = new File(grace.getDataFolder(), "text.yml");

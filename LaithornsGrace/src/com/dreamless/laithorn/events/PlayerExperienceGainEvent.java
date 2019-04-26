@@ -8,12 +8,15 @@ import com.dreamless.laithorn.events.PlayerExperienceVariables.GainType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 
-public class PlayerExperienceGainEvent extends Event implements Cancellable{
+public class PlayerExperienceGainEvent extends Event implements Cancellable {
 
 	private final Player player;
 	private final GainType gainType;
 	private final int expGain;
-	
+
+	private static final HandlerList HANDLERS_LIST = new HandlerList();
+	private boolean isCancelled;
+
 	public final Player getPlayer() {
 		return player;
 	}
@@ -30,15 +33,12 @@ public class PlayerExperienceGainEvent extends Event implements Cancellable{
 		return HANDLERS_LIST;
 	}
 
-	private static final HandlerList HANDLERS_LIST = new HandlerList();
-    private boolean isCancelled;
-	
 	public PlayerExperienceGainEvent(Player player, int expGain, GainType gainType) {
 		this.player = player;
 		this.gainType = gainType;
 		this.expGain = expGain;
 	}
-	
+
 	@Override
 	public boolean isCancelled() {
 		return isCancelled;
@@ -47,16 +47,15 @@ public class PlayerExperienceGainEvent extends Event implements Cancellable{
 	@Override
 	public void setCancelled(boolean cancelled) {
 		isCancelled = cancelled;
-		
+
 	}
 
 	public HandlerList getHandlers() {
-        return HANDLERS_LIST;
-    }
+		return HANDLERS_LIST;
+	}
 
-    public static HandlerList getHandlerList() {
-        return HANDLERS_LIST;
-    }
-	
-	
+	public static HandlerList getHandlerList() {
+		return HANDLERS_LIST;
+	}
+
 }
