@@ -2,7 +2,7 @@ package com.dreamless.laithorn.events;
 
 import java.util.List;
 
-public class DropTableEntry {
+public class WellDropTableEntry {
 
 	public List<LootPool> pools;
 	

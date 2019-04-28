@@ -1,7 +1,5 @@
 package com.dreamless.laithorn.listeners;
 
-import java.util.logging.Level;
-
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -26,12 +24,6 @@ public class PlayerListener implements Listener {
 		CacheHandler.loadPlayer(player);
 	}
 
-	/****************
-	 * @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true) public
-	 *                        void onPlayerLogout(PlayerQuitEvent event) { // TODO:
-	 *                        Load Cache Player player = event.getPlayer();
-	 *                        CacheHandler.unloadPlayer(player); }
-	 */
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void onPlayerExperienceGain(PlayerExperienceGainEvent event) {
 		GainType type = event.getGainType();
