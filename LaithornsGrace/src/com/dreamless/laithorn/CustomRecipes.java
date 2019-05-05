@@ -28,7 +28,10 @@ public class CustomRecipes {
 		// Set flavor text
 		String loreText = LanguageReader.getText(level + "_desc") 
 				+ " "
-				+ LanguageReader.getText(type + "_desc"); 
+				+ LanguageReader.getText(type + "_desc");
+		for(String flag: flags) {
+			loreText += " " + LanguageReader.getText(flag + "_desc");
+		}
 		itemMeta.setLore(LaithornUtils.wrapText(loreText));
 		
 		// Set cosmetic enchantment

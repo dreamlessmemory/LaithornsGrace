@@ -37,4 +37,8 @@ public class LanguageReader {
 
 		return entry;
 	}
+	
+	public static boolean containsEntry(String key) {
+		return entries.containsKey(key);
+	}
 }

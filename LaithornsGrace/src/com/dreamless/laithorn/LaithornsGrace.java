@@ -3,25 +3,20 @@ package com.dreamless.laithorn;
 import java.io.File;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.EntityType;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.util.StringUtil;
-
 import com.dreamless.laithorn.LanguageReader;
 import com.dreamless.laithorn.events.DropTableLookup;
-import com.dreamless.laithorn.events.MobDropTableEntry;
+import com.dreamless.laithorn.events.DropTableLookup.DropType;
 import com.dreamless.laithorn.events.PlayerExperienceVariables;
 import com.dreamless.laithorn.listeners.PlayerListener;
 import com.dreamless.laithorn.listeners.WellListener;
 import com.dreamless.laithorn.player.CacheHandler;
+import com.dreamless.laithorn.listeners.BlockBreakListener;
 import com.dreamless.laithorn.listeners.CommandListener;
 import com.dreamless.laithorn.listeners.MobDeathListener;
 import com.mysql.jdbc.Connection;
@@ -44,6 +39,7 @@ public class LaithornsGrace extends JavaPlugin{
 	private PlayerListener playerListener;
 	private WellListener wellListener;
 	private MobDeathListener mobListener;
+	private BlockBreakListener blockListener;
 
 	// debug
 	public static boolean debug;
@@ -96,12 +92,14 @@ public class LaithornsGrace extends JavaPlugin{
 		playerListener = new PlayerListener();
 		wellListener = new WellListener();
 		mobListener = new MobDeathListener();
+		blockListener = new BlockBreakListener();
 		
 		getCommand("Laithorn").setExecutor(new CommandListener());
 		
 		grace.getServer().getPluginManager().registerEvents(playerListener, grace);
 		grace.getServer().getPluginManager().registerEvents(wellListener, grace);
 		grace.getServer().getPluginManager().registerEvents(mobListener, grace);
+		grace.getServer().getPluginManager().registerEvents(blockListener, grace);
 		
 		// Runables
 		new CacheHandler.PeriodicCacheSave().runTaskTimer(grace, 3600, 3600);
@@ -175,19 +173,13 @@ public class LaithornsGrace extends JavaPlugin{
 		// Parse Mob Drops
 		
 		currentFile = new File(grace.getDataFolder(), "mobs.yml");
-		if (!currentFile.exists()) {
-			return false;
+		if (currentFile.exists()) {
+			DropTableLookup.loadDropTables(YamlConfiguration.loadConfiguration(currentFile), DropType.MOB);
 		}
-		currentConfig = YamlConfiguration.loadConfiguration(currentFile);
 		
-		for(String mob: currentConfig.getKeys(false)) {
-			ConfigurationSection currentMob = currentConfig.getConfigurationSection(mob);
-			double dropChance = currentMob.getDouble("chance", 100)/100;
-			String baseType = currentMob.getString("base", "RAW");
-			ArrayList<String> tags = new ArrayList<String>();
-			tags.addAll(Arrays.asList(currentMob.getString("tags", "").split(",")));
-			DropTableLookup.addMobDropTable(EntityType.valueOf(mob), 
-					new MobDropTableEntry(dropChance, baseType, tags));
+		currentFile = new File(grace.getDataFolder(), "blocks.yml");
+		if (currentFile.exists()) {
+			DropTableLookup.loadDropTables(YamlConfiguration.loadConfiguration(currentFile), DropType.BLOCK);
 		}
 		
 	

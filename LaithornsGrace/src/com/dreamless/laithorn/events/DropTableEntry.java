@@ -1,12 +1,15 @@
 package com.dreamless.laithorn.events;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
-public class MobDropTableEntry {
+public class DropTableEntry {
 	private final double DROP_CHANCE;
 	private final String BASE_TYPE;
-	private final ArrayList<String> TAGS;
-	public MobDropTableEntry(double dropChance, String baseType, ArrayList<String> tags) {
+	//private final ArrayList<String> TAGS;
+	
+	private final HashMap<String, Double> TAGS;  
+	
+	public DropTableEntry(double dropChance, String baseType, HashMap<String, Double> tags) {
 		this.DROP_CHANCE = dropChance;
 		this.BASE_TYPE = baseType;
 		this.TAGS = tags;
@@ -17,7 +20,7 @@ public class MobDropTableEntry {
 	public final String getBaseType() {
 		return BASE_TYPE;
 	}
-	public final ArrayList<String> getTags() {
+	public final HashMap<String, Double> getTags() {
 		return TAGS;
 	}
 }
