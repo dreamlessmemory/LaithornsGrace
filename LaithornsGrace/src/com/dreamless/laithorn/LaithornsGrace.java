@@ -172,6 +172,11 @@ public class LaithornsGrace extends JavaPlugin{
 		
 		// Parse Mob Drops
 		
+		currentFile = new File(grace.getDataFolder(), "tags.yml");
+		if (currentFile.exists()) {
+			DropTableLookup.loadTagTables(YamlConfiguration.loadConfiguration(currentFile));
+		}
+		
 		currentFile = new File(grace.getDataFolder(), "mobs.yml");
 		if (currentFile.exists()) {
 			DropTableLookup.loadDropTables(YamlConfiguration.loadConfiguration(currentFile), DropType.MOB);

@@ -1,8 +1,5 @@
 package com.dreamless.laithorn.events;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -17,10 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import com.dreamless.laithorn.CustomRecipes;
-import com.dreamless.laithorn.LaithornUtils;
-import com.dreamless.laithorn.LaithornsGrace;
 import com.dreamless.laithorn.PlayerMessager;
-import com.dreamless.laithorn.events.WellDropTableEntry.LootPool;
 import com.dreamless.laithorn.player.CacheHandler;
 import com.dreamless.laithorn.player.PlayerData;
 import com.google.gson.JsonIOException;
@@ -54,9 +48,19 @@ public class DropTableLookup {
 
 	private static HashMap<EntityType, DropTableEntry> mobDropTables = new HashMap<EntityType, DropTableEntry>();
 	private static HashMap<Material, DropTableEntry> blockDropTables = new HashMap<Material, DropTableEntry>();
+	private static HashMap<String, ArrayList<LootPool>> tagDropTables = new HashMap<String, ArrayList<LootPool>>();
 
 	public static void loadDropTables(FileConfiguration fileConfiguration, DropType type) {
-
+		// Wipe tables
+		switch (type) {
+		case MOB:
+			mobDropTables.clear();
+			break;
+		case BLOCK:
+			blockDropTables.clear();
+			break;
+		}
+		
 		for (String entry : fileConfiguration.getKeys(false)) {
 			ConfigurationSection currentEntry = fileConfiguration.getConfigurationSection(entry);
 
@@ -84,6 +88,24 @@ public class DropTableLookup {
 
 	}
 
+	public static void loadTagTables(FileConfiguration fileConfiguration) {
+		tagDropTables.clear();
+		for (String entry : fileConfiguration.getKeys(false)) {
+			ConfigurationSection itemConfig = fileConfiguration.getConfigurationSection(entry);
+			ArrayList<LootPool> lootPool = new ArrayList<LootPool>();
+			for (String item : itemConfig.getKeys(false)) {
+				ConfigurationSection currentEntry = fileConfiguration.getConfigurationSection(entry + "." + item);
+				double dropChance = currentEntry.getDouble("chance", 0) / 100;
+				int min = currentEntry.getInt("min", 1);
+				int max = currentEntry.getInt("max", 1);
+				LootPool pool = new LootPool(item, min, max, dropChance);
+				lootPool.add(pool);
+				PlayerMessager.debugLog(entry + " " + pool);
+			}
+			tagDropTables.put(entry, lootPool);
+		}
+	}
+
 	public static List<ItemStack> dropItems(List<String> keywords, String rarity) {
 		ArrayList<ItemStack> drops = new ArrayList<ItemStack>();
 		for (String keyword : keywords) {
@@ -94,20 +116,13 @@ public class DropTableLookup {
 
 	public static List<ItemStack> rollPool(String keyword, String rarity) {
 		ArrayList<ItemStack> drops = new ArrayList<ItemStack>();
-
-		try {
-			WellDropTableEntry entry = LaithornUtils.gson.fromJson(new FileReader(
-					new File(LaithornsGrace.grace.getDataFolder(), "\\drops\\" + keyword.toLowerCase() + ".json")),
-					WellDropTableEntry.class);
-			if (entry == null) {
-				PlayerMessager.debugLog("NULL?!");
-			}
-
-			Iterator<LootPool> pools = entry.pools.iterator();
+		ArrayList<LootPool> poolClass = tagDropTables.get(keyword);
+		if (poolClass != null) {
+			Iterator<LootPool> pools = poolClass.iterator();
 
 			while (pools.hasNext()) {
 				LootPool pool = pools.next();
-				double chance = (double) pool.getChance() * rarityModifier(rarity) / 100.0;
+				double chance = (double) pool.getChance() * rarityModifier(rarity);
 				if (Math.random() <= chance) {// succesfull roll
 					ItemStack drop = new ItemStack(Material.getMaterial(pool.getItem()));
 					if (pool.getMax() > 1) {
@@ -116,8 +131,6 @@ public class DropTableLookup {
 					drops.add(drop);
 				}
 			}
-		} catch (JsonSyntaxException | JsonIOException | FileNotFoundException e) {
-			e.printStackTrace();
 		}
 
 		return drops;
