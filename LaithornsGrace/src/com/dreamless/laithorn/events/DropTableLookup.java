@@ -118,12 +118,15 @@ public class DropTableLookup {
 		ArrayList<ItemStack> drops = new ArrayList<ItemStack>();
 		ArrayList<LootPool> poolClass = tagDropTables.get(keyword);
 		if (poolClass != null) {
+			PlayerMessager.debugLog("Rolling for keyword: " + keyword);
 			Iterator<LootPool> pools = poolClass.iterator();
 
 			while (pools.hasNext()) {
 				LootPool pool = pools.next();
+				PlayerMessager.debugLog("Rolling for item: " + pool.getItem());
 				double chance = (double) pool.getChance() * rarityModifier(rarity);
 				if (Math.random() <= chance) {// succesfull roll
+					PlayerMessager.debugLog("Succesfull roll for: " + pool.getItem());
 					ItemStack drop = new ItemStack(Material.getMaterial(pool.getItem()));
 					if (pool.getMax() > 1) {
 						drop.setAmount(new Random().nextInt(pool.getMax() - pool.getMin() + 1) + pool.min);

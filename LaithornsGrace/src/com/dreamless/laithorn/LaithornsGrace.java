@@ -82,6 +82,7 @@ public class LaithornsGrace extends JavaPlugin{
 		}
 		try {
 			connection = (Connection) DriverManager.getConnection(url, username, password);
+			connection.setAutoReconnect(true);
 		} catch (SQLException e) { // catching errors)
 			e.printStackTrace(); // prints out SQLException errors to the console (if any)
 		}
