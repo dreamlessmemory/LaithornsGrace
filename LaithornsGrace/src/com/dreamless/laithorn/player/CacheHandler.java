@@ -17,6 +17,9 @@ public class CacheHandler {
 	private static Map<UUID, PlayerData> playerCache = new HashMap<UUID, PlayerData>();
 
 	public static void loadPlayer(Player player) {
+		if(player == null) {
+			return;
+		}
 		if (!playerCache.containsKey(player.getUniqueId())) {
 			PlayerMessager.debugLog("Loading " + player.getDisplayName() + " into cache");
 			playerCache.put(player.getUniqueId(), DatabaseHandler.retreivePlayerData(player));
@@ -36,6 +39,11 @@ public class CacheHandler {
 		PlayerMessager.debugLog("Starting save of data cache");
 		for (Entry<UUID, PlayerData> entry : playerCache.entrySet()) {
 			OfflinePlayer player = Bukkit.getOfflinePlayer(entry.getKey());
+			
+			if(player == null) {
+				unloadPlayer(player);
+				continue;
+			}
 
 			PlayerMessager.debugLog("Saving data: " + player.getName() + ".");
 			DatabaseHandler.updatePlayerData(entry.getKey(), entry.getValue());

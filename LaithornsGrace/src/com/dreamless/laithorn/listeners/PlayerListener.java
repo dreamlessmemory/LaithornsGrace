@@ -4,6 +4,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 //import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -21,7 +22,20 @@ public class PlayerListener implements Listener {
 	public void onPlayerLogin(PlayerLoginEvent event) {
 		// TODO: Load Cache
 		Player player = event.getPlayer();
-		CacheHandler.loadPlayer(player);
+		if(player != null)
+		{
+			CacheHandler.loadPlayer(player);
+		}		
+	}
+	
+	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+	public void onPlayerKick(PlayerKickEvent event) {
+		// TODO: Load Cache
+		Player player = event.getPlayer();
+		if(player != null && event.getReason().equalsIgnoreCase("You are not whitelisted on this server!"))
+		{
+			CacheHandler.unloadPlayer(player);
+		}		
 	}
 
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
