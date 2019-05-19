@@ -92,4 +92,22 @@ public class ItemCrafting {
 		}
 		return false;
 	}
+	
+	public static boolean surroundedByEssence(CraftingInventory inventory) {
+		ItemStack[] matrix = inventory.getMatrix();
+		for (int i = 0; i < matrix.length; i++) {
+			if (i == 4)
+				continue; // ignore the center
+			if (!isEssence(matrix[i]))
+				return false;
+		}
+		return true;
+	}
+
+	public static boolean isEssence(ItemStack item) {
+		if (item == null || item.getType() == Material.AIR)
+			return false;
+		NBTItem nbti = new NBTItem(item);
+		return nbti.hasKey("Laithorn");
+	}
 }
