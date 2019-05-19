@@ -24,7 +24,7 @@ public class PlayerDataHandler {
 		case ATTUNEMENT:
 			return "attunement";
 		case SMITHING:
-			return "smithing";
+			return "essence smithing";
 		default:
 			return "";
 		}

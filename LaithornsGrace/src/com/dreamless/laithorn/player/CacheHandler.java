@@ -1,6 +1,7 @@
 package com.dreamless.laithorn.player;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
@@ -17,7 +18,7 @@ public class CacheHandler {
 	private static Map<UUID, PlayerData> playerCache = new HashMap<UUID, PlayerData>();
 
 	public static void loadPlayer(Player player) {
-		if(player == null) {
+		if (player == null) {
 			return;
 		}
 		if (!playerCache.containsKey(player.getUniqueId())) {
@@ -34,13 +35,15 @@ public class CacheHandler {
 	public static void updatePlayer(Player player, PlayerData data) {
 		playerCache.put(player.getUniqueId(), data);
 	}
-	
+
 	public static void saveCacheToDatabase() {
 		PlayerMessager.debugLog("Starting save of data cache");
-		for (Entry<UUID, PlayerData> entry : playerCache.entrySet()) {
+
+		for (Iterator<Map.Entry<UUID, PlayerData>> it = playerCache.entrySet().iterator(); it.hasNext();) {
+			Map.Entry<UUID, PlayerData> entry = it.next();
 			OfflinePlayer player = Bukkit.getOfflinePlayer(entry.getKey());
-			
-			if(player == null) {
+
+			if (player == null) {
 				unloadPlayer(player);
 				continue;
 			}

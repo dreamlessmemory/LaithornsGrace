@@ -1,5 +1,6 @@
 package com.dreamless.laithorn;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.enchantments.Enchantment;
@@ -26,13 +27,19 @@ public class CustomRecipes {
 		itemMeta.setDisplayName(displayName);
 		
 		// Set flavor text
+		// Level and base type. 
 		String loreText = LanguageReader.getText(level + "_desc") 
 				+ " "
 				+ LanguageReader.getText(type + "_desc");
 		for(String flag: flags) {
 			loreText += " " + LanguageReader.getText(flag + "_desc");
 		}
-		itemMeta.setLore(LaithornUtils.wrapText(loreText));
+		
+		ArrayList<String> loreTextArrayList = LaithornUtils.wrapText(loreText);
+		loreTextArrayList.add("");
+		loreTextArrayList.addAll(LaithornUtils.wrapText(LanguageReader.getText("Instruction")));
+		
+		itemMeta.setLore(loreTextArrayList);
 		
 		// Set cosmetic enchantment
 		itemMeta.addEnchant(Enchantment.MENDING, 1, true);

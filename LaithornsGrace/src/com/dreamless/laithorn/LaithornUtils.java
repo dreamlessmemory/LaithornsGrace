@@ -19,7 +19,7 @@ import com.google.gson.reflect.TypeToken;
 
 public class LaithornUtils {
 
-	public static int WRAP_SIZE = 35;
+	public static int WRAP_SIZE = 40;
 	// Parsing
 	public static Gson gson = new Gson();
 
