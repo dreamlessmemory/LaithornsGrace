@@ -1,18 +1,19 @@
 package com.dreamless.laithorn;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.net.URL;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.UUID;
 
-import org.apache.commons.io.IOUtils;
 import org.bukkit.Location;
 import org.bukkit.util.ChatPaginator;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
@@ -42,15 +43,10 @@ public class LaithornUtils {
 		}.getType()));
 	}
 
-	public static UUID getUUID(String name) throws JsonSyntaxException {
-		String url = "https://api.mojang.com/users/profiles/minecraft/" + name;
-		try {
-			String UUIDJson = IOUtils.toString(new URL(url), "US-ASCII");
-			if (UUIDJson.isEmpty()) {
-				return null;
-			}
-			return gson.fromJson(UUIDJson, UUID.class);
-		} catch (IOException e) {
+	public static UUID getUUID(String name) {
+		try (Reader reader = new InputStreamReader(new URL("https://api.mojang.com/users/profiles/minecraft/" + name).openStream())) {
+			return gson.fromJson(reader, UUID.class);
+		} catch (JsonSyntaxException | JsonIOException | IOException e) {
 			e.printStackTrace();
 		}
 		return null;
