@@ -5,7 +5,6 @@ import java.util.HashMap;
 public class DropTableEntry {
 	private final double DROP_CHANCE;
 	private final String BASE_TYPE;
-	//private final ArrayList<String> TAGS;
 	
 	private final HashMap<String, Double> TAGS;  
 	

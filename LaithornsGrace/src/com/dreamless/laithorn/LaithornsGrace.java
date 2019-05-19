@@ -10,6 +10,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 import com.dreamless.laithorn.LanguageReader;
+import com.dreamless.laithorn.api.ItemCrafting;
 import com.dreamless.laithorn.events.DropTableLookup;
 import com.dreamless.laithorn.events.DropTableLookup.DropType;
 import com.dreamless.laithorn.events.PlayerExperienceVariables;
@@ -47,9 +48,6 @@ public class LaithornsGrace extends JavaPlugin{
 	
 	//Language
 	public LanguageReader languageReader;
-	
-	// Control variables
-	public static Material FRAGMENT_MATERIAL;
 	
 	@Override
 	public void onEnable() {
@@ -162,7 +160,7 @@ public class LaithornsGrace extends JavaPlugin{
 
 		
 		// Control
-		FRAGMENT_MATERIAL = Material.getMaterial(currentConfig.getString("material", "FLINT"));
+		ItemCrafting.setFragmentMaterial(Material.getMaterial(currentConfig.getString("material", "FLINT")));
 		
 		// Balancing
 		ConfigurationSection tagEXP = currentConfig.getConfigurationSection("tag_experience");
@@ -222,9 +220,4 @@ public class LaithornsGrace extends JavaPlugin{
 			return development ? testdatabase : database;
 
 	}
-	
-	public static Material getFragmentMaterial() {
-		return FRAGMENT_MATERIAL;
-	}
-	
 }

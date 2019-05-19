@@ -8,10 +8,11 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.dreamless.laithorn.CustomRecipes;
 import com.dreamless.laithorn.LanguageReader;
 import com.dreamless.laithorn.PlayerMessager;
 import com.dreamless.laithorn.WellLocationHandler;
+import com.dreamless.laithorn.api.FragmentRarity;
+import com.dreamless.laithorn.api.ItemCrafting;
 import com.dreamless.laithorn.LaithornsGrace;
 
 public class CommandListener implements CommandExecutor {
@@ -63,24 +64,11 @@ public class CommandListener implements CommandExecutor {
 				additionalFlags.add(args[i].toUpperCase());
 			}
 
-			((Player) sender).getInventory().addItem(CustomRecipes.fragmentItem(level, type, additionalFlags));
+			((Player) sender).getInventory().addItem(ItemCrafting.fragmentItem(FragmentRarity.valueOf(level), type, additionalFlags));
 		}
 	}
 
 	private void cmdClearPlayer(CommandSender sender, String[] args) {
-		/**
-		 * try { Player player = Bukkit.getPlayer(TreeWarpUtils.getUUID(args[1]));
-		 * 
-		 * if(player != null) {
-		 * 
-		 * Location centerLocation = CacheHandler.removePlayerFromCache(player);
-		 * DatabaseHandler.removeTree(TreeWarpUtils.serializeLocation(centerLocation));
-		 * PlayerMessager.msg(sender, LanguageReader.getText("CMD_Player_Cleared",
-		 * args[1])); } else { PlayerMessager.msg(sender,
-		 * LanguageReader.getText("CMD_Player_Not_Cleared", args[1])); } } catch
-		 * (ParseException | org.json.simple.parser.ParseException e) {
-		 * e.printStackTrace(); }
-		 */
 	}
 
 	private void cmdWell(CommandSender sender, String[] args) {

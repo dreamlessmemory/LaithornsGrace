@@ -1,4 +1,4 @@
-package com.dreamless.laithorn;
+package com.dreamless.laithorn.api;
 
 import java.util.HashMap;
 import java.util.List;

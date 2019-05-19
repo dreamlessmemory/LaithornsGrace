@@ -13,8 +13,9 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import com.dreamless.laithorn.CustomRecipes;
 import com.dreamless.laithorn.PlayerMessager;
+import com.dreamless.laithorn.api.FragmentRarity;
+import com.dreamless.laithorn.api.ItemCrafting;
 import com.dreamless.laithorn.player.CacheHandler;
 import com.dreamless.laithorn.player.PlayerData;
 import com.google.gson.JsonIOException;
@@ -25,29 +26,11 @@ import de.tr7zw.itemnbtapi.NBTItem;
 
 public class DropTableLookup {
 
-	public static enum DropType {
+	public enum DropType {
 		MOB, BLOCK;
 	}
 
-	public static double DULL_BASE_CHANCE = 90;
-	public static double FAINT_BASE_CHANCE = 5;
-	public static double PALE_BASE_CHANCE = 3;
-	public static double GLOWING_BASE_CHANCE = 1;
-	public static double SPARKLING_BASE_CHANCE = 0.75;
-	public static double BRIGHT_BASE_CHANCE = 0.5;
-	public static double SHINING_BASE_CHANCE = 0.1;
-	public static double RADIANT_BASE_CHANCE = 0.05;
-	public static double INCANDESCENT_BASE_CHANCE = 0.02;
 
-	public static double DULL_GROWTH_RATE = -0.7143;
-	public static double FAINT_GROWTH_RATE = 0.1224;
-	public static double PALE_GROWTH_RATE = 0.1224;
-	public static double GLOWING_GROWTH_RATE = 0.1224;
-	public static double SPARKLING_GROWTH_RATE = 0.1046;
-	public static double BRIGHT_GROWTH_RATE = 0.0867;
-	public static double SHINING_GROWTH_RATE = 0.05;
-	public static double RADIANT_GROWTH_RATE = 0.0505;
-	public static double INCANDESCENT_GROWTH_RATE = 0.0508;
 
 	private static HashMap<EntityType, DropTableEntry> mobDropTables = new HashMap<EntityType, DropTableEntry>();
 	private static HashMap<Material, DropTableEntry> blockDropTables = new HashMap<Material, DropTableEntry>();
@@ -143,7 +126,7 @@ public class DropTableLookup {
 			while (pools.hasNext()) {
 				LootPool pool = pools.next();
 				PlayerMessager.debugLog("Rolling for item: " + pool.getItem());
-				double chance = (double) pool.getChance() * rarityModifier(rarity);
+				double chance = (double) pool.getChance() * FragmentRarity.valueOf(rarity).rarityModifier();
 				if (Math.random() <= chance) {// succesfull roll
 					PlayerMessager.debugLog("Succesfull roll for: " + pool.getItem());
 					ItemStack drop = new ItemStack(Material.getMaterial(pool.getItem()));
@@ -156,32 +139,6 @@ public class DropTableLookup {
 		}
 
 		return drops;
-	}
-
-	public static final double rarityModifier(String rarity) {
-		switch (rarity) {
-		case "DULL":
-			return 1.0;
-		case "FAINT":
-			return 1.05;
-		case "PALE":
-			return 1.1;
-		case "GLOWING":
-			return 1.2;
-		case "SPARKLING":
-			return 1.25;
-		case "BRIGHT":
-			return 1.35;
-		case "SHINING":
-			return 1.5;
-		case "RADIANT":
-			return 1.75;
-		case "INCANDESCENT":
-			return 2.0;
-		default:
-			return 1.0;
-		}
-
 	}
 
 	public static final int calculateEXPValue(ItemStack item) {
@@ -247,7 +204,7 @@ public class DropTableLookup {
 						}
 					}
 
-					return CustomRecipes.fragmentItem(getLevel(data), entry.getBaseType(), tags);
+					return ItemCrafting.fragmentItem(getLevel(data), entry.getBaseType(), tags);
 				}
 
 			} catch (JsonSyntaxException | JsonIOException e) {
@@ -279,7 +236,7 @@ public class DropTableLookup {
 						}
 					}
 
-					return CustomRecipes.fragmentItem(getLevel(data), entry.getBaseType(), tags);
+					return ItemCrafting.fragmentItem(getLevel(data), entry.getBaseType(), tags);
 				}
 
 			} catch (JsonSyntaxException | JsonIOException e) {
@@ -290,68 +247,37 @@ public class DropTableLookup {
 		return null;
 	}
 
-	public static String getLevel(PlayerData data) {
-		WeightedRandomBag bag = new WeightedRandomBag();
-		int level = data.getAttunementLevel();
-
-		// DULL
-		bag.addEntry("DULL", DULL_GROWTH_RATE * (level - 1) + DULL_BASE_CHANCE);
-
-		// FAINT
-		bag.addEntry("FAINT", FAINT_GROWTH_RATE * (level - 1) + FAINT_BASE_CHANCE);
-
-		// PALE
-		bag.addEntry("PALE", PALE_GROWTH_RATE * (level - 1) + PALE_BASE_CHANCE);
-
-		// FAINT
-		bag.addEntry("FAINT", FAINT_GROWTH_RATE * (level - 1) + FAINT_BASE_CHANCE);
-
-		// GLOWING
-		bag.addEntry("GLOWING", GLOWING_GROWTH_RATE * (level - 1) + GLOWING_BASE_CHANCE);
-
-		// SPARKLING
-		bag.addEntry("SPARKLING", SPARKLING_GROWTH_RATE * (level - 1) + SPARKLING_BASE_CHANCE);
-
-		// BRIGHT
-		bag.addEntry("BRIGHT", BRIGHT_GROWTH_RATE * (level - 1) + BRIGHT_BASE_CHANCE);
-
-		// SHINING
-		bag.addEntry("SHINING", SHINING_GROWTH_RATE * (level - 1) + SHINING_BASE_CHANCE);
-
-		// RADIANT
-		bag.addEntry("RADIANT", RADIANT_GROWTH_RATE * (level - 1) + RADIANT_BASE_CHANCE);
-
-		// INCANDESCENT
-		bag.addEntry("INCANDESCENT", INCANDESCENT_GROWTH_RATE * (level - 1) + INCANDESCENT_BASE_CHANCE);
-
-		return bag.getRandom();
+	public static FragmentRarity getLevel(PlayerData data) {
+		return new WeightedRandomBag(data.getAttunementLevel()).getRandom();
 	}
 
 	private static class WeightedRandomBag {
-
 		private class Entry {
 			double accumulatedWeight;
-			String level;
+			FragmentRarity rarity;
+			
+			public Entry(FragmentRarity rarity, double accumlatedWeight) {
+				this.rarity = rarity;
+				this.accumulatedWeight = accumlatedWeight;
+			}
 		}
-
 		private List<Entry> entries = new ArrayList<>();
 		private double accumulatedWeight;
 		private Random rand = new Random();
-
-		public void addEntry(String level, double weight) {
-			accumulatedWeight += weight;
-			Entry e = new Entry();
-			e.level = level;
-			e.accumulatedWeight = accumulatedWeight;
-			entries.add(e);
+		
+		WeightedRandomBag(int level) {
+			for(FragmentRarity rarity : FragmentRarity.values()) {
+				accumulatedWeight += rarity.baseChance() + (rarity.growthRate() * (level -1)); 
+				entries.add(new Entry(rarity, accumulatedWeight));
+			}
 		}
-
-		public String getRandom() {
+		
+		public FragmentRarity getRandom() {
 			double r = rand.nextDouble() * accumulatedWeight;
 
 			for (Entry entry : entries) {
 				if (entry.accumulatedWeight >= r) {
-					return entry.level;
+					return entry.rarity;
 				}
 			}
 			return null; // should only happen when there are no entries

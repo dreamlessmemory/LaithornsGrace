@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import com.dreamless.laithorn.LaithornsGrace;
 import com.dreamless.laithorn.LanguageReader;
 import com.dreamless.laithorn.PlayerMessager;
+import com.dreamless.laithorn.api.ItemCrafting;
 import com.dreamless.laithorn.events.WellDropEvent;
 
 import de.tr7zw.itemnbtapi.NBTItem;
@@ -21,7 +22,7 @@ public class WellListener implements Listener {
 		ItemStack itemStack = event.getItemDrop().getItemStack();
 		
 		// Check if fragment
-		if (LaithornsGrace.FRAGMENT_MATERIAL != itemStack.getType()) {
+		if (ItemCrafting.getFragmentMaterial() != itemStack.getType()) {
 			 PlayerMessager.debugLog("Not fragment");
 			return;
 		}

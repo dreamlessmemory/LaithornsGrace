@@ -17,9 +17,6 @@ import com.dreamless.laithorn.events.PlayerExperienceVariables.GainType;
 
 public class BlockBreakListener implements Listener{
 	
-	public static int PLAYER_EXP_GAIN = 10;
-	public static int PLAYER_ATTUNEMENT_GAIN = 10;
-	
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void onBlockBreakEven(BlockBreakEvent event) {
 		Player player = event.getPlayer();
@@ -38,5 +35,5 @@ public class BlockBreakListener implements Listener{
 			}
 		}
 	}
-
+	
 }
