@@ -34,8 +34,7 @@ public class BlockBreakListener implements Listener{
 			ItemStack drop = DropTableLookup.dropBlockItems(material, player);
 			if(drop != null) {
 				block.getWorld().dropItemNaturally(location, drop);
-				//event.setExpToDrop(event.getExpToDrop() + PLAYER_EXP_GAIN);
-				Bukkit.getPluginManager().callEvent(new PlayerExperienceGainEvent(player, PLAYER_ATTUNEMENT_GAIN, GainType.ATTUNEMENT));
+				Bukkit.getPluginManager().callEvent(new PlayerExperienceGainEvent(player, DropTableLookup.calculateEXPValue(drop)/10, GainType.ATTUNEMENT, false));
 			}
 		}
 	}

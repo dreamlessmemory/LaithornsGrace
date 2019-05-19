@@ -20,6 +20,9 @@ import com.dreamless.laithorn.player.PlayerData;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 
+import de.tr7zw.itemnbtapi.NBTCompound;
+import de.tr7zw.itemnbtapi.NBTItem;
+
 public class DropTableLookup {
 
 	public static enum DropType {
@@ -60,7 +63,7 @@ public class DropTableLookup {
 			blockDropTables.clear();
 			break;
 		}
-		
+
 		for (String entry : fileConfiguration.getKeys(false)) {
 			ConfigurationSection currentEntry = fileConfiguration.getConfigurationSection(entry);
 
@@ -85,7 +88,6 @@ public class DropTableLookup {
 				break;
 			}
 		}
-
 	}
 
 	public static void loadTagTables(FileConfiguration fileConfiguration) {
@@ -106,15 +108,32 @@ public class DropTableLookup {
 		}
 	}
 
-	public static List<ItemStack> dropItems(List<String> keywords, String rarity) {
+	public static final List<ItemStack> dropItems(ItemStack item) {
+		NBTItem nbti = new NBTItem(item);
+		NBTCompound laithorn = nbti.getCompound("Laithorn");
+		if (laithorn == null) {
+			PlayerMessager.debugLog("Item is not a fragment");
+			return null;
+		}
+
+		String level = laithorn.getString("level");
+		ArrayList<String> keywords = new ArrayList<String>();
+		keywords.add(laithorn.getString("type"));
+
+		for (String key : laithorn.getKeys()) {
+			if (key.contains("Loot_"))
+				keywords.add(laithorn.getString(key));
+		}
 		ArrayList<ItemStack> drops = new ArrayList<ItemStack>();
 		for (String keyword : keywords) {
-			drops.addAll(rollPool(keyword, rarity));
+			for (int roll = 0; roll < item.getAmount(); roll++) {
+				drops.addAll(rollPool(keyword, level));
+			}
 		}
 		return drops;
 	}
 
-	public static List<ItemStack> rollPool(String keyword, String rarity) {
+	public final static List<ItemStack> rollPool(String keyword, String rarity) {
 		ArrayList<ItemStack> drops = new ArrayList<ItemStack>();
 		ArrayList<LootPool> poolClass = tagDropTables.get(keyword);
 		if (poolClass != null) {
@@ -139,22 +158,54 @@ public class DropTableLookup {
 		return drops;
 	}
 
-	public static double rarityModifier(String rarity) {
+	public static final double rarityModifier(String rarity) {
 		switch (rarity) {
 		case "DULL":
 			return 1.0;
+		case "FAINT":
+			return 1.05;
+		case "PALE":
+			return 1.1;
+		case "GLOWING":
+			return 1.2;
+		case "SPARKLING":
+			return 1.25;
+		case "BRIGHT":
+			return 1.35;
+		case "SHINING":
+			return 1.5;
+		case "RADIANT":
+			return 1.75;
+		case "INCANDESCENT":
+			return 2.0;
 		default:
 			return 1.0;
 		}
 
 	}
 
-	public static int calculateEXPValue(List<String> keywords, String rarity) {
+	public static final int calculateEXPValue(ItemStack item) {
+		NBTItem nbti = new NBTItem(item);
+		NBTCompound laithorn = nbti.getCompound("Laithorn");
+		if (laithorn == null) {
+			PlayerMessager.debugLog("Item is not a fragment");
+			return 0;
+		}
+
+		String level = laithorn.getString("level");
+		ArrayList<String> keywords = new ArrayList<String>();
+		keywords.add(laithorn.getString("type"));
+
+		for (String key : laithorn.getKeys()) {
+			if (key.contains("Loot_"))
+				keywords.add(laithorn.getString(key));
+		}
+
 		int total = 0;
 
 		// Add base exp
-		if (PlayerExperienceVariables.experienceValues.containsKey(rarity))
-			total += PlayerExperienceVariables.experienceValues.get(rarity);
+		if (PlayerExperienceVariables.experienceValues.containsKey(level))
+			total += PlayerExperienceVariables.experienceValues.get(level);
 
 		// Add tags
 
@@ -163,18 +214,18 @@ public class DropTableLookup {
 				total += PlayerExperienceVariables.experienceValues.get(keyword);
 		}
 
-		return total;
+		return total * item.getAmount();
 	}
 
-	public static boolean containsDropTable(EntityType type) {
+	public static final boolean containsDropTable(EntityType type) {
 		return mobDropTables.containsKey(type);
 	}
 
-	public static boolean containsDropTable(Material type) {
+	public static final boolean containsDropTable(Material type) {
 		return blockDropTables.containsKey(type);
 	}
 
-	public static ItemStack dropMobItems(LivingEntity entity) {
+	public static final ItemStack dropMobItems(LivingEntity entity) {
 		Player killer = entity.getKiller();
 		PlayerData data = CacheHandler.getPlayer(killer);
 

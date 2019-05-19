@@ -53,16 +53,17 @@ public class PlayerListener implements Listener {
 		int currentExpRating = expSet.getCurrentExpRating();
 		int requiredExpRating = expSet.getRequiredExpRating();
 
-		switch (event.getGainType()) {
-		case ATTUNEMENT:
-			PlayerMessager.msg(player, "Your attunement has increased by " + expGained + " points");
-			break;
-		case SMITHING:
-			PlayerMessager.msg(player, "Your essence smithing skill has increased by " + expGained + " points");
-			break;
-		default:
-			break;
-			
+		if (event.shouldInformPlayer()) {
+			switch (event.getGainType()) {
+			case ATTUNEMENT:
+				PlayerMessager.msg(player, "Your attunement has increased by " + expGained + " points");
+				break;
+			case SMITHING:
+				PlayerMessager.msg(player, "Your essence smithing skill has increased by " + expGained + " points");
+				break;
+			default:
+				break;
+			}
 		}
 		// Calculate levelup
 		int newExpRating = currentExpRating + expGained;
@@ -78,23 +79,11 @@ public class PlayerListener implements Listener {
 		}
 
 		// Set EXP
-		
-		switch (event.getGainType()) {
-		case ATTUNEMENT:
-			PlayerMessager.msg(player, "Your attunement has increased by " + expGained + " points");
-			break;
-		case SMITHING:
-			PlayerMessager.msg(player, "Your essence smithing skill has increased by " + expGained + " points");
-			break;
-		default:
-			break;
-			
-		}
 
 		if (levelsGained > 0) {
 			// Inform player
-			PlayerMessager.msg(player, "You have advanced " + +levelsGained + "  " + PlayerDataHandler.getTypeDescription(type)
-					+ " level" + (levelsGained > 1 ? "s " : ""));
+			//PlayerMessager.msg(player, "You have advanced " + levelsGained + PlayerDataHandler.getTypeDescription(type) + " level" + (levelsGained > 1 ? "s " : ""));
+			PlayerMessager.msg(player, "You have reached " + PlayerDataHandler.getTypeDescription(type) + " level " + (currentLevel + levelsGained));
 		}
 
 		CacheHandler.updatePlayer(player,
