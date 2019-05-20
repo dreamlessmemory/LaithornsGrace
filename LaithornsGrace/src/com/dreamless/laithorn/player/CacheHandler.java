@@ -44,7 +44,7 @@ public class CacheHandler {
 
 			if (player == null) {
 				it.remove();
-				PlayerMessager.debugLog("Removed " + player.getName() + " from cache");
+				PlayerMessager.debugLog("Removed [null] from cache");
 				//unloadPlayer(player);
 				continue;
 			}
