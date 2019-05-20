@@ -5,7 +5,7 @@ import com.dreamless.laithorn.events.PlayerExperienceVariables.GainType;
 public class PlayerDataHandler {
 
 	public static int LEVEL_ONE_EXP = 150;
-	public static double GROWTH_RATE = 1.07; // ~7% increase
+	public static double GROWTH_RATE = 1.17; // ~7% increase
 	public static int LEVEL_CAP = 99;
 
 	// Note, level 99 needs 1,795,670 exp

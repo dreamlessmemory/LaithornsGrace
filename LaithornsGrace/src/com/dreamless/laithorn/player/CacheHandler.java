@@ -43,7 +43,9 @@ public class CacheHandler {
 			OfflinePlayer player = Bukkit.getOfflinePlayer(entry.getKey());
 
 			if (player == null) {
-				unloadPlayer(player);
+				it.remove();
+				PlayerMessager.debugLog("Removed " + player.getName() + " from cache");
+				//unloadPlayer(player);
 				continue;
 			}
 
@@ -52,7 +54,9 @@ public class CacheHandler {
 
 			// Remove player from cache if they are offline
 			if (!player.isOnline()) {
-				unloadPlayer(player);
+				it.remove();
+				//unloadPlayer(player);
+				PlayerMessager.debugLog("Removed " + player.getName() + " from cache");
 			}
 		}
 	}
