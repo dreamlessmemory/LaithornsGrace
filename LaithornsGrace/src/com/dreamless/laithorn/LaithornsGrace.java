@@ -19,6 +19,7 @@ import com.dreamless.laithorn.listeners.WellListener;
 import com.dreamless.laithorn.player.CacheHandler;
 import com.dreamless.laithorn.listeners.BlockBreakListener;
 import com.dreamless.laithorn.listeners.CommandListener;
+import com.dreamless.laithorn.listeners.FishingListener;
 import com.dreamless.laithorn.listeners.MobDeathListener;
 import com.mysql.jdbc.Connection;
 
@@ -41,6 +42,7 @@ public class LaithornsGrace extends JavaPlugin{
 	private WellListener wellListener;
 	private MobDeathListener mobListener;
 	private BlockBreakListener blockListener;
+	private FishingListener fishingListener;
 
 	// debug
 	public static boolean debug;
@@ -92,6 +94,7 @@ public class LaithornsGrace extends JavaPlugin{
 		wellListener = new WellListener();
 		mobListener = new MobDeathListener();
 		blockListener = new BlockBreakListener();
+		fishingListener = new FishingListener();
 		
 		getCommand("Laithorn").setExecutor(new CommandListener());
 		
@@ -99,6 +102,7 @@ public class LaithornsGrace extends JavaPlugin{
 		grace.getServer().getPluginManager().registerEvents(wellListener, grace);
 		grace.getServer().getPluginManager().registerEvents(mobListener, grace);
 		grace.getServer().getPluginManager().registerEvents(blockListener, grace);
+		grace.getServer().getPluginManager().registerEvents(fishingListener, grace);
 		
 		// Runables
 		new CacheHandler.PeriodicCacheSave().runTaskTimer(grace, 3600, 3600);
