@@ -253,12 +253,12 @@ public class DropTableLookup {
 
 	private static class WeightedRandomBag {
 		private class Entry {
-			double accumulatedWeight;
+			double weightedChance;
 			FragmentRarity rarity;
 			
 			public Entry(FragmentRarity rarity, double accumlatedWeight) {
 				this.rarity = rarity;
-				this.accumulatedWeight = accumlatedWeight;
+				this.weightedChance = accumlatedWeight;
 			}
 		}
 		private List<Entry> entries = new ArrayList<>();
@@ -267,8 +267,7 @@ public class DropTableLookup {
 		
 		WeightedRandomBag(int level) {
 			for(FragmentRarity rarity : FragmentRarity.values()) {
-				accumulatedWeight += rarity.baseChance() + (rarity.growthRate() * (level -1)); 
-				entries.add(new Entry(rarity, accumulatedWeight));
+				entries.add(new Entry(rarity, rarity.weightedDropChance(level)));
 			}
 		}
 		
@@ -276,7 +275,7 @@ public class DropTableLookup {
 			double r = rand.nextDouble() * accumulatedWeight;
 
 			for (Entry entry : entries) {
-				if (entry.accumulatedWeight >= r) {
+				if (entry.weightedChance >= r) {
 					return entry.rarity;
 				}
 			}

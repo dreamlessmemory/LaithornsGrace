@@ -2,16 +2,62 @@ name: LaithornsGrace
 version: 1.0.0
 description: Core plugin for Stumped server
 main: com.dreamless.laithorn.LaithornsGrace
-api-version: 1.13
+api-version: 1.14
 authors: [DreamlessMemory/MemoryReborn]
 prefix: Laithorn
 depend: [ItemNBTAPI]
 commands:
-  TreeWarp:
-    description: Command for Administration
-    aliases: [laithorn, laith, lg]
+  givefragment:
+    description: Gives player a fragment
+    aliases: [givefrag, givefg]
+    permission: laithorn.admin
+    permission-message: Laithorn's power rebuffs your command!
+    usage: /<command> level [tags ...]
+  clearwell:
+    description: Clears the area designated as the wellspring
+    permission: laithorn.admin
+    permission-message: Laithorn's power rebuffs your command!
+    usage: /<command>
+  setwell:
+    description: Sets your current location as the corner of the wellspring
+    permission: laithorn.admin
+    permission-message: Laithorn's power rebuffs your command!
+    usage: /<command>
+  fragments:
+    description: Bring up your Laithorn Fragment Reservoir
+    aliases: [fragments, frag, fg]
+    permission: laithorn.user
+    permission-message: You have not yet attuned to Laithorn's power!
+    usage: /<command>
+  autopickup:
+    description: Set whether or not fragments you pick up go directly to your reservoir
+    alias: [fragmentpickup, fragpick, apick]
+    permission: laithorn.user
+    permission-message: You have not yet attuned to Laithorn's power!
+    usage: /<command> true|false
+  laithornlevels:
+    description: Get your current attunement and smithing levels
+    alias: [levels, level]
+    permission: laithorn.user
+    permission-message: You have not yet attuned to Laithorn's power!
+    usage: /<command> [attunement|smithing]
+  attunementlevel:
+    description: Get your current attunement level and exp
+    alias: [alevel, al]
+    permission: laithorn.user
+    permission-message: You have not yet attuned to Laithorn's power!
+    usage: /<command>
+  smithinglevel:
+    description: Get your current smithing level and exp
+    alias: [slevel, sl]
+    permission: laithorn.user
+    permission-message: You have not yet attuned to Laithorn's power!
+    usage: /<command>
 permissions:
   laithorn.admin:
     description: All permissions related to setup of Laithorn's Grace
+    default: op
+    children:
+       laithorn.user: true
   laithorn.user:
     description: Allows access to all functions once the tutorial is completed

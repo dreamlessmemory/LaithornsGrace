@@ -28,17 +28,17 @@ public class DatabaseHandler {
 						result.getInt("attunementexp"), 
 						result.getInt("attunementLevel"),
 						result.getInt("smithingexp"), 
-						result.getInt("smithinglevel"), 
-						result.getInt("essencestorage"),
-						LaithornUtils.deseralizeFlagMap(result.getString("flags")));
+						result.getInt("smithinglevel"),
+						LaithornUtils.deseralizeFlagMap(result.getString("flags")),
+						result.getString("essencestorage"));
 
 			} else {
 				PlayerMessager.debugLog("No data for " + player.getDisplayName() + ". Creating profile");
-				playerData = new PlayerData(0, 0, 0, 0, 0, null);
+				playerData = new PlayerData(0, 0, 0, 0, null, "");
 			}
 		} catch (SQLException e) {
 			PlayerMessager.debugLog("Error retrieving data for " + player.getDisplayName() + ". Using blank profile");
-			playerData = new PlayerData(0, 0, 0, 0, 0, null);
+			playerData = new PlayerData(0, 0, 0, 0, null, "");
 			e.printStackTrace();
 		}
 
@@ -61,7 +61,7 @@ public class DatabaseHandler {
 			stmt.setInt(3, playerData.getAttunementLevel());
 			stmt.setInt(4, playerData.getSmithingEXP());
 			stmt.setInt(5, playerData.getSmithingLevel());
-			stmt.setInt(6, playerData.getEssenceStorage());
+			stmt.setString(6, LaithornUtils.toBase64(playerData.getInventory()));
 			stmt.setString(7, serializedFlagString);
 			
 			// On Update
@@ -69,7 +69,7 @@ public class DatabaseHandler {
 			stmt.setInt(9, playerData.getAttunementLevel());
 			stmt.setInt(10, playerData.getSmithingEXP());
 			stmt.setInt(11, playerData.getSmithingLevel());
-			stmt.setInt(12, playerData.getEssenceStorage());
+			stmt.setString(12, LaithornUtils.toBase64(playerData.getInventory()));
 			stmt.setString(13, serializedFlagString);
 			
 			PlayerMessager.debugLog(stmt.toString());

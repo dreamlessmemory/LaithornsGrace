@@ -15,11 +15,13 @@ import com.dreamless.laithorn.events.DropTableLookup;
 import com.dreamless.laithorn.events.DropTableLookup.DropType;
 import com.dreamless.laithorn.events.PlayerExperienceVariables;
 import com.dreamless.laithorn.listeners.PlayerListener;
+import com.dreamless.laithorn.listeners.GrindstoneListener;
 import com.dreamless.laithorn.listeners.WellListener;
 import com.dreamless.laithorn.player.CacheHandler;
 import com.dreamless.laithorn.listeners.BlockBreakListener;
 import com.dreamless.laithorn.listeners.CommandListener;
 import com.dreamless.laithorn.listeners.FishingListener;
+import com.dreamless.laithorn.listeners.InventoryListener;
 import com.dreamless.laithorn.listeners.MobDeathListener;
 import com.mysql.jdbc.Connection;
 
@@ -38,11 +40,7 @@ public class LaithornsGrace extends JavaPlugin{
 	private static String testdatabase;
 	
 	// Listeners
-	private PlayerListener playerListener;
-	private WellListener wellListener;
-	private MobDeathListener mobListener;
-	private BlockBreakListener blockListener;
-	private FishingListener fishingListener;
+	private CommandListener commandListener;
 
 	// debug
 	public static boolean debug;
@@ -90,19 +88,23 @@ public class LaithornsGrace extends JavaPlugin{
 		// Load Cache
 
 		// Listeners
-		playerListener = new PlayerListener();
-		wellListener = new WellListener();
-		mobListener = new MobDeathListener();
-		blockListener = new BlockBreakListener();
-		fishingListener = new FishingListener();
+		commandListener = new CommandListener();
 		
-		getCommand("Laithorn").setExecutor(new CommandListener());
+		getCommand("givefragment").setExecutor(commandListener);
+		getCommand("fragments").setExecutor(commandListener);
+		getCommand("clearwell").setExecutor(commandListener);
+		getCommand("setwell").setExecutor(commandListener);
+		getCommand("laithornlevels").setExecutor(commandListener);
+		getCommand("attunementlevel").setExecutor(commandListener);
+		getCommand("smithinglevel").setExecutor(commandListener);
 		
-		grace.getServer().getPluginManager().registerEvents(playerListener, grace);
-		grace.getServer().getPluginManager().registerEvents(wellListener, grace);
-		grace.getServer().getPluginManager().registerEvents(mobListener, grace);
-		grace.getServer().getPluginManager().registerEvents(blockListener, grace);
-		grace.getServer().getPluginManager().registerEvents(fishingListener, grace);
+		grace.getServer().getPluginManager().registerEvents(new PlayerListener(), grace);
+		grace.getServer().getPluginManager().registerEvents(new WellListener(), grace);
+		grace.getServer().getPluginManager().registerEvents(new MobDeathListener(), grace);
+		grace.getServer().getPluginManager().registerEvents(new BlockBreakListener(), grace);
+		grace.getServer().getPluginManager().registerEvents(new FishingListener(), grace);
+		grace.getServer().getPluginManager().registerEvents(new GrindstoneListener(), grace);
+		grace.getServer().getPluginManager().registerEvents(new InventoryListener(), grace);
 		
 		// Runables
 		new CacheHandler.PeriodicCacheSave().runTaskTimer(grace, 3600, 3600);
