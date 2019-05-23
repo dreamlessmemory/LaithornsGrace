@@ -36,6 +36,8 @@ public class CommandListener implements CommandExecutor {
 			return cmdSmithingInfo(sender);
 		case "attunementlevel":
 			return cmdAttunementInfo(sender);
+		case "autopickup":
+			return cmdAutopickup(sender, args);
 		}
 		return false;
 
@@ -141,6 +143,21 @@ public class CommandListener implements CommandExecutor {
 			PlayerMessager.msg(sender, LanguageReader.getText("CMD_Well_Success"));
 		} else {
 			PlayerMessager.msg(sender, LanguageReader.getText("CMD_Well_Failure"));
+		}
+		return true;
+	}
+	
+	private boolean cmdAutopickup(CommandSender sender, String[] args) {
+		if (!(sender instanceof Player)) { // No console commands please
+			PlayerMessager.msg(sender, LanguageReader.getText("Error_PlayerOnly"));
+			return false;
+		}
+		if(args.length > 0) {
+			boolean result = Boolean.parseBoolean(args[0]);
+			CacheHandler.getPlayer((Player) sender).setFlag("autopickup", result);
+			PlayerMessager.msg(sender, (result ? "Fragment autopickup enabled" : "Fragment autopickup disabled"));
+		} else {
+			PlayerMessager.msg(sender, "Autopickup is " + (CacheHandler.getPlayer((Player) sender).getFlag("autopickup")? "enabled" : "disabled"));
 		}
 		return true;
 	}

@@ -1,14 +1,22 @@
 package com.dreamless.laithorn.listeners;
 
+import java.util.HashMap;
+
+import org.bukkit.Sound;
+import org.bukkit.entity.Item;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
-//import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import com.dreamless.laithorn.PlayerMessager;
+import com.dreamless.laithorn.api.ItemCrafting;
 import com.dreamless.laithorn.events.PlayerExperienceGainEvent;
 import com.dreamless.laithorn.events.PlayerExperienceVariables.GainType;
 import com.dreamless.laithorn.player.CacheHandler;
@@ -82,12 +90,54 @@ public class PlayerListener implements Listener {
 
 		if (levelsGained > 0) {
 			// Inform player
-			//PlayerMessager.msg(player, "You have advanced " + levelsGained + PlayerDataHandler.getTypeDescription(type) + " level" + (levelsGained > 1 ? "s " : ""));
-			PlayerMessager.msg(player, "You have reached " + PlayerDataHandler.getTypeDescription(type) + " level " + (currentLevel + levelsGained));
+			// PlayerMessager.msg(player, "You have advanced " + levelsGained +
+			// PlayerDataHandler.getTypeDescription(type) + " level" + (levelsGained > 1 ?
+			// "s " : ""));
+			PlayerMessager.msg(player, "You have reached " + PlayerDataHandler.getTypeDescription(type) + " level "
+					+ (currentLevel + levelsGained));
 		}
 
 		CacheHandler.updatePlayer(player,
 				PlayerDataHandler.applyDataChanges(data, type, currentLevel + levelsGained, newExpRating));
+	}
+
+	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+	public void onItemPickup(EntityPickupItemEvent event) {
+		LivingEntity entity = event.getEntity();
+		if (!(entity instanceof Player)) {
+			PlayerMessager.debugLog("Not player pickup");
+			return;
+		}
+		Item item = event.getItem();
+		ItemStack itemStack = item.getItemStack();
+		if (!ItemCrafting.isEssence(itemStack)) {
+			PlayerMessager.debugLog("Not essence pickup");
+			return;
+		}
+
+		Player player = (Player) entity;
+		PlayerData data = CacheHandler.getPlayer(player);
+		if (data.getFlag("autopickup")) {
+			// Kill event
+			event.setCancelled(true);
+			item.remove();
+
+			Inventory inventory = data.getInventory();
+			if (inventory.firstEmpty() == -1) {
+				PlayerMessager.msg(player, "Your reservoir is full.");
+			}
+			HashMap<Integer, ItemStack> remains = data.getInventory().addItem(itemStack);
+			player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1.0f, 1.0f);
+			if (!remains.isEmpty()) {
+				remains = player.getInventory().addItem(remains.get(0));
+				if (!remains.isEmpty()) {
+					PlayerMessager.msg(player, "Your inventory is totally is full.");
+					player.getWorld().dropItemNaturally(player.getLocation().add(0, 0.5, 0), remains.get(0));
+				}
+			}
+		} else {
+			PlayerMessager.debugLog("Not autopickup pickup");
+		}
 
 	}
 }
