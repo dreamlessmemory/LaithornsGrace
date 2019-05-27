@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>LaithornsGrace</groupId>
   <artifactId>LaithornsGrace</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.0.0-BETA</version>
   <name>Laithorn's Grace</name>
   <description>Core plugin for all Laithorn-related functions</description>
   <build>
