@@ -51,23 +51,23 @@ public enum FragmentRarity {
 	public final double weightedDropChance(int level) {
 		switch(this) {
 		case DULL:
-			return (double)(level-1) * -0.6633 + 100;
+			return 100.00;
 		case FAINT:
-			return (level >= FAINT_MIN_LEVEL ? (((double)(level-1) * -0.6633)) : 0);
+			return (level >= FAINT_MIN_LEVEL ? (double)(level-FAINT_MIN_LEVEL) * 0.8583 + 11.1111 : 0);
 		case PALE:
-			return (level >= PALE_MIN_LEVEL ? (((double)(level-1) * 0.2273)) : 0);
+			return (level >= PALE_MIN_LEVEL ? (double)(level-PALE_MIN_LEVEL) * 0.4277 + 6.0738 : 0);
 		case GLOWING:
-			return (level >= GLOWING_MIN_LEVEL ? (((double)(level-1) * 0.1807)) : 0);
+			return (level >= GLOWING_MIN_LEVEL ? (double)(level-GLOWING_MIN_LEVEL) * 0.4464 + 7.5421 : 0);
 		case SPARKLING:
-			return (level >= SPARKLING_MIN_LEVEL ? (((double)(level-1) * 0.1282)) : 0);
+			return (level >= SPARKLING_MIN_LEVEL ? (double)(level-SPARKLING_MIN_LEVEL) * 0.1346 + 1.6180 : 0);
 		case BRIGHT:
-			return (level >= BRIGHT_MIN_LEVEL ? (((double)(level-1) * 0.1096)) : 0);
+			return (level >= BRIGHT_MIN_LEVEL ? (double)(level-BRIGHT_MIN_LEVEL) * 0.2302 + 0.1725 : 0);
 		case SHINING:
-			return (level >= SHINING_MIN_LEVEL ? (((double)(level-1) * 0.0476)) : 0);
+			return (level >= SHINING_MIN_LEVEL ? (double)(level-SHINING_MIN_LEVEL) * 0.1124 + 0.3667 : 0);
 		case RADIANT:
-			return (level >= RADIANT_MIN_LEVEL ? (((double)(level-1) * 0.0345)) : 0);
+			return (level >= RADIANT_MIN_LEVEL ? (double)(level-RADIANT_MIN_LEVEL) * 0.1260 + 0.1956 : 0);
 		case INCANDESCENT:
-			return (level >= INCANDESCENT_MIN_LEVEL ? (((double)(level-1) * 0.0189)) : 0);
+			return (level >= INCANDESCENT_MIN_LEVEL ?(double)(level-INCANDESCENT_MIN_LEVEL) * 0.8583 + 11.1111 : 0);
 		default:
 			return 0;
 		}
