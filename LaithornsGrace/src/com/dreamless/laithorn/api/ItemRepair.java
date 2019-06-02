@@ -1,6 +1,5 @@
 package com.dreamless.laithorn.api;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -107,8 +106,10 @@ public class ItemRepair {
 		inventory.setItem(2, null);
 	}
 
-	public ItemStack generateRepairedItem(ItemStack baseItem, ItemStack essence, int repairRate,
-			List<String> bonusTags) {
+	public static ItemStack generateRepairedItem(AnvilInventory inventory, int repairRate, List<String> bonusTags) {
+
+		ItemStack baseItem = inventory.getItem(0);
+		ItemStack essence = inventory.getItem(1);
 
 		ItemStack repairedItem = baseItem.clone();
 		Damageable damageable = (Damageable) baseItem.getItemMeta();
