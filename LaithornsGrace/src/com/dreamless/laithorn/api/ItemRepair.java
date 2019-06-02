@@ -26,13 +26,15 @@ public class ItemRepair {
 
 		// Left Side
 		ItemStack leftSide = inventory.getItem(0);
-		if (leftSide == null || leftSide.getType() != itemType && ItemCrafting.isLaithornEnchanted(leftSide)) {
+		if (leftSide == null || leftSide.getType() != itemType || !ItemCrafting.isLaithornEnchanted(leftSide)) {
+			PlayerMessager.debugLog("LEFT FAIL");
 			return false;
 		}
 
 		// Right side
 		ItemStack rightSide = inventory.getItem(1);
-		if (rightSide == null || ItemCrafting.isEssence(rightSide)) {
+		if (rightSide == null || !ItemCrafting.isEssence(rightSide)) {
+			PlayerMessager.debugLog("RIGHT FAIL");
 			return false;
 		}
 
@@ -106,7 +108,7 @@ public class ItemRepair {
 		inventory.setItem(2, null);
 	}
 
-	public static ItemStack generateRepairedItem(AnvilInventory inventory, int repairRate, List<String> bonusTags) {
+	public static ItemStack generateRepairedItem(AnvilInventory inventory, int repairRate) {
 
 		ItemStack baseItem = inventory.getItem(0);
 		ItemStack essence = inventory.getItem(1);
