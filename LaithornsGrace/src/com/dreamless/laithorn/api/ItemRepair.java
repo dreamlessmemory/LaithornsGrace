@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.PrepareAnvilEvent;
 import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -21,49 +22,41 @@ import de.tr7zw.itemnbtapi.NBTItem;
 
 public class ItemRepair {
 
-	public static boolean anvilPrepareCheck(AnvilInventory inventory, Material itemType, Player player,
+	public static boolean anvilPrepareCheck(PrepareAnvilEvent event, Material itemType, 
 			String repairString, List<String> flags) {
+		
+		AnvilInventory inventory = event.getInventory();
+		Player player = (Player)event.getView().getPlayer();
 
-		// Left Side
-		ItemStack leftSide = inventory.getItem(0);
-		if (leftSide == null || leftSide.getType() != itemType || !ItemCrafting.isLaithornEnchanted(leftSide)) {
-			PlayerMessager.debugLog("LEFT FAIL");
-			return false;
-		}
-
-		// Right side
-		ItemStack rightSide = inventory.getItem(1);
-		if (rightSide == null || !ItemCrafting.isEssence(rightSide)) {
-			PlayerMessager.debugLog("RIGHT FAIL");
-			return false;
-		}
-
-		return RequirementsHandler.canDoAction(player, repairString, flags);
+		return baseItemCheck(inventory.getItem(0), itemType) && essenceCheck(inventory.getItem(1))
+				&& RequirementsHandler.canDoAction(player, repairString, flags);
 	}
 
 	public static void anvilPickupCheck(Material itemType, InventoryClickEvent event, int repairRate,
 			int expGainnumber) {
 		// Check if anvil
 		if (!(event.getInventory() instanceof AnvilInventory)) {
+			PlayerMessager.debugLog("ANVIL FAIL");
+			return;
+		}
+
+		// Check slot click
+		if (event.getSlot() != 2) {
+			PlayerMessager.debugLog("CLICK FAIL");
 			return;
 		}
 
 		Inventory inventory = event.getInventory();
 
-		// Check slot click
-		if (event.getSlot() != 2) {
-			return;
-		}
-
 		// Left Side
 		ItemStack leftSide = inventory.getItem(0);
-		if (leftSide == null || leftSide.getType() != itemType && ItemCrafting.isLaithornEnchanted(leftSide)) {
+		if (!baseItemCheck(leftSide, itemType)) {
 			return;
 		}
 
 		// Right side
 		ItemStack rightSide = inventory.getItem(1);
-		if (rightSide == null || ItemCrafting.isEssence(rightSide)) {
+		if (!essenceCheck(rightSide)) {
 			return;
 		}
 
@@ -87,17 +80,17 @@ public class ItemRepair {
 		// Get number of fragments used
 		NBTItem nbti = new NBTItem(rightSide);
 		NBTCompound laithorn = nbti.getCompound("Laithorn");
-		int finalrepairRate = (int) (repairRate * FragmentRarity.valueOf(laithorn.getString("level")).rarityModifier()
-				* rightSide.getAmount());
+		int finalrepairRate = (int) (repairRate * FragmentRarity.valueOf(laithorn.getString("level")).rarityModifier());
 		int fragmentsUsed = (repairValue + finalrepairRate - 1) / finalrepairRate;
 
 		int expGain = repairValue * expGainnumber;
 
 		Bukkit.getPluginManager().callEvent(new PlayerExperienceGainEvent(player, expGain, GainType.SMITHING, true));
 
-		// blank out
+		// Blank out Left Side
 		inventory.setItem(0, null);
 
+		// Reduce Right Side
 		if (rightSide.getAmount() > fragmentsUsed) {
 			rightSide.setAmount(rightSide.getAmount() - fragmentsUsed);
 			inventory.setItem(1, rightSide);
@@ -105,6 +98,7 @@ public class ItemRepair {
 			inventory.setItem(1, null);
 		}
 
+		// Blank out right side
 		inventory.setItem(2, null);
 	}
 
@@ -134,5 +128,22 @@ public class ItemRepair {
 		repairedItem.setItemMeta((ItemMeta) damageable);
 
 		return repairedItem;
+	}
+
+	private static final boolean baseItemCheck(ItemStack item, Material itemType) {
+		// Left Side
+		if (item == null || item.getType() != itemType || !ItemCrafting.isLaithornEnchanted(item)) {
+			PlayerMessager.debugLog("LEFT FAIL");
+			return false;
+		}
+		return true;
+	}
+
+	private static final boolean essenceCheck(ItemStack essence) {
+		if (essence == null || !ItemCrafting.isEssence(essence)) {
+			PlayerMessager.debugLog("RIGHT FAIL");
+			return false;
+		}
+		return true;
 	}
 }
