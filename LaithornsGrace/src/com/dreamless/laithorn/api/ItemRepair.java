@@ -22,11 +22,11 @@ import de.tr7zw.itemnbtapi.NBTItem;
 
 public class ItemRepair {
 
-	public static boolean anvilPrepareCheck(PrepareAnvilEvent event, Material itemType, 
-			String repairString, List<String> flags) {
-		
+	public static boolean anvilPrepareCheck(PrepareAnvilEvent event, Material itemType, String repairString,
+			List<String> flags) {
+
 		AnvilInventory inventory = event.getInventory();
-		Player player = (Player)event.getView().getPlayer();
+		Player player = (Player) event.getView().getPlayer();
 
 		return baseItemCheck(inventory.getItem(0), itemType) && essenceCheck(inventory.getItem(1))
 				&& RequirementsHandler.canDoAction(player, repairString, flags);
