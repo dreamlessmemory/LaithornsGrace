@@ -17,18 +17,19 @@ import de.tr7zw.itemnbtapi.NBTItem;
 
 public class ItemCrafting {
 
-	public static Material fragmentMaterial = Material.FLINT;
+	private static Material FRAGMENT_MATERIAL = Material.FLINT;
+	private static String NBT_TOP_LEVEL_TAG = "Laithorn";
 
 	public static final Material getFragmentMaterial() {
-		return fragmentMaterial;
+		return FRAGMENT_MATERIAL;
 	}
 
 	public static final void setFragmentMaterial(Material newFragmentMaterial) {
-		fragmentMaterial = newFragmentMaterial;
+		FRAGMENT_MATERIAL = newFragmentMaterial;
 	}
 
 	public static ItemStack fragmentItem(FragmentRarity rarity, String type, List<String> flags) {
-		ItemStack item = new ItemStack(fragmentMaterial);
+		ItemStack item = new ItemStack(FRAGMENT_MATERIAL);
 
 		/*** Item Meta ***/
 		ItemMeta itemMeta = item.getItemMeta();
@@ -60,8 +61,8 @@ public class ItemCrafting {
 		/*** NBT ***/
 		NBTItem nbti = new NBTItem(item);
 
-		// nbti.addCompound("Laithorn");
-		NBTCompound laithorn = nbti.addCompound("Laithorn");
+		NBTCompound laithorn = nbti.addCompound(NBT_TOP_LEVEL_TAG);
+		laithorn.setString("module", "core");
 		laithorn.setString("level", rarity.toString());
 		laithorn.setString("type", type);
 		for (int i = 0; i < flags.size(); i++) {
@@ -79,9 +80,9 @@ public class ItemCrafting {
 			ItemStack itemStack = matrix[i];
 			if (itemStack == null)
 				continue;
-			if (itemStack.getType() == fragmentMaterial) {
+			if (itemStack.getType() == FRAGMENT_MATERIAL) {
 				NBTItem nbti = new NBTItem(itemStack);
-				NBTCompound laithorn = nbti.getCompound("Laithorn");
+				NBTCompound laithorn = nbti.getCompound(NBT_TOP_LEVEL_TAG);
 				if (laithorn == null)
 					return false;
 				for (String key : laithorn.getKeys()) {
@@ -105,9 +106,22 @@ public class ItemCrafting {
 	}
 
 	public static boolean isEssence(ItemStack item) {
+		if (item == null || item.getType() != FRAGMENT_MATERIAL)
+			return false;
+		return new NBTItem(item).hasKey(NBT_TOP_LEVEL_TAG);
+	}
+	
+	public static boolean isLaithornEnchanted(ItemStack item) {
 		if (item == null || item.getType() == Material.AIR)
 			return false;
-		NBTItem nbti = new NBTItem(item);
-		return nbti.hasKey("Laithorn");
+		return new NBTItem(item).hasKey(NBT_TOP_LEVEL_TAG);
+	}
+
+	public static final String getTopLevelTag() {
+		return NBT_TOP_LEVEL_TAG;
+	}
+
+	public static final void setTopLevelTag(String topLevelTag) {
+		NBT_TOP_LEVEL_TAG = topLevelTag;
 	}
 }

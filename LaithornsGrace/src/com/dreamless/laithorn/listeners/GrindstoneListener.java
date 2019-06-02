@@ -1,31 +1,70 @@
 package com.dreamless.laithorn.listeners;
 
-import org.bukkit.Material;
+import java.util.Set;
+
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.event.inventory.PrepareItemCraftEvent;
-import org.bukkit.inventory.CraftingInventory;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 
 import com.dreamless.laithorn.PlayerMessager;
 import com.dreamless.laithorn.api.ItemCrafting;
 
-public class GrindstoneListener implements Listener{
+public class GrindstoneListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-	public void onBlockBreakEven(PrepareItemCraftEvent event) {
-		CraftingInventory inventory = event.getInventory();
-		if(inventory.getType() != InventoryType.GRINDSTONE) {
-			return; //Ignore
+	public void onGrindstoneClick(InventoryClickEvent event) {
+		InventoryView view = event.getView();
+		Inventory topInventory = view.getTopInventory();
+		if (topInventory.getType() != InventoryType.GRINDSTONE) {
+			PlayerMessager.debugLog("Ignoring, not grindstone");
+			return; // Ignore If not Grindstone
 		}
+
+		switch (event.getSlot()) {
+		case 0:
+		case 1:
+			ItemStack item = event.getCursor();
+			if(!ItemCrafting.isLaithornEnchanted(item)) {
+				PlayerMessager.debugLog("Not fragment");
+				return;
+			}
+			event.setCancelled(true);
+			break;
+		default:
+			if(event.isShiftClick()) {
+				ItemStack item2 = event.getCurrentItem();
+				if(!ItemCrafting.isLaithornEnchanted(item2)) {
+					PlayerMessager.debugLog("Not fragment");
+					return;
+				}
+				event.setCancelled(true);
+			}
+		}
+	}
+	
+	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+	public void onGrindstoneDrag(InventoryDragEvent event) {
+		InventoryView view = event.getView();
+		Inventory topInventory = view.getTopInventory();
+		if (topInventory.getType() != InventoryType.GRINDSTONE) {
+			PlayerMessager.debugLog("Ignoring, not grindstone");
+			return; // Ignore If not Grindstone
+		}
+
 		
-		ItemStack itemTop = inventory.getMatrix()[0];
-		ItemStack itemBottom = inventory.getMatrix()[1];
-		
-		if(ItemCrafting.isEssence(itemBottom) || ItemCrafting.isEssence(itemTop)) {
-			inventory.setResult(new ItemStack(Material.AIR));
-			PlayerMessager.debugLog("Cancelling grindstone");
+		Set<Integer> slots = event.getInventorySlots();
+		if(slots.contains(0) || slots.contains(1)) {
+			ItemStack item = event.getCursor();
+			if(!ItemCrafting.isLaithornEnchanted(item)) {
+				PlayerMessager.debugLog("Not fragment");
+				return;
+			}
+			event.setCancelled(true);
 		}
 	}
 }
