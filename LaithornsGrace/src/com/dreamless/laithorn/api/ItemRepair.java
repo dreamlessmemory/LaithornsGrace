@@ -1,12 +1,11 @@
 package com.dreamless.laithorn.api;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.PrepareAnvilEvent;
 import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -16,55 +15,37 @@ import org.bukkit.inventory.meta.ItemMeta;
 import com.dreamless.laithorn.PlayerMessager;
 import com.dreamless.laithorn.events.PlayerExperienceGainEvent;
 import com.dreamless.laithorn.events.PlayerExperienceVariables.GainType;
+import com.dreamless.laithorn.player.CacheHandler;
+import com.dreamless.laithorn.player.PlayerData;
 
 import de.tr7zw.itemnbtapi.NBTCompound;
 import de.tr7zw.itemnbtapi.NBTItem;
 
 public class ItemRepair {
 
-	public static boolean anvilPrepareCheck(PrepareAnvilEvent event, Material itemType, String repairString,
-			List<String> flags) {
+	private static HashMap<Material, ActionRequirements> playerRequirements = new HashMap<Material, ActionRequirements>();
 
-		AnvilInventory inventory = event.getInventory();
-		Player player = (Player) event.getView().getPlayer();
+	protected static boolean anvilPrepareCheck(AnvilInventory inventory, Player player) {
+		ItemStack leftSlot = inventory.getItem(0);
+		ItemStack rightSlot = inventory.getItem(1);
+		ActionRequirements requirements = getRequirements(leftSlot);
 
-		return baseItemCheck(inventory.getItem(0), itemType) && essenceCheck(inventory.getItem(1))
-				&& RequirementsHandler.canDoAction(player, repairString, flags);
+		return baseItemCheck(leftSlot, requirements) && essenceCheck(rightSlot) && canDoAction(player, requirements);
 	}
-
-	public static void anvilPickupCheck(Material itemType, InventoryClickEvent event, int repairRate,
-			int expGainnumber) {
-		// Check if anvil
-		if (!(event.getInventory() instanceof AnvilInventory)) {
-			PlayerMessager.debugLog("ANVIL FAIL");
-			return;
-		}
-
-		// Check slot click
-		if (event.getSlot() != 2) {
-			PlayerMessager.debugLog("CLICK FAIL");
-			return;
-		}
-
-		Inventory inventory = event.getInventory();
+	
+	protected static void anvilPickupCheck(Inventory inventory, ItemStack result, Player player, boolean shiftClick) {
 
 		// Left Side
 		ItemStack leftSide = inventory.getItem(0);
-		if (!baseItemCheck(leftSide, itemType)) {
+		ItemStack rightSide = inventory.getItem(1);		
+		ActionRequirements requirements = getRequirements(leftSide);
+		
+		if (!baseItemCheck(leftSide, requirements) || !essenceCheck(rightSide)) {
 			return;
 		}
-
-		// Right side
-		ItemStack rightSide = inventory.getItem(1);
-		if (!essenceCheck(rightSide)) {
-			return;
-		}
-
-		ItemStack result = event.getCurrentItem();
 
 		// Give item to player
-		Player player = (Player) event.getWhoClicked();
-		if (event.isShiftClick()) {
+		if (shiftClick) {
 			player.getInventory().addItem(result);
 			player.updateInventory();
 		} else {
@@ -80,10 +61,10 @@ public class ItemRepair {
 		// Get number of fragments used
 		NBTItem nbti = new NBTItem(rightSide);
 		NBTCompound laithorn = nbti.getCompound("Laithorn");
-		int finalrepairRate = (int) (repairRate * FragmentRarity.valueOf(laithorn.getString("level")).rarityModifier());
+		int finalrepairRate = (int) (requirements.getRepairRate() * FragmentRarity.valueOf(laithorn.getString("level")).rarityModifier());
 		int fragmentsUsed = (repairValue + finalrepairRate - 1) / finalrepairRate;
 
-		int expGain = repairValue * expGainnumber;
+		int expGain = repairValue * requirements.getExpRate();
 
 		Bukkit.getPluginManager().callEvent(new PlayerExperienceGainEvent(player, expGain, GainType.SMITHING, true));
 
@@ -102,7 +83,7 @@ public class ItemRepair {
 		inventory.setItem(2, null);
 	}
 
-	public static ItemStack generateRepairedItem(AnvilInventory inventory, int repairRate) {
+	protected static ItemStack generateRepairedItem(AnvilInventory inventory) {
 
 		ItemStack baseItem = inventory.getItem(0);
 		ItemStack essence = inventory.getItem(1);
@@ -111,6 +92,8 @@ public class ItemRepair {
 		Damageable damageable = (Damageable) baseItem.getItemMeta();
 
 		int repairValue = 0;
+		
+		ActionRequirements requirements = getRequirements(baseItem);
 
 		// NBT Setup
 		NBTItem nbti = new NBTItem(essence);
@@ -118,7 +101,7 @@ public class ItemRepair {
 		if (laithorn == null) {
 			PlayerMessager.debugLog("Cannot Repair: Item is not a fragment");
 		} else {
-			repairValue = (int) (repairRate * FragmentRarity.valueOf(laithorn.getString("level")).rarityModifier()
+			repairValue = (int) (requirements.getRepairRate() * FragmentRarity.valueOf(laithorn.getString("level")).rarityModifier()
 					* essence.getAmount());
 		}
 
@@ -129,21 +112,117 @@ public class ItemRepair {
 
 		return repairedItem;
 	}
+	
+	protected static void registerItemRepair(Material material, int levelRequirement, int expRate, int repairRate, boolean isEnchanted, List<String> flags) {
+		playerRequirements.put(material, new ActionRequirements(isEnchanted, levelRequirement, flags, expRate, repairRate));
+	}
+	
+	protected static boolean removeItemRepair(Material material) {
+		return playerRequirements.remove(material) != null;
+	}
 
-	private static final boolean baseItemCheck(ItemStack item, Material itemType) {
-		// Left Side
-		if (item == null || item.getType() != itemType || !ItemCrafting.isLaithornEnchanted(item)) {
-			PlayerMessager.debugLog("LEFT FAIL");
+	private static final boolean baseItemCheck(ItemStack item, ActionRequirements requirements) {
+		// Null Check
+		if (item == null) {
+			PlayerMessager.debugLog("Repair check failed - null item in left side");
+			return false;
+		}
+
+		// Registry Check
+		if (requirements == null) {
+			PlayerMessager.debugLog("Repair check failed - not registered as repairable");
+			return false;
+		}
+
+		// Enchantment Check
+		if (requirements.isEnchanted() && !ItemCrafting.isLaithornEnchanted(item)) {
+			PlayerMessager.debugLog("Repair check failed - item is not Laithorn-powered");
 			return false;
 		}
 		return true;
 	}
 
 	private static final boolean essenceCheck(ItemStack essence) {
-		if (essence == null || !ItemCrafting.isEssence(essence)) {
-			PlayerMessager.debugLog("RIGHT FAIL");
+		if (essence == null) {
+			PlayerMessager.debugLog("Repair check failed - no null item in right side");
+			return false;
+		}
+
+		if (!ItemCrafting.isEssence(essence)) {
+			PlayerMessager.debugLog("Repair check failed - no essence");
 			return false;
 		}
 		return true;
+	}
+	
+	private static final ActionRequirements getRequirements(ItemStack item) {
+		if(item == null) {
+			return null;
+		}
+		return playerRequirements.get(item.getType());
+	}
+
+	private static boolean canDoAction(Player player, ActionRequirements requirements) {
+
+		// Registry Check
+		if (requirements == null) {
+			PlayerMessager.debugLog("Repair check failed - not registered as repairable");
+			return false;
+		}
+
+		PlayerData data = CacheHandler.getPlayer(player);
+		List<String> flags = requirements.getFlags(); 
+		
+		if(data.getSmithingLevel() < requirements.getLevelRequirement()) {
+			PlayerMessager.debugLog("Repair check failed - player does not have the appropriate smithing level");
+			return false;
+		}
+
+		if (flags != null) {
+			for (String flag : flags) {
+				if (!data.getFlag(flag))
+					PlayerMessager.debugLog("Repair check failed - player does not have the flag: " + flag);
+					return false;
+			}
+		}
+		return true;
+	}
+
+	private static class ActionRequirements {
+
+		private final boolean isEnchanted;
+		private final int levelRequirement;
+		private final List<String> flags;
+		private final int expRate;
+		private final int repairRate;
+		
+		private ActionRequirements(boolean isEnchanted, int levelRequirement, List<String> flags, int expRate,
+				int repairRate) {
+			this.isEnchanted = isEnchanted;
+			this.levelRequirement = levelRequirement;
+			this.flags = flags;
+			this.expRate = expRate;
+			this.repairRate = repairRate;
+		}
+
+		private final boolean isEnchanted() {
+			return isEnchanted;
+		}
+
+		private final List<String> getFlags() {
+			return flags;
+		}
+
+		private int getLevelRequirement() {
+			return levelRequirement;
+		}
+
+		private final int getExpRate() {
+			return expRate;
+		}
+
+		private final int getRepairRate() {
+			return repairRate;
+		}
 	}
 }

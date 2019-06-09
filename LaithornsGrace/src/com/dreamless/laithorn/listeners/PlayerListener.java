@@ -28,7 +28,6 @@ public class PlayerListener implements Listener {
 
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void onPlayerLogin(PlayerLoginEvent event) {
-		// TODO: Load Cache
 		Player player = event.getPlayer();
 		if (player != null) {
 			CacheHandler.loadPlayer(player);
@@ -37,7 +36,6 @@ public class PlayerListener implements Listener {
 
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void onPlayerKick(PlayerKickEvent event) {
-		// TODO: Load Cache
 		Player player = event.getPlayer();
 		if (player != null && event.getReason().equalsIgnoreCase("You are not whitelisted on this server!")) {
 			CacheHandler.unloadPlayer(player);

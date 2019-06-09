@@ -3,6 +3,7 @@ package com.dreamless.laithorn.api;
 import java.util.HashMap;
 import java.util.List;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import com.dreamless.laithorn.player.CacheHandler;
@@ -32,4 +33,10 @@ public class RequirementsHandler {
 		}
 		return data.getSmithingLevel() >= levelRequirements.get(action);
 	}
+	
+	public static void registerItemRepair(Material material, int levelRequirement, int expRate, int repairRate, boolean isEnchanted, List<String> flags) {
+		ItemRepair.registerItemRepair(material, levelRequirement, expRate, repairRate, isEnchanted, flags);
+	}
+	
+	
 }
