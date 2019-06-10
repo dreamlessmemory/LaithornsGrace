@@ -12,15 +12,11 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-
 import com.dreamless.laithorn.PlayerMessager;
 import com.dreamless.laithorn.api.FragmentRarity;
 import com.dreamless.laithorn.api.ItemCrafting;
 import com.dreamless.laithorn.player.CacheHandler;
 import com.dreamless.laithorn.player.PlayerData;
-import com.google.gson.JsonIOException;
-import com.google.gson.JsonSyntaxException;
-
 import de.tr7zw.itemnbtapi.NBTCompound;
 import de.tr7zw.itemnbtapi.NBTItem;
 
@@ -35,6 +31,7 @@ public class DropTableLookup {
 	private static HashMap<EntityType, DropTableEntry> mobDropTables = new HashMap<EntityType, DropTableEntry>();
 	private static HashMap<Material, DropTableEntry> blockDropTables = new HashMap<Material, DropTableEntry>();
 	private static HashMap<String, ArrayList<LootPool>> tagDropTables = new HashMap<String, ArrayList<LootPool>>();
+	private static final Random RANDOM = new Random();
 
 	public static void loadDropTables(FileConfiguration fileConfiguration, DropType type) {
 		// Wipe tables
@@ -49,25 +46,24 @@ public class DropTableLookup {
 
 		for (String entry : fileConfiguration.getKeys(false)) {
 			ConfigurationSection currentEntry = fileConfiguration.getConfigurationSection(entry);
-
-			double dropChance = currentEntry.getDouble("chance", 100) / 100;
-			String baseType = currentEntry.getString("base", "RAW");
+			
+			double dropChance = currentEntry.getDouble("chance", 0)/100;
+			
+			ConfigurationSection dropChances = currentEntry.getConfigurationSection("pool");
 			HashMap<String, Double> tags = new HashMap<String, Double>();
 
-			for (String tag : currentEntry.getKeys(false)) {
-				if (tag.equalsIgnoreCase("chance") || tag.equalsIgnoreCase("base"))
-					continue;
-				tags.put(tag, currentEntry.getDouble(tag, 0) / 100);
+			for (String tag : dropChances.getKeys(false)) {
+				tags.put(tag, dropChances.getDouble(tag, 0) / 100);
 			}
 
 			switch (type) {
 			case MOB:
 				if (EntityType.valueOf(entry) != null)
-					mobDropTables.put(EntityType.valueOf(entry), new DropTableEntry(dropChance, baseType, tags));
+					mobDropTables.put(EntityType.valueOf(entry), new DropTableEntry(dropChance, tags));
 				break;
 			case BLOCK:
 				if (Material.valueOf(entry) != null)
-					blockDropTables.put(Material.valueOf(entry), new DropTableEntry(dropChance, baseType, tags));
+					blockDropTables.put(Material.valueOf(entry), new DropTableEntry(dropChance, tags));
 				break;
 			}
 		}
@@ -184,71 +180,35 @@ public class DropTableLookup {
 
 	public static final ItemStack dropMobItems(LivingEntity entity) {
 		Player killer = entity.getKiller();
-		PlayerData data = CacheHandler.getPlayer(killer);
-
-		if (data != null) {
-			try {
-				DropTableEntry entry = mobDropTables.get(entity.getType());
-				if (entry == null) {
-					PlayerMessager.debugLog("No data for mob drop");
-					return null;
-				}
-
-				// Roll for chance to drop
-				if (Math.random() <= entry.getDropChance()) { // Successful roll
-					ArrayList<String> tags = new ArrayList<String>();
-					// Roll for each drop
-					for (java.util.Map.Entry<String, Double> drop : entry.getTags().entrySet()) {
-						if (Math.random() <= drop.getValue()) {
-							tags.add(drop.getKey());
-						}
-					}
-
-					return ItemCrafting.fragmentItem(getLevel(data), entry.getBaseType(), tags);
-				}
-
-			} catch (JsonSyntaxException | JsonIOException e) {
-				e.printStackTrace();
-			}
+		DropTableEntry entry = mobDropTables.get(entity.getType());
+		if (entry == null) {
+			PlayerMessager.debugLog("No data for mob drop");
+			return null;
 		}
-
-		return null;
+		return rollDropTable(entry, killer);
 	}
 
 	public static ItemStack dropBlockItems(Material material, Player player) {
-		PlayerData data = CacheHandler.getPlayer(player);
-
-		if (data != null) {
-			try {
-				DropTableEntry entry = blockDropTables.get(material);
-				if (entry == null) {
-					PlayerMessager.debugLog("No data for block drop");
-					return null;
-				}
-
-				// Roll for chance to drop
-				if (Math.random() <= entry.getDropChance()) { // Successful roll
-					ArrayList<String> tags = new ArrayList<String>();
-					// Roll for each drop
-					for (java.util.Map.Entry<String, Double> drop : entry.getTags().entrySet()) {
-						if (Math.random() <= drop.getValue()) {
-							tags.add(drop.getKey());
-						}
-					}
-
-					return ItemCrafting.fragmentItem(getLevel(data), entry.getBaseType(), tags);
-				}
-
-			} catch (JsonSyntaxException | JsonIOException e) {
-				e.printStackTrace();
-			}
+		DropTableEntry entry = blockDropTables.get(material);
+		if (entry == null) {
+			PlayerMessager.debugLog("No data for block drop");
+			return null;
 		}
-
-		return null;
+		return rollDropTable(entry, player);
+	}
+	
+	private static ItemStack rollDropTable(DropTableEntry entry, Player player) {
+		String result = entry.rollForTag(player, RANDOM);
+		if(result == null) {
+			return null;
+		}
+		PlayerData data = CacheHandler.getPlayer(player);
+		return ItemCrafting.fragmentItem(getLevel(data), result);
 	}
 
 	public static FragmentRarity getLevel(PlayerData data) {
-		return new WeightedRandomBag(data.getAttunementLevel()).getRandom();
+		//return new WeightedRandomBag(data.getAttunementLevel()).getRandom();
+		return new WeightedRandom<FragmentRarity>(RANDOM, data.getAttunementLevel()).rollValue();
 	}
 
 	private static class WeightedRandomBag {
@@ -267,6 +227,7 @@ public class DropTableLookup {
 		
 		WeightedRandomBag(int level) {
 			for(FragmentRarity rarity : FragmentRarity.values()) {
+				accumulatedWeight += rarity.weightedDropChance(level);
 				entries.add(new Entry(rarity, rarity.weightedDropChance(level)));
 			}
 		}

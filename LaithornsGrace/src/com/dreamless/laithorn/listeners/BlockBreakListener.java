@@ -18,7 +18,7 @@ import com.dreamless.laithorn.events.PlayerExperienceVariables.GainType;
 public class BlockBreakListener implements Listener{
 	
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
-	public void onBlockBreakEven(BlockBreakEvent event) {
+	public void onBlockBreakEvent(BlockBreakEvent event) {
 		Player player = event.getPlayer();
 		if(player == null) //Ignore if not player
 			return;

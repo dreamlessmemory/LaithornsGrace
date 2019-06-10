@@ -73,6 +73,46 @@ public class ItemCrafting {
 
 		return item;
 	}
+	
+	public static ItemStack fragmentItem(FragmentRarity rarity, String type) {
+		ItemStack item = new ItemStack(FRAGMENT_MATERIAL);
+
+		/*** Item Meta ***/
+		ItemMeta itemMeta = item.getItemMeta();
+
+		// Set Name
+		String displayName = LanguageReader.getText(rarity + "_title") + " " + LanguageReader.getText(type + "_title")
+				+ " " + LanguageReader.getText("Title");
+		itemMeta.setDisplayName(displayName);
+
+		// Set flavor text
+		// Level and base type.
+		String loreText = LanguageReader.getText(rarity + "_desc") + " " + LanguageReader.getText(type + "_desc");
+
+		ArrayList<String> loreTextArrayList = LaithornUtils.wrapText(loreText);
+		loreTextArrayList.add("");
+		loreTextArrayList.addAll(LaithornUtils.wrapText(LanguageReader.getText("Instruction")));
+
+		itemMeta.setLore(loreTextArrayList);
+
+		// Set cosmetic enchantment
+		itemMeta.addEnchant(Enchantment.MENDING, 1, true);
+
+		// Apply meta
+		item.setItemMeta(itemMeta);
+
+		/*** NBT ***/
+		NBTItem nbti = new NBTItem(item);
+
+		NBTCompound laithorn = nbti.addCompound(NBT_TOP_LEVEL_TAG);
+		laithorn.setString("module", "core");
+		laithorn.setString("level", rarity.toString());
+		laithorn.setString("type", type);
+
+		item = nbti.getItem();
+
+		return item;
+	}
 
 	public static boolean checkForCorrectFragment(CraftingInventory inventory, FragmentRarity minimumRarityLevel) {
 		ItemStack[] matrix = inventory.getMatrix();
