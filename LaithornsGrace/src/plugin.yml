@@ -53,6 +53,12 @@ commands:
     permission: laithorn.user
     permission-message: You have not yet attuned to Laithorn's power!
     usage: /<command>
+  laithornreload:
+    description: Reload configuration and drop tables
+    alias: [lgreload, lgrd]
+    permission: laithorn.admin
+    permission-message: Laithorn's power rebuffs your command!
+    usage: /<command>
 permissions:
   laithorn.admin:
     description: All permissions related to setup of Laithorn's Grace

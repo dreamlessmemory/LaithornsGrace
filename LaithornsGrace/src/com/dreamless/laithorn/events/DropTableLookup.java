@@ -26,8 +26,6 @@ public class DropTableLookup {
 		MOB, BLOCK;
 	}
 
-
-
 	private static HashMap<EntityType, DropTableEntry> mobDropTables = new HashMap<EntityType, DropTableEntry>();
 	private static HashMap<Material, DropTableEntry> blockDropTables = new HashMap<Material, DropTableEntry>();
 	private static HashMap<String, ArrayList<LootPool>> tagDropTables = new HashMap<String, ArrayList<LootPool>>();
@@ -46,9 +44,9 @@ public class DropTableLookup {
 
 		for (String entry : fileConfiguration.getKeys(false)) {
 			ConfigurationSection currentEntry = fileConfiguration.getConfigurationSection(entry);
-			
-			double dropChance = currentEntry.getDouble("chance", 0)/100;
-			
+
+			double dropChance = currentEntry.getDouble("chance", 0) / 100;
+
 			ConfigurationSection dropChances = currentEntry.getConfigurationSection("pool");
 			HashMap<String, Double> tags = new HashMap<String, Double>();
 
@@ -87,7 +85,7 @@ public class DropTableLookup {
 		}
 	}
 
-	public static final List<ItemStack> dropItems(ItemStack item) {
+	protected static final List<ItemStack> dropItems(ItemStack item) {
 		NBTItem nbti = new NBTItem(item);
 		NBTCompound laithorn = nbti.getCompound("Laithorn");
 		if (laithorn == null) {
@@ -112,7 +110,7 @@ public class DropTableLookup {
 		return drops;
 	}
 
-	public final static List<ItemStack> rollPool(String keyword, String rarity) {
+	private final static List<ItemStack> rollPool(String keyword, String rarity) {
 		ArrayList<ItemStack> drops = new ArrayList<ItemStack>();
 		ArrayList<LootPool> poolClass = tagDropTables.get(keyword);
 		if (poolClass != null) {
@@ -196,51 +194,17 @@ public class DropTableLookup {
 		}
 		return rollDropTable(entry, player);
 	}
-	
+
 	private static ItemStack rollDropTable(DropTableEntry entry, Player player) {
 		String result = entry.rollForTag(player, RANDOM);
-		if(result == null) {
+		if (result == null) {
 			return null;
 		}
 		PlayerData data = CacheHandler.getPlayer(player);
 		return ItemCrafting.fragmentItem(getLevel(data), result);
 	}
 
-	public static FragmentRarity getLevel(PlayerData data) {
-		//return new WeightedRandomBag(data.getAttunementLevel()).getRandom();
+	private static FragmentRarity getLevel(PlayerData data) {
 		return new WeightedRandom<FragmentRarity>(RANDOM, data.getAttunementLevel()).rollValue();
-	}
-
-	private static class WeightedRandomBag {
-		private class Entry {
-			double weightedChance;
-			FragmentRarity rarity;
-			
-			public Entry(FragmentRarity rarity, double accumlatedWeight) {
-				this.rarity = rarity;
-				this.weightedChance = accumlatedWeight;
-			}
-		}
-		private List<Entry> entries = new ArrayList<>();
-		private double accumulatedWeight;
-		private Random rand = new Random();
-		
-		WeightedRandomBag(int level) {
-			for(FragmentRarity rarity : FragmentRarity.values()) {
-				accumulatedWeight += rarity.weightedDropChance(level);
-				entries.add(new Entry(rarity, rarity.weightedDropChance(level)));
-			}
-		}
-		
-		public FragmentRarity getRandom() {
-			double r = rand.nextDouble() * accumulatedWeight;
-
-			for (Entry entry : entries) {
-				if (entry.weightedChance >= r) {
-					return entry.rarity;
-				}
-			}
-			return null; // should only happen when there are no entries
-		}
 	}
 }

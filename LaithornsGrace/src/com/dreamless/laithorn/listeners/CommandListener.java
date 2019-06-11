@@ -9,6 +9,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.dreamless.laithorn.LaithornsGrace;
 import com.dreamless.laithorn.LanguageReader;
 import com.dreamless.laithorn.PlayerMessager;
 import com.dreamless.laithorn.WellLocationHandler;
@@ -38,6 +39,8 @@ public class CommandListener implements CommandExecutor {
 			return cmdAttunementInfo(sender);
 		case "autopickup":
 			return cmdAutopickup(sender, args);
+		case "laithornreload":
+			return cmdReload();
 		}
 		return false;
 
@@ -159,6 +162,11 @@ public class CommandListener implements CommandExecutor {
 		} else {
 			PlayerMessager.msg(sender, "Autopickup is " + (CacheHandler.getPlayer((Player) sender).getFlag("autopickup")? "enabled" : "disabled"));
 		}
+		return true;
+	}
+	
+	private boolean cmdReload() {
+		LaithornsGrace.grace.reload();
 		return true;
 	}
 }

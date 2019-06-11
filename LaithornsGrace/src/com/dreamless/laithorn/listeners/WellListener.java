@@ -45,6 +45,8 @@ public class WellListener implements Listener {
 		// Inform player
 		PlayerMessager.debugLog("Process item");
 		
+		item.setPickupDelay(10000); //Prevent pickup
+		
 		//Delayed handlers
 		new WellDropEvent(player, item).runTaskLater(LaithornsGrace.grace, 20);
 	}
