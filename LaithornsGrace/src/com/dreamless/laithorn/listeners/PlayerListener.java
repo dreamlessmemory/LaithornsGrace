@@ -16,7 +16,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import com.dreamless.laithorn.PlayerMessager;
-import com.dreamless.laithorn.api.ItemCrafting;
+import com.dreamless.laithorn.api.Fragment;
 import com.dreamless.laithorn.events.PlayerExperienceGainEvent;
 import com.dreamless.laithorn.events.PlayerExperienceVariables.GainType;
 import com.dreamless.laithorn.player.CacheHandler;
@@ -108,7 +108,7 @@ public class PlayerListener implements Listener {
 		}
 		Item item = event.getItem();
 		ItemStack itemStack = item.getItemStack();
-		if (!ItemCrafting.isEssence(itemStack)) {
+		if (!Fragment.isEssence(itemStack)) {
 			PlayerMessager.debugLog("Not essence pickup");
 			return;
 		}

@@ -13,8 +13,8 @@ import com.dreamless.laithorn.LaithornsGrace;
 import com.dreamless.laithorn.LanguageReader;
 import com.dreamless.laithorn.PlayerMessager;
 import com.dreamless.laithorn.WellLocationHandler;
+import com.dreamless.laithorn.api.Fragment;
 import com.dreamless.laithorn.api.FragmentRarity;
-import com.dreamless.laithorn.api.ItemCrafting;
 import com.dreamless.laithorn.player.CacheHandler;
 import com.dreamless.laithorn.player.PlayerData;
 
@@ -67,7 +67,7 @@ public class CommandListener implements CommandExecutor {
 			}
 
 			((Player) sender).getInventory()
-					.addItem(ItemCrafting.fragmentItem(FragmentRarity.valueOf(level), type, additionalFlags));
+					.addItem(Fragment.fragmentItem(FragmentRarity.valueOf(level), type, additionalFlags));
 			return true;
 		}
 		return false;

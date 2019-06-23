@@ -11,7 +11,7 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 import com.dreamless.laithorn.LanguageReader;
 import com.dreamless.laithorn.api.AnvilListener;
-import com.dreamless.laithorn.api.ItemCrafting;
+import com.dreamless.laithorn.api.Fragment;
 import com.dreamless.laithorn.events.DropTableLookup;
 import com.dreamless.laithorn.events.DropTableLookup.DropType;
 import com.dreamless.laithorn.events.PlayerExperienceVariables;
@@ -169,7 +169,7 @@ public class LaithornsGrace extends JavaPlugin{
 
 		
 		// Control
-		ItemCrafting.setFragmentMaterial(Material.getMaterial(currentConfig.getString("material", "FLINT")));
+		Fragment.setFragmentMaterial(Material.getMaterial(currentConfig.getString("material", "FLINT")));
 		
 		// Balancing
 		ConfigurationSection tagEXP = currentConfig.getConfigurationSection("tag_experience");

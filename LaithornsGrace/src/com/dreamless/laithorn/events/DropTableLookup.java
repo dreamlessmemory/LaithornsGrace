@@ -13,8 +13,8 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import com.dreamless.laithorn.PlayerMessager;
+import com.dreamless.laithorn.api.Fragment;
 import com.dreamless.laithorn.api.FragmentRarity;
-import com.dreamless.laithorn.api.ItemCrafting;
 import com.dreamless.laithorn.player.CacheHandler;
 import com.dreamless.laithorn.player.PlayerData;
 import de.tr7zw.itemnbtapi.NBTCompound;
@@ -201,7 +201,7 @@ public class DropTableLookup {
 			return null;
 		}
 		PlayerData data = CacheHandler.getPlayer(player);
-		return ItemCrafting.fragmentItem(getLevel(data), result);
+		return Fragment.fragmentItem(getLevel(data), result);
 	}
 
 	private static FragmentRarity getLevel(PlayerData data) {

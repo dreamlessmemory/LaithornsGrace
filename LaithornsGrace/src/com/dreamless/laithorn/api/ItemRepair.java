@@ -135,7 +135,7 @@ public class ItemRepair {
 		}
 
 		// Enchantment Check
-		if (requirements.isEnchanted() && !ItemCrafting.isLaithornEnchanted(item)) {
+		if (requirements.isEnchanted() && !Fragment.isLaithornEnchanted(item)) {
 			PlayerMessager.debugLog("Repair check failed - item is not Laithorn-powered");
 			return false;
 		}
@@ -148,7 +148,7 @@ public class ItemRepair {
 			return false;
 		}
 
-		if (!ItemCrafting.isEssence(essence)) {
+		if (!Fragment.isEssence(essence)) {
 			PlayerMessager.debugLog("Repair check failed - no essence");
 			return false;
 		}

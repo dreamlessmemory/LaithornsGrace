@@ -13,7 +13,7 @@ import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 
 import com.dreamless.laithorn.PlayerMessager;
-import com.dreamless.laithorn.api.ItemCrafting;
+import com.dreamless.laithorn.api.Fragment;
 
 public class GrindstoneListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
@@ -29,7 +29,7 @@ public class GrindstoneListener implements Listener {
 		case 0:
 		case 1:
 			ItemStack item = event.getCursor();
-			if(!ItemCrafting.isLaithornEnchanted(item)) {
+			if(!Fragment.isLaithornEnchanted(item)) {
 				PlayerMessager.debugLog("Not fragment");
 				return;
 			}
@@ -38,7 +38,7 @@ public class GrindstoneListener implements Listener {
 		default:
 			if(event.isShiftClick()) {
 				ItemStack item2 = event.getCurrentItem();
-				if(!ItemCrafting.isLaithornEnchanted(item2)) {
+				if(!Fragment.isLaithornEnchanted(item2)) {
 					PlayerMessager.debugLog("Not fragment");
 					return;
 				}
@@ -60,7 +60,7 @@ public class GrindstoneListener implements Listener {
 		Set<Integer> slots = event.getInventorySlots();
 		if(slots.contains(0) || slots.contains(1)) {
 			ItemStack item = event.getCursor();
-			if(!ItemCrafting.isLaithornEnchanted(item)) {
+			if(!Fragment.isLaithornEnchanted(item)) {
 				PlayerMessager.debugLog("Not fragment");
 				return;
 			}

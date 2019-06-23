@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 
 import com.dreamless.laithorn.LanguageReader;
 import com.dreamless.laithorn.PlayerMessager;
-import com.dreamless.laithorn.api.ItemCrafting;
+import com.dreamless.laithorn.api.Fragment;
 import com.dreamless.laithorn.player.PlayerData;
 
 public class InventoryListener implements Listener {
@@ -32,7 +32,7 @@ public class InventoryListener implements Listener {
 			if (item.getType() == Material.AIR) {
 				continue;
 			}
-			if (!ItemCrafting.isEssence(item)) {
+			if (!Fragment.isEssence(item)) {
 				player.getWorld().dropItemNaturally(player.getLocation().add(0, 1.5, 0), item);
 				inventory.remove(item);
 				ejected = true;
