@@ -72,7 +72,7 @@
 		<dependency>
 			<groupId>com.github.tr7zw</groupId>
 			<artifactId>Item-NBT-API</artifactId>
-			<version>-SNAPSHOT</version>
+			<version>master-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 </project>

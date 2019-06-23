@@ -10,8 +10,8 @@ import org.bukkit.inventory.Recipe;
 import com.dreamless.laithorn.player.CacheHandler;
 import com.dreamless.laithorn.player.PlayerData;
 
-import de.tr7zw.itemnbtapi.NBTCompound;
-import de.tr7zw.itemnbtapi.NBTItem;
+import de.tr7zw.nbtapi.NBTCompound;
+import de.tr7zw.nbtapi.NBTItem;
 
 public class ItemCrafting {
 
@@ -21,9 +21,7 @@ public class ItemCrafting {
 		playerRequirements.put(recipe, new ActionRequirements(levelRequirement, flags, expRate, type));
 	}
 	
-	protected static boolean craftingBenchPrepareCheck(CraftingInventory inventory, Player player, Recipe recipe) {
-		
-		
+	protected static boolean craftingBenchPrepareCheck(CraftingInventory inventory, Player player, Recipe recipe) {	
 		ActionRequirements requirements = playerRequirements.get(recipe);
 		
 		if (requirements == null) {
@@ -116,6 +114,7 @@ public class ItemCrafting {
 			return levelRequirement;
 		}
 
+		@SuppressWarnings("unused")
 		private final int getExpRate() {
 			return expRate;
 		}

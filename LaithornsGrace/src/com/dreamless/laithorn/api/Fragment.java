@@ -10,8 +10,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import com.dreamless.laithorn.LaithornUtils;
 import com.dreamless.laithorn.LanguageReader;
 
-import de.tr7zw.itemnbtapi.NBTCompound;
-import de.tr7zw.itemnbtapi.NBTItem;
+import de.tr7zw.nbtapi.NBTCompound;
+import de.tr7zw.nbtapi.NBTItem;
 
 public class Fragment {
 	private static Material FRAGMENT_MATERIAL = Material.FLINT;

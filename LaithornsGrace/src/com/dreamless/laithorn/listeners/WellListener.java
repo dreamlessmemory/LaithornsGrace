@@ -13,7 +13,7 @@ import com.dreamless.laithorn.PlayerMessager;
 import com.dreamless.laithorn.api.Fragment;
 import com.dreamless.laithorn.events.WellDropEvent;
 
-import de.tr7zw.itemnbtapi.NBTItem;
+import de.tr7zw.nbtapi.NBTItem;
 
 public class WellListener implements Listener {
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
