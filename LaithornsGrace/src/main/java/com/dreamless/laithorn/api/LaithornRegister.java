@@ -1,7 +1,6 @@
 package com.dreamless.laithorn.api;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -11,12 +10,6 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.plugin.Plugin;
 
 public class LaithornRegister {
-
-	private static HashMap<String, Integer> levelRequirements = new HashMap<String, Integer>();
-
-	public static void registerRecipe(String name, int level) {
-		levelRequirements.put(name, level);
-	}
 
 	public static void registerItemRepair(Material material, int levelRequirement, int expRate, int repairRate,
 			boolean isEnchanted, List<String> flags) {

@@ -8,6 +8,7 @@ import org.bukkit.inventory.CraftingInventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 
+import com.dreamless.laithorn.PlayerMessager;
 import com.dreamless.laithorn.player.CacheHandler;
 import com.dreamless.laithorn.player.PlayerData;
 
@@ -19,13 +20,19 @@ public class ItemCrafting {
 	private static HashMap<Recipe, ActionRequirements> playerRequirements = new HashMap<Recipe, ActionRequirements>();
 
 	protected static void registerItemCrafting(Recipe recipe, int levelRequirement, int expRate, List<String> flags, RecipeType type) {
+		PlayerMessager.debugLog("ItemCrafting: Registed recipe - " + recipe.toString());
 		playerRequirements.put(recipe, new ActionRequirements(levelRequirement, flags, expRate, type));
+	}
+	
+	protected static boolean  containsRecipe(Recipe recipe) {
+		return playerRequirements.containsKey(recipe);
 	}
 	
 	protected static boolean craftingBenchPrepareCheck(CraftingInventory inventory, Player player, Recipe recipe) {	
 		ActionRequirements requirements = playerRequirements.get(recipe);
 		
 		if (requirements == null) {
+			PlayerMessager.debugLog("ItemCrafting: No Requirements");
 			return false;
 		}
 		
@@ -35,11 +42,24 @@ public class ItemCrafting {
 		List<String> flags = requirements.getFlags();
 		if (flags != null) {
 			for (String flag : flags) {
-				if (!data.getFlag(flag))
+				if (!data.getFlag(flag)) {
+					PlayerMessager.debugLog("ItemCrafting: No Flag - " + flag);
 					return false;
+				}
 			}
 		}
-		return recipeTypeCheck(requirements.getType(), inventory) && data.getSmithingLevel() >= requirements.getLevelRequirement();
+		
+		if(!recipeTypeCheck(requirements.getType(), inventory)) {
+			PlayerMessager.debugLog("ItemCrafting: Failed Type Check");
+			return false;
+		}
+		
+		if(data.getSmithingLevel() < requirements.getLevelRequirement()) {
+			PlayerMessager.debugLog("ItemCrafting: Too low level");
+			return false;
+		}
+		
+		return true;
 	}
 	
 	private static boolean recipeTypeCheck(RecipeType type, CraftingInventory inventory) {
