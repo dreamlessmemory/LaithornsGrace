@@ -1,15 +1,15 @@
 package com.dreamless.laithorn.player;
 
-import com.dreamless.laithorn.LaithornUtils;
-import com.dreamless.laithorn.LaithornsGrace;
-import com.dreamless.laithorn.PlayerMessager;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
 import org.bukkit.entity.Player;
+
+import com.dreamless.laithorn.LaithornUtils;
+import com.dreamless.laithorn.LaithornsGrace;
+import com.dreamless.laithorn.PlayerMessager;
 
 public class DatabaseHandler {
 

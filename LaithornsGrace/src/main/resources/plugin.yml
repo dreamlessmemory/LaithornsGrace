@@ -1,11 +1,10 @@
 name: LaithornsGrace
-version: 1.0.0
+version: 2.0.0
 description: Core plugin for Stumped server
 main: com.dreamless.laithorn.LaithornsGrace
 api-version: 1.14
 authors: [DreamlessMemory/MemoryReborn]
 prefix: Laithorn
-depend: [ItemNBTAPI]
 commands:
   givefragment:
     description: Gives player a fragment

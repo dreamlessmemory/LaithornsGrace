@@ -1,5 +1,5 @@
 package com.dreamless.laithorn.api;
 
-interface LaithornCustomRecipe {
+public interface LaithornCustomRecipe {
 	void registerRecipes();
 }

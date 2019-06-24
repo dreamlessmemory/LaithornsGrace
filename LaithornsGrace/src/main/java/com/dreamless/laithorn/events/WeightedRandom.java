@@ -2,12 +2,11 @@ package com.dreamless.laithorn.events;
 
 import java.util.HashMap;
 import java.util.Map.Entry;
-
-import com.dreamless.laithorn.api.FragmentRarity;
-
 import java.util.NavigableMap;
 import java.util.Random;
 import java.util.TreeMap;
+
+import com.dreamless.laithorn.api.FragmentRarity;
 
 public class WeightedRandom <E>{
     private final NavigableMap<Double, E> map = new TreeMap<Double, E>();

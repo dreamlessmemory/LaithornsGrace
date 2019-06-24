@@ -1,12 +1,11 @@
 package com.dreamless.laithorn.events;
 
+import org.bukkit.entity.Player;
+import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 import com.dreamless.laithorn.events.PlayerExperienceVariables.GainType;
-
-import org.bukkit.entity.Player;
-import org.bukkit.event.Cancellable;
 
 public class PlayerExperienceGainEvent extends Event implements Cancellable {
 

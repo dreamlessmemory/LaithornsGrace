@@ -3,27 +3,29 @@ package com.dreamless.laithorn;
 import java.io.File;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
-import com.dreamless.laithorn.LanguageReader;
+
 import com.dreamless.laithorn.api.AnvilListener;
+import com.dreamless.laithorn.api.CraftingBenchListener;
 import com.dreamless.laithorn.api.Fragment;
 import com.dreamless.laithorn.events.DropTableLookup;
 import com.dreamless.laithorn.events.DropTableLookup.DropType;
 import com.dreamless.laithorn.events.PlayerExperienceVariables;
-import com.dreamless.laithorn.listeners.PlayerListener;
-import com.dreamless.laithorn.listeners.GrindstoneListener;
-import com.dreamless.laithorn.listeners.WellListener;
-import com.dreamless.laithorn.player.CacheHandler;
 import com.dreamless.laithorn.listeners.BlockBreakListener;
 import com.dreamless.laithorn.listeners.CommandListener;
 import com.dreamless.laithorn.listeners.FishingListener;
+import com.dreamless.laithorn.listeners.GrindstoneListener;
 import com.dreamless.laithorn.listeners.InventoryListener;
 import com.dreamless.laithorn.listeners.MobDeathListener;
+import com.dreamless.laithorn.listeners.PlayerListener;
+import com.dreamless.laithorn.listeners.WellListener;
+import com.dreamless.laithorn.player.CacheHandler;
 import com.mysql.jdbc.Connection;
 
 public class LaithornsGrace extends JavaPlugin{
@@ -108,7 +110,8 @@ public class LaithornsGrace extends JavaPlugin{
 		grace.getServer().getPluginManager().registerEvents(new GrindstoneListener(), grace);
 		grace.getServer().getPluginManager().registerEvents(new InventoryListener(), grace);
 		grace.getServer().getPluginManager().registerEvents(new AnvilListener(), grace);
-		
+		grace.getServer().getPluginManager().registerEvents(new CraftingBenchListener(), grace);
+
 		// Runables
 		new CacheHandler.PeriodicCacheSave().runTaskTimer(grace, 3600, 3600);
 
