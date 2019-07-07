@@ -17,19 +17,19 @@ import de.tr7zw.changeme.nbtapi.NBTItem;
 
 public class ItemCrafting {
 
-	private static HashMap<Recipe, ActionRequirements> playerRequirements = new HashMap<Recipe, ActionRequirements>();
+	private static HashMap<ItemStack, ActionRequirements> playerRequirements = new HashMap<ItemStack, ActionRequirements>();
 
 	protected static void registerItemCrafting(Recipe recipe, int levelRequirement, int expRate, List<String> flags, RecipeType type) {
-		PlayerMessager.debugLog("ItemCrafting: Registed recipe - " + recipe.toString());
-		playerRequirements.put(recipe, new ActionRequirements(levelRequirement, flags, expRate, type));
+		PlayerMessager.debugLog("ItemCrafting: Registed recipe - " + recipe.getResult() + " Level: " + levelRequirement);
+		playerRequirements.put(recipe.getResult(), new ActionRequirements(levelRequirement, flags, expRate, type));
 	}
 	
 	protected static boolean  containsRecipe(Recipe recipe) {
-		return playerRequirements.containsKey(recipe);
+		return playerRequirements.containsKey(recipe.getResult());
 	}
 	
 	protected static boolean craftingBenchPrepareCheck(CraftingInventory inventory, Player player, Recipe recipe) {	
-		ActionRequirements requirements = playerRequirements.get(recipe);
+		ActionRequirements requirements = playerRequirements.get(recipe.getResult());
 		
 		if (requirements == null) {
 			PlayerMessager.debugLog("ItemCrafting: No Requirements");
