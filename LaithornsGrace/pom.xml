@@ -73,7 +73,7 @@
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
 			<!--change this value depending on the version -->
-			<version>1.14.2-R0.1-SNAPSHOT</version>
+			<version>1.14.3-R0.1-SNAPSHOT</version>
 			<type>jar</type>
 			<scope>provided</scope>
 		</dependency>
