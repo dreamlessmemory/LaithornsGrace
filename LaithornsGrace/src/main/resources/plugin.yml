@@ -40,6 +40,12 @@ commands:
     permission: laithorn.user
     permission-message: You have not yet attuned to Laithorn's power!
     usage: /<command> [attunement|smithing]
+  laithornplayerlevels:
+    description: Get the current attunement and smithing levels of another player
+    alias: [plevels, plevel]
+    permission: laithorn.admin
+    permission-message: Laithorn's power rebuffs your command!
+    usage: /<command> playername
   attunementlevel:
     description: Get your current attunement level and exp
     alias: [alevel, al]

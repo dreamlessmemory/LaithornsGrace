@@ -2,6 +2,7 @@ package com.dreamless.laithorn.listeners;
 
 import java.util.ArrayList;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
@@ -9,6 +10,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.dreamless.laithorn.LaithornUtils;
 import com.dreamless.laithorn.LaithornsGrace;
 import com.dreamless.laithorn.LanguageReader;
 import com.dreamless.laithorn.PlayerMessager;
@@ -16,6 +18,7 @@ import com.dreamless.laithorn.WellLocationHandler;
 import com.dreamless.laithorn.api.Fragment;
 import com.dreamless.laithorn.api.FragmentRarity;
 import com.dreamless.laithorn.player.CacheHandler;
+import com.dreamless.laithorn.player.DatabaseHandler;
 import com.dreamless.laithorn.player.PlayerData;
 
 public class CommandListener implements CommandExecutor {
@@ -33,6 +36,8 @@ public class CommandListener implements CommandExecutor {
 			return cmdSetWell(sender);
 		case "laithornlevels":
 			return cmdPlayerInfo(sender, args);
+		case "laithornplayerlevels":
+			return cmdOtherPlayerInfo(sender, args);
 		case "smithinglevel":
 			return cmdSmithingInfo(sender);
 		case "attunementlevel":
@@ -106,6 +111,33 @@ public class CommandListener implements CommandExecutor {
 				PlayerMessager.msg(sender, data.toString());
 				break;
 			}
+		}
+		return true;
+	}
+	
+	private boolean cmdOtherPlayerInfo(CommandSender sender, String[] args) {
+		if (!(sender instanceof Player)) { // No console commands please
+			PlayerMessager.msg(sender, LanguageReader.getText("Error_PlayerOnly"));
+			return false;
+		}
+
+		if (args.length == 0) {
+			return false;
+		} else {
+			Player player = Bukkit.getPlayer(LaithornUtils.getUUID(args[0]));
+			if(player == null) {
+				PlayerMessager.msg(sender, LanguageReader.getText("Error_NoPlayer"));
+				return false;
+			}
+			PlayerData data = CacheHandler.getPlayer((Player) sender);
+			if(data == null) {
+				data = DatabaseHandler.retreivePlayerData((Player) sender);
+				if(data == null) {
+					PlayerMessager.msg(sender, LanguageReader.getText("Error_NoPlayer"));
+					return false;
+				}
+			}
+			PlayerMessager.msg(sender, data.toString());
 		}
 		return true;
 	}
