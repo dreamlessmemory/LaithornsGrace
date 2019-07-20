@@ -98,6 +98,7 @@ public class LaithornsGrace extends JavaPlugin{
 		getCommand("clearwell").setExecutor(commandListener);
 		getCommand("setwell").setExecutor(commandListener);
 		getCommand("laithornlevels").setExecutor(commandListener);
+		getCommand("laithornplayerlevels").setExecutor(commandListener);
 		getCommand("attunementlevel").setExecutor(commandListener);
 		getCommand("smithinglevel").setExecutor(commandListener);
 		getCommand("autopickup").setExecutor(commandListener);
