@@ -126,7 +126,7 @@ public class CommandListener implements CommandExecutor {
 		} else {
 			Player player = Bukkit.getPlayer(LaithornUtils.getUUID(args[0]));
 			if(player == null) {
-				PlayerMessager.msg(sender, LanguageReader.getText("Error_NoPlayer"));
+				PlayerMessager.msg(sender, LanguageReader.getText("Error_NoPlayerID"));
 				return false;
 			}
 			PlayerData data = CacheHandler.getPlayer((Player) sender);
