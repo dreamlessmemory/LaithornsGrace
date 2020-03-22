@@ -29,7 +29,6 @@
 							<goal>shade</goal>
 						</goals>
 						<configuration>
-							<createDependencyReducedPom>false</createDependencyReducedPom>
 							<relocations>
 								<relocation>
 									<pattern>de.tr7zw.changeme.nbtapi</pattern>
