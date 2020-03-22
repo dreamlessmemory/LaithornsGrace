@@ -96,11 +96,11 @@
     <distributionManagement>
         <snapshotRepository>
             <id>codemc-snapshots</id>
-            <url>https://repo.codemc.org/repository/maven-snapshots/com/dreamless</url>
+            <url>https://repo.codemc.org/repository/maven-snapshots/</url>
         </snapshotRepository>
         <repository>
             <id>codemc-releases</id>
-            <url>https://repo.codemc.org/repository/maven-releases/com/dreamless</url>
+            <url>https://repo.codemc.org/repository/maven-releases/</url>
         </repository>
     </distributionManagement>
 </project>
