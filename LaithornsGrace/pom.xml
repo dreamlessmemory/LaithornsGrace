@@ -66,14 +66,14 @@
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
 			<!--change this value depending on the version -->
-			<version>1.15-R0.1-SNAPSHOT</version>
+			<version>1.15.2-R0.1-SNAPSHOT</version>
 			<type>jar</type>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
-			<version>20180813</version>
+			<version>20190722</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
 		<dependency>
@@ -89,18 +89,18 @@
 		<dependency>
 			<groupId>de.tr7zw</groupId>
 			<artifactId>item-nbt-api</artifactId>
-			<version>2.1.1</version>
+			<version>2.2.0</version>
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>
     <distributionManagement>
         <snapshotRepository>
             <id>codemc-snapshots</id>
-            <url>https://repo.codemc.org/repository/maven-snapshots</url>
+            <url>https://repo.codemc.org/repository/maven-snapshots/com/dreamless</url>
         </snapshotRepository>
         <repository>
             <id>codemc-releases</id>
-            <url>https://repo.codemc.org/repository/maven-releases</url>
+            <url>https://repo.codemc.org/repository/maven-releases/com/dreamless</url>
         </repository>
     </distributionManagement>
 </project>
