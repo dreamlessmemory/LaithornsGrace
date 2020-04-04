@@ -1,6 +1,7 @@
 package com.dreamless.laithorn.listeners;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -22,6 +23,10 @@ public class BlockBreakListener implements Listener{
 		Player player = event.getPlayer();
 		if(player == null) //Ignore if not player
 			return;
+		
+		if(player.getGameMode() != GameMode.SURVIVAL){
+			return;
+		}
 		
 		Block block = event.getBlock();
 		Location location = block.getLocation();

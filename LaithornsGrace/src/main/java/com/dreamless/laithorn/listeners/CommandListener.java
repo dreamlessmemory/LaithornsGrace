@@ -3,6 +3,7 @@ package com.dreamless.laithorn.listeners;
 import java.util.ArrayList;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
@@ -80,8 +81,12 @@ public class CommandListener implements CommandExecutor {
 
 	private boolean cmdPlayerInv(CommandSender sender) {
 		if (sender instanceof Player) {
-			((Player) sender).playSound(((Player) sender).getLocation(), Sound.ENTITY_PLAYER_SPLASH, 0.25f, 0.25f);
-			((Player) sender).openInventory(CacheHandler.getPlayer((Player) sender).getInventory());
+			if(((Player) sender).getGameMode() != GameMode.SURVIVAL){
+				PlayerMessager.msg(sender, LanguageReader.getText("Error_SurvivalOnly"));
+			} else {
+				((Player) sender).playSound(((Player) sender).getLocation(), Sound.ENTITY_PLAYER_SPLASH, 0.25f, 0.25f);
+				((Player) sender).openInventory(CacheHandler.getPlayer((Player) sender).getInventory());
+			}
 			return true;
 		}
 		return false;
