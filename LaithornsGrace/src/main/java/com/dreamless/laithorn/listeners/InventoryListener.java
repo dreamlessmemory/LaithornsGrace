@@ -32,7 +32,7 @@ public class InventoryListener implements Listener {
 			if (item.getType() == Material.AIR) {
 				continue;
 			}
-			if (!Fragment.isEssence(item)) {
+			if (!Fragment.isStorable(item)) {
 				player.getWorld().dropItemNaturally(player.getLocation().add(0, 1.5, 0), item);
 				inventory.remove(item);
 				ejected = true;

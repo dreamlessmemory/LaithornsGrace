@@ -8,7 +8,6 @@
 	<name>Laithorn's Grace</name>
 	<description>Core plugin for all Laithorn-related functions</description>
 	<build>
-		<sourceDirectory>src</sourceDirectory>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -88,7 +87,7 @@
 		<dependency>
 			<groupId>de.tr7zw</groupId>
 			<artifactId>item-nbt-api</artifactId>
-			<version>2.2.0</version>
+			<version>2.3.2</version>
 		</dependency>
 	</dependencies>
     <distributionManagement>

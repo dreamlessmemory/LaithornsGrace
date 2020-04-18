@@ -116,6 +116,10 @@ public class Fragment {
 			return false;
 		return new NBTItem(item).hasKey(NBT_TOP_LEVEL_TAG);
 	}
+	
+	public static boolean isStorable(ItemStack item) {
+		return item != null  && new NBTItem(item).hasKey(NBT_TOP_LEVEL_TAG);
+	}
 
 	public static boolean isLaithornEnchanted(ItemStack item) {
 		if (item == null || item.getType() == Material.AIR)
