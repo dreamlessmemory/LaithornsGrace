@@ -94,8 +94,12 @@ public class ItemCrafting {
 					continue;
 				}
 				for (String key : laithorn.getKeys()) {
+					try {
 					if (FragmentRarity.valueOf(laithorn.getString(key)).meetsMinimum(minimumRarityLevel))
 						++fragmentsCounted;
+					} catch (IllegalArgumentException e) {
+						// Do nothing, this is fine
+					}
 				}
 			}
 		}
