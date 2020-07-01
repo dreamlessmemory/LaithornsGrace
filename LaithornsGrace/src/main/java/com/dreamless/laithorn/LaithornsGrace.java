@@ -26,7 +26,7 @@ import com.dreamless.laithorn.listeners.MobDeathListener;
 import com.dreamless.laithorn.listeners.PlayerListener;
 import com.dreamless.laithorn.listeners.WellListener;
 import com.dreamless.laithorn.player.CacheHandler;
-import com.mysql.jdbc.Connection;
+import java.sql.Connection;
 
 public class LaithornsGrace extends JavaPlugin{
 
@@ -83,7 +83,6 @@ public class LaithornsGrace extends JavaPlugin{
 		}
 		try {
 			connection = (Connection) DriverManager.getConnection(url, username, password);
-			connection.setAutoReconnect(true);
 		} catch (SQLException e) { // catching errors)
 			e.printStackTrace(); // prints out SQLException errors to the console (if any)
 		}
