@@ -14,6 +14,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.dreamless.laithorn.api.AnvilListener;
 import com.dreamless.laithorn.api.CraftingBenchListener;
 import com.dreamless.laithorn.api.Fragment;
+import com.dreamless.laithorn.api.ItemCrafting;
 import com.dreamless.laithorn.events.DropTableLookup;
 import com.dreamless.laithorn.events.DropTableLookup.DropType;
 import com.dreamless.laithorn.events.PlayerExperienceVariables;
@@ -26,6 +27,7 @@ import com.dreamless.laithorn.listeners.MobDeathListener;
 import com.dreamless.laithorn.listeners.PlayerListener;
 import com.dreamless.laithorn.listeners.WellListener;
 import com.dreamless.laithorn.player.CacheHandler;
+
 import java.sql.Connection;
 
 public class LaithornsGrace extends JavaPlugin{
@@ -111,6 +113,14 @@ public class LaithornsGrace extends JavaPlugin{
 		grace.getServer().getPluginManager().registerEvents(new InventoryListener(), grace);
 		grace.getServer().getPluginManager().registerEvents(new AnvilListener(), grace);
 		grace.getServer().getPluginManager().registerEvents(new CraftingBenchListener(), grace);
+		
+		// Hacks
+		ItemCrafting.init();
+		/*
+		 * This init hack is to have ItemCrafting loaded alongside CraftingBenchListener
+		 * instead of delaying its loading and breaking the package across
+		 * multiple classloaders.
+		 */
 
 		// Runables
 		new CacheHandler.PeriodicCacheSave().runTaskTimer(grace, 3600, 3600);

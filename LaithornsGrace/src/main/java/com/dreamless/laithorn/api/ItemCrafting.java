@@ -19,16 +19,16 @@ public class ItemCrafting {
 
 	private static HashMap<ItemStack, ActionRequirements> playerRequirements = new HashMap<ItemStack, ActionRequirements>();
 
-	protected static void registerItemCrafting(Recipe recipe, int levelRequirement, int expRate, List<String> flags, RecipeType type) {
+	public static void registerItemCrafting(Recipe recipe, int levelRequirement, int expRate, List<String> flags, RecipeType type) {
 		PlayerMessager.debugLog("ItemCrafting: Registed recipe - " + recipe.getResult() + " Level: " + levelRequirement);
 		playerRequirements.put(recipe.getResult(), new ActionRequirements(levelRequirement, flags, expRate, type));
 	}
 	
-	protected static boolean  containsRecipe(Recipe recipe) {
+	public static boolean  containsRecipe(Recipe recipe) {
 		return playerRequirements.containsKey(recipe.getResult());
 	}
 	
-	protected static boolean craftingBenchPrepareCheck(CraftingInventory inventory, Player player, Recipe recipe) {	
+	public static boolean craftingBenchPrepareCheck(CraftingInventory inventory, Player player, Recipe recipe) {	
 		ActionRequirements requirements = playerRequirements.get(recipe.getResult());
 		
 		if (requirements == null) {
@@ -116,6 +116,8 @@ public class ItemCrafting {
 		}
 		return true;
 	}
+	
+	public static final void init() {}
 
 	private static class ActionRequirements {
 
