@@ -113,11 +113,11 @@ public class ItemRepair {
 		return repairedItem;
 	}
 	
-	protected static void registerItemRepair(Material material, int levelRequirement, int expRate, int repairRate, boolean isEnchanted, List<String> flags) {
+	public static void registerItemRepair(Material material, int levelRequirement, int expRate, int repairRate, boolean isEnchanted, List<String> flags) {
 		playerRequirements.put(material, new ActionRequirements(isEnchanted, levelRequirement, flags, expRate, repairRate));
 	}
 	
-	protected static boolean removeItemRepair(Material material) {
+	public static boolean removeItemRepair(Material material) {
 		return playerRequirements.remove(material) != null;
 	}
 
@@ -187,6 +187,8 @@ public class ItemRepair {
 		}
 		return true;
 	}
+	
+	public static final void init() {}
 
 	private static class ActionRequirements {
 

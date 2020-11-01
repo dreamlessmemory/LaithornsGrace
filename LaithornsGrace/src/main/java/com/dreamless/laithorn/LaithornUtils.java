@@ -101,4 +101,6 @@ public class LaithornUtils {
             throw new IOException("Unable to decode class type.", e);
         }
     }
+    
+    public static final void init() {}
 }

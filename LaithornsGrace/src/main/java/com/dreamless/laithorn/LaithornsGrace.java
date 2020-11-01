@@ -15,6 +15,8 @@ import com.dreamless.laithorn.api.AnvilListener;
 import com.dreamless.laithorn.api.CraftingBenchListener;
 import com.dreamless.laithorn.api.Fragment;
 import com.dreamless.laithorn.api.ItemCrafting;
+import com.dreamless.laithorn.api.ItemRepair;
+import com.dreamless.laithorn.api.LaithornRegister;
 import com.dreamless.laithorn.events.DropTableLookup;
 import com.dreamless.laithorn.events.DropTableLookup.DropType;
 import com.dreamless.laithorn.events.PlayerExperienceVariables;
@@ -116,8 +118,11 @@ public class LaithornsGrace extends JavaPlugin{
 		
 		// Hacks
 		ItemCrafting.init();
+		ItemRepair.init();
+		LaithornRegister.init();
+		LaithornUtils.init();
 		/*
-		 * This init hack is to have ItemCrafting loaded alongside CraftingBenchListener
+		 * This init hack is to have these classes loaded as part of the Laithorn API
 		 * instead of delaying its loading and breaking the package across
 		 * multiple classloaders.
 		 */

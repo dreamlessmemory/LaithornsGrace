@@ -55,4 +55,6 @@ public class LaithornRegister {
 		
 		registerItemCrafting(recipe, levelRequirement, expRate, type, flags);
 	}
+	
+	public static final void init() {}
 }
