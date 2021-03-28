@@ -71,9 +71,17 @@ public class CommandListener implements CommandExecutor {
 			for (int i = 2; i < args.length; i++) {
 				additionalFlags.add(args[i].toUpperCase());
 			}
+			
+			FragmentRarity rarity = FragmentRarity.DULL;
+			
+			try {
+				rarity = FragmentRarity.valueOf(level);
+			} catch (IllegalArgumentException e) {
+				return false;
+			}
 
 			((Player) sender).getInventory()
-					.addItem(Fragment.fragmentItem(FragmentRarity.valueOf(level), type, additionalFlags));
+					.addItem(Fragment.fragmentItem(rarity, type, additionalFlags));
 			return true;
 		}
 		return false;

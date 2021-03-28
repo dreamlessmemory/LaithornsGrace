@@ -26,25 +26,50 @@ public enum FragmentRarity {
 	public final double rarityModifier() {
 		switch (this) {
 		case DULL:
-			return 1.0;
+			return 1.00;
 		case FAINT:
-			return 1.05;
+			return 1.20;
 		case PALE:
-			return 1.1;
+			return 1.50;
 		case GLOWING:
-			return 1.2;
+			return 2.00;
 		case SPARKLING:
-			return 1.25;
+			return 3.00;
 		case BRIGHT:
-			return 1.35;
+			return 4.50;
 		case SHINING:
-			return 1.5;
+			return 6.00;
 		case RADIANT:
-			return 1.75;
+			return 8.00;
 		case INCANDESCENT:
-			return 2.0;
+			return 12.00;
 		default:
 			return 1.0;
+		}
+	}
+	
+	public final int rarityDropQuantityBonus() {
+		switch (this) {
+		case DULL:
+			return 0;
+		case FAINT:
+			return 1;
+		case PALE:
+			return 1;
+		case GLOWING:
+			return 2;
+		case SPARKLING:
+			return 2;
+		case BRIGHT:
+			return 3;
+		case SHINING:
+			return 4;
+		case RADIANT:
+			return 5;
+		case INCANDESCENT:
+			return 6;
+		default:
+			return 0;
 		}
 	}
 	

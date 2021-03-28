@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Random;
 
 import org.bukkit.Material;
@@ -31,7 +32,7 @@ public class DropTableLookup {
 
 	private static HashMap<EntityType, DropTableEntry> mobDropTables = new HashMap<EntityType, DropTableEntry>();
 	private static HashMap<Material, DropTableEntry> blockDropTables = new HashMap<Material, DropTableEntry>();
-	private static HashMap<String, ArrayList<LootPool>> tagDropTables = new HashMap<String, ArrayList<LootPool>>();
+	private static HashMap<String, HashMap<String, LootPool>> tagDropTables = new HashMap<String, HashMap<String, LootPool>>();
 	private static final Random RANDOM = new Random();
 
 	public static void loadDropTables(FileConfiguration fileConfiguration, DropType type) {
@@ -74,14 +75,14 @@ public class DropTableLookup {
 		tagDropTables.clear();
 		for (String entry : fileConfiguration.getKeys(false)) {
 			ConfigurationSection itemConfig = fileConfiguration.getConfigurationSection(entry);
-			ArrayList<LootPool> lootPool = new ArrayList<LootPool>();
+			HashMap<String, LootPool> lootPool = new HashMap<String, LootPool>();
 			for (String item : itemConfig.getKeys(false)) {
 				ConfigurationSection currentEntry = fileConfiguration.getConfigurationSection(entry + "." + item);
 				double dropChance = currentEntry.getDouble("chance", 0) / 100;
 				int min = currentEntry.getInt("min", 1);
 				int max = currentEntry.getInt("max", 1);
 				LootPool pool = new LootPool(item, min, max, dropChance);
-				lootPool.add(pool);
+				lootPool.put(item, pool);
 				PlayerMessager.debugLog(entry + " " + pool);
 			}
 			tagDropTables.put(entry, lootPool);
@@ -106,32 +107,42 @@ public class DropTableLookup {
 		}
 		ArrayList<ItemStack> drops = new ArrayList<ItemStack>();
 		for (String keyword : keywords) {
-			for (int roll = 0; roll < item.getAmount(); roll++) {
-				drops.addAll(rollPool(keyword, level));
-			}
+			drops.addAll(rollPool(keyword, level, item.getAmount()));
 		}
 		return drops;
 	}
 
-	private final static List<ItemStack> rollPool(String keyword, String rarity) {
+	private final static List<ItemStack> rollPool(String keyword, String rarity, int times) {
 		ArrayList<ItemStack> drops = new ArrayList<ItemStack>();
-		ArrayList<LootPool> poolClass = tagDropTables.get(keyword);
+		HashMap<String, LootPool> poolClass = tagDropTables.get(keyword);
 		if (poolClass != null) {
 			PlayerMessager.debugLog("Rolling for keyword: " + keyword);
-			Iterator<LootPool> pools = poolClass.iterator();
+			Iterator<Entry<String, LootPool>> pools = poolClass.entrySet().iterator();
 
+			HashMap<String, Double> weightedChances = new HashMap<String, Double>();
 			while (pools.hasNext()) {
-				LootPool pool = pools.next();
-				PlayerMessager.debugLog("Rolling for item: " + pool.getItem());
-				double chance = (double) pool.getChance() * FragmentRarity.valueOf(rarity).rarityModifier();
-				if (Math.random() <= chance) {// succesfull roll
-					PlayerMessager.debugLog("Succesfull roll for: " + pool.getItem());
-					ItemStack drop = new ItemStack(Material.getMaterial(pool.getItem()));
-					if (pool.getMax() > 1) {
-						drop.setAmount(new Random().nextInt(pool.getMax() - pool.getMin() + 1) + pool.min);
-					}
-					drops.add(drop);
+				Entry<String, LootPool> pool = pools.next();
+				double rawChance = pool.getValue().getChance();
+				double finalChance = rawChance < 1.0 ? rawChance * FragmentRarity.valueOf(rarity).rarityModifier() : rawChance;
+				weightedChances.put(pool.getKey(), finalChance);
+				PlayerMessager.debugLog("Added Weight for item: " + pool.getKey() + " @ " + finalChance);
+			}
+			
+			String resultString;
+			for(int i = 0; i < times; i++)
+			{
+				resultString = new WeightedRandom<String>(RANDOM, weightedChances).rollValue();
+				ItemStack drop = new ItemStack(Material.getMaterial(resultString));
+				PlayerMessager.debugLog("Rolled a " + resultString);
+				LootPool itemPool = poolClass.get(resultString);
+				if (itemPool.getMax() > 1) {
+					int baseAmount = itemPool.min + FragmentRarity.valueOf(rarity).rarityDropQuantityBonus();
+					int randomAmount = new Random().nextInt(itemPool.getMax() - itemPool.getMin() + 1);
+					PlayerMessager.debugLog("Base: " + baseAmount + " Random: " + randomAmount);
+					drop.setAmount(baseAmount + randomAmount);
+					PlayerMessager.debugLog("Changed drop amount to: " + drop.getAmount());
 				}
+				drops.add(drop);
 			}
 		}
 
