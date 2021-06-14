@@ -17,13 +17,15 @@ public class PlayerData implements InventoryHolder {
 	private int smithingLevel;
 	private HashMap<String, Boolean> flags;
 	private Inventory inventory;
+	private boolean isValid;
 
 	public PlayerData(int attunementEXP, int attunementLevel, int smithingEXPNeeded, int smithingLevel,
-			HashMap<String, Boolean> flags, String inventoryString) {
+			HashMap<String, Boolean> flags, String inventoryString, boolean isValid) {
 		this.attunementEXP = attunementEXP;
 		this.attunementLevel = attunementLevel;
 		this.smithingEXP = smithingEXPNeeded;
 		this.smithingLevel = smithingLevel;
+		this.isValid = isValid;
 
 		PlayerMessager.debugLog(inventoryString);
 		
@@ -107,5 +109,9 @@ public class PlayerData implements InventoryHolder {
 
 	public void setInventory(Inventory inventory) {
 		this.inventory = inventory;
+	}
+
+	public boolean isValid() {
+		return isValid;
 	}
 }

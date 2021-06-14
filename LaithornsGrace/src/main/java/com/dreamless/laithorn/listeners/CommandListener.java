@@ -71,9 +71,9 @@ public class CommandListener implements CommandExecutor {
 			for (int i = 2; i < args.length; i++) {
 				additionalFlags.add(args[i].toUpperCase());
 			}
-			
+
 			FragmentRarity rarity = FragmentRarity.DULL;
-			
+
 			try {
 				rarity = FragmentRarity.valueOf(level);
 			} catch (IllegalArgumentException e) {
@@ -81,7 +81,7 @@ public class CommandListener implements CommandExecutor {
 			}
 
 			((Player) sender).getInventory()
-					.addItem(Fragment.fragmentItem(rarity, type, additionalFlags));
+			.addItem(Fragment.fragmentItem(rarity, type, additionalFlags));
 			return true;
 		}
 		return false;
@@ -92,8 +92,16 @@ public class CommandListener implements CommandExecutor {
 			if(((Player) sender).getGameMode() != GameMode.SURVIVAL){
 				PlayerMessager.msg(sender, LanguageReader.getText("Error_SurvivalOnly"));
 			} else {
-				((Player) sender).playSound(((Player) sender).getLocation(), Sound.ENTITY_PLAYER_SPLASH, 0.25f, 0.25f);
-				((Player) sender).openInventory(CacheHandler.getPlayer((Player) sender).getInventory());
+				PlayerData playerData = CacheHandler.getPlayer((Player) sender);
+				if(playerData.isValid())
+				{
+					((Player) sender).playSound(((Player) sender).getLocation(), Sound.ENTITY_PLAYER_SPLASH, 0.25f, 0.25f);
+					((Player) sender).openInventory(playerData.getInventory());
+				}
+				else 
+				{
+					PlayerMessager.msg(sender, "Your connection to Laithorn is still disrupted...");
+				}
 			}
 			return true;
 		}
@@ -127,7 +135,7 @@ public class CommandListener implements CommandExecutor {
 		}
 		return true;
 	}
-	
+
 	private boolean cmdOtherPlayerInfo(CommandSender sender, String[] args) {
 		if (!(sender instanceof Player)) { // No console commands please
 			PlayerMessager.msg(sender, LanguageReader.getText("Error_PlayerOnly"));
@@ -157,15 +165,29 @@ public class CommandListener implements CommandExecutor {
 
 	private boolean cmdAttunementInfo(CommandSender sender) {
 		PlayerData data = CacheHandler.getPlayer((Player) sender);
-		PlayerMessager.msg(sender,
-				"Attunement level: " + data.getAttunementLevel() + " Attunement EXP: " + data.getAttunementEXP());
+		if(data.isValid())
+		{
+			PlayerMessager.msg(sender,
+					"Attunement level: " + data.getAttunementLevel() + " Attunement EXP: " + data.getAttunementEXP());
+		}
+		else
+		{
+			PlayerMessager.msg(sender, "Your connection to Laithorn is still disrupted...");
+		}
 		return true;
 	}
-	
+
 	private boolean cmdSmithingInfo(CommandSender sender) {
 		PlayerData data = CacheHandler.getPlayer((Player) sender);
-		PlayerMessager.msg(sender,
-				"Smithing level: " + data.getSmithingLevel() + " Smithing EXP: " + data.getSmithingEXP());
+		if(data.isValid())
+		{
+			PlayerMessager.msg(sender,
+					"Smithing level: " + data.getSmithingLevel() + " Smithing EXP: " + data.getSmithingEXP());
+		}
+		else
+		{
+			PlayerMessager.msg(sender, "Your connection to Laithorn is still disrupted...");
+		}
 		return true;
 	}
 
@@ -194,7 +216,7 @@ public class CommandListener implements CommandExecutor {
 		}
 		return true;
 	}
-	
+
 	private boolean cmdAutopickup(CommandSender sender, String[] args) {
 		if (!(sender instanceof Player)) { // No console commands please
 			PlayerMessager.msg(sender, LanguageReader.getText("Error_PlayerOnly"));
@@ -209,7 +231,7 @@ public class CommandListener implements CommandExecutor {
 		}
 		return true;
 	}
-	
+
 	private boolean cmdReload() {
 		LaithornsGrace.grace.reload();
 		return true;

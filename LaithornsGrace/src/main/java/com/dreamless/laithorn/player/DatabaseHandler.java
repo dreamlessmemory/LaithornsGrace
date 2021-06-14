@@ -30,15 +30,16 @@ public class DatabaseHandler {
 						result.getInt("smithingexp"), 
 						result.getInt("smithinglevel"),
 						LaithornUtils.deseralizeFlagMap(result.getString("flags")),
-						result.getString("essencestorage"));
+						result.getString("essencestorage"),
+						true);
 
 			} else {
 				PlayerMessager.debugLog("No data for " + player.getDisplayName() + ". Creating profile");
-				playerData = new PlayerData(0, 0, 0, 0, null, "");
+				playerData = new PlayerData(0, 0, 0, 0, null, "", true);
 			}
 		} catch (SQLException e) {
-			PlayerMessager.debugLog("Error retrieving data for " + player.getDisplayName() + ". Using blank profile");
-			playerData = new PlayerData(0, 0, 0, 0, null, "");
+			PlayerMessager.debugLog("Error retrieving data for " + player.getDisplayName() + ". Will attempt to re-acquire data");
+			playerData = new PlayerData(0, 0, 0, 0, null, "", false);
 			e.printStackTrace();
 		}
 

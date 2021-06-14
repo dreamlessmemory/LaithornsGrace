@@ -130,6 +130,9 @@ public class LaithornsGrace extends JavaPlugin{
 
 		// Runables
 		new CacheHandler.PeriodicCacheSave().runTaskTimer(grace, 3600, 3600);
+		
+
+		new CacheHandler. PeriodicCacheRetry().runTaskTimer(grace, 1200, 1200);
 
 		PlayerMessager.log(this.getDescription().getName() + " enabled!");
 	}
