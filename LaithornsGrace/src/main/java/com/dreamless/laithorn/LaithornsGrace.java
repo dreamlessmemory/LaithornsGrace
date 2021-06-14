@@ -78,17 +78,12 @@ public class LaithornsGrace extends JavaPlugin{
 
 
 		// SQL Setup
-		try { // We use a try catch to avoid errors, hopefully we don't get any.
-			Class.forName("com.mysql.jdbc.Driver"); // this accesses Driver in jdbc.
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-			System.err.println("jdbc driver unavailable!");
-			return;
-		}
 		try {
 			connection = (Connection) DriverManager.getConnection(url, username, password);
 		} catch (SQLException e) { // catching errors)
 			e.printStackTrace(); // prints out SQLException errors to the console (if any)
+			System.err.println("jdbc driver unavailable?");
+			return;
 		}
 		
 		// Load Cache
