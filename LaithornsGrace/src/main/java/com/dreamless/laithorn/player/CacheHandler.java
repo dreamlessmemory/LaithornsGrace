@@ -79,6 +79,13 @@ public class CacheHandler {
 	}
 	
 	public static void retryPlayerDataRetrival() {
+		
+		if(retryList.size() == 0)
+		{
+			PlayerMessager.debugLog("Skipping cache save retry");
+			return;
+		}
+		
 		PlayerMessager.debugLog("Attemping retry for  " + retryList.size() + " players");
 		for(Iterator<Player> it = retryList.iterator(); it.hasNext();)
 		{
