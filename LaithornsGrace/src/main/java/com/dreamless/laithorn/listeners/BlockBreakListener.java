@@ -14,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 
 import com.dreamless.laithorn.events.DropTableLookup;
 import com.dreamless.laithorn.events.PlayerExperienceGainEvent;
+import com.dreamless.laithorn.events.PlayerExperienceVariables;
 import com.dreamless.laithorn.events.PlayerExperienceVariables.GainType;
 
 public class BlockBreakListener implements Listener{
@@ -36,7 +37,7 @@ public class BlockBreakListener implements Listener{
 			ItemStack drop = DropTableLookup.dropBlockItems(material, player);
 			if(drop != null) {
 				block.getWorld().dropItemNaturally(location, drop);
-				Bukkit.getPluginManager().callEvent(new PlayerExperienceGainEvent(player, DropTableLookup.calculateEXPValue(drop)/10, GainType.ATTUNEMENT, false));
+				Bukkit.getPluginManager().callEvent(new PlayerExperienceGainEvent(player, PlayerExperienceVariables.getDropExp(), GainType.ATTUNEMENT, false));
 			}
 		}
 	}

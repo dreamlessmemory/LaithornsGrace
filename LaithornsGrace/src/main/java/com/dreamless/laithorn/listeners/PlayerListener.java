@@ -48,6 +48,8 @@ public class PlayerListener implements Listener {
 		Player player = event.getPlayer();
 		PlayerData data = CacheHandler.getPlayer(player);
 		int expGained = event.getExpGain();
+		
+		// TODO calculate bonus EXP
 
 		PlayerExperienceSet expSet = new PlayerExperienceSet(data, type);
 

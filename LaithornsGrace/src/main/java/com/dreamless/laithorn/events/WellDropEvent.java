@@ -33,25 +33,32 @@ public class WellDropEvent extends BukkitRunnable {
 			return; // It didn't go into the well
 		}
 
-		item.remove();
-
 		ItemStack itemStack = item.getItemStack();
 
 		// Drop items
-		List<ItemStack> drops = DropTableLookup.dropItems(itemStack);
-		if (drops != null) {
-			// Drop Item
-			dropLocation.getWorld().playSound(dropLocation, Sound.ENTITY_PLAYER_LEVELUP, 0.15f, 0.5f);
-			for (ItemStack drop : drops) {
-				dropLocation.getWorld().dropItemNaturally(dropLocation.clone().add(0, 1, 0), drop);
-				dropLocation.getWorld().spawnParticle(Particle.END_ROD, dropLocation.clone().add(0, 1, 0), 15, 0.5, 0.5,
-						0.5);
+		try {
+			List<ItemStack> drops = DropTableLookup.dropItems(itemStack);
+			if (drops != null) {
+				// Drop Item
+				dropLocation.getWorld().playSound(dropLocation, Sound.ENTITY_PLAYER_LEVELUP, 0.15f, 0.5f);
+				for (ItemStack drop : drops) {
+					dropLocation.getWorld().dropItemNaturally(dropLocation.clone().add(0, 1, 0), drop);
+					dropLocation.getWorld().spawnParticle(Particle.END_ROD, dropLocation.clone().add(0, 1, 0), 15, 0.5,
+							0.5, 0.5);
+				}
+
+				// Give EXP
+				Bukkit.getPluginManager().callEvent(new PlayerExperienceGainEvent(player,
+						DropTableLookup.calculateEXPValue(itemStack), GainType.ATTUNEMENT, true));
+				// Remove item
+				item.remove();
 			}
-			
-			// Give EXP
-			Bukkit.getPluginManager().callEvent(new PlayerExperienceGainEvent(player,
-					DropTableLookup.calculateEXPValue(itemStack), GainType.ATTUNEMENT, true));
+		} catch (Exception e) {
+			PlayerMessager.msg(player, "A strange force prevents the fragment from being absorbed...");
+			PlayerMessager.log("Unable to get drops for: " + itemStack.toString());
+			PlayerMessager.log(e.getMessage());
 		}
+
 	}
 
 }
