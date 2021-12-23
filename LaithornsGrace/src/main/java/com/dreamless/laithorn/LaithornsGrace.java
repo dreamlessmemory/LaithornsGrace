@@ -198,7 +198,7 @@ public class LaithornsGrace extends JavaPlugin{
 		PlayerExperienceVariables.setDropExp(tagEXP.getInt("DROP", 1));
 		PlayerDataHandler.setLevelingConfiguration(
 				tagEXP.getInt("LEVEL_ONE_STACKS", 2),
-				tagEXP.getInt("LEVEL_MAX_STACKS", 100),
+				tagEXP.getInt("LEVEL_MAX_STACKS", 150),
 				tagEXP.getInt("LEVEL_CAP", 10),
 				PlayerExperienceVariables.getFragmentExp()*64
 		);
