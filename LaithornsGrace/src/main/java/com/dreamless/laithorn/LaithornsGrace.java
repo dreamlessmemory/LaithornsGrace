@@ -4,6 +4,7 @@ import java.io.File;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import com.dreamless.laithorn.player.PlayerDataHandler;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -195,6 +196,12 @@ public class LaithornsGrace extends JavaPlugin{
 		PlayerExperienceVariables.setFragmentExp(tagEXP.getInt("WELLSPRING", 10));
 		PlayerExperienceVariables.setBonusExp(tagEXP.getInt("BONUS_EXP", 10));
 		PlayerExperienceVariables.setDropExp(tagEXP.getInt("DROP", 1));
+		PlayerDataHandler.setLevelingConfiguration(
+				tagEXP.getInt("LEVEL_ONE_STACKS", 2),
+				tagEXP.getInt("LEVEL_MAX_STACKS", 100),
+				tagEXP.getInt("LEVEL_CAP", 10),
+				PlayerExperienceVariables.getFragmentExp()*64
+		);
 		
 		FragmentRarity.initializeWeightsMap();
 		
