@@ -18,9 +18,13 @@ public enum FragmentRarity {
 		int[][] weights = new int[PlayerDataHandler.LEVEL_CAP+1][INCANDESCENT.level+1];
 		for (int level = 0; level <= PlayerDataHandler.LEVEL_CAP; level++) {
 			for (int scaleIndex = 0; scaleIndex < shardScaling.length; scaleIndex++) {
+				// At level zero, all of the weights should wind up in the DULL bucket.
+				// At each higher level, the scaling curve shifts to the right by one.
 				int shardType = scaleIndex - shardScaling.length + level + 1;
+				// Clamp the "output" cell index so that we can simply accumulate the weights.
 				shardType = Math.max(shardType, DULL.level);
 				shardType = Math.min(shardType, INCANDESCENT.level);
+				// Accumulate weights so that the lowest and highest levels collect a subset of the scaled weights.
 				weights[level][shardType] += shardScaling[scaleIndex];
 			}
 		}
