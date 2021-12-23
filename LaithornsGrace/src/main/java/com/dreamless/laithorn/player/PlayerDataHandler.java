@@ -24,7 +24,7 @@ public class PlayerDataHandler {
 			return Integer.MAX_VALUE;
 		}
 
-		return (int) Math.round(LEVEL_ONE_EXP * Math.pow(GROWTH_RATE, level-1));
+		return (int) Math.round(LEVEL_ONE_EXP * Math.pow(GROWTH_RATE, level));
 	}
 
 	public static boolean canCraftItem(String item) {
