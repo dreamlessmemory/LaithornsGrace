@@ -4,12 +4,9 @@ import com.dreamless.laithorn.events.PlayerExperienceVariables.GainType;
 
 public class PlayerDataHandler {
 
-	// Defaults:
-	//   Level 1  requires 2 stacks
-	//   Level 10 requires 100 stacks
 	public static int LEVEL_CAP = 10;
-	public static int LEVEL_ONE_EXP = 1280;
-	public static double GROWTH_RATE = 1.544452105;
+	public static int LEVEL_ONE_EXP = 1000;
+	public static double GROWTH_RATE = 1.5;
 
 	public static void setLevelingConfiguration(int levelOneStacks, int maxLevelStacks, int levelCap, int stackExp) {
 		LEVEL_CAP = levelCap;
