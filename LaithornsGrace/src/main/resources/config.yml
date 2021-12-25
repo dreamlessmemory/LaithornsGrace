@@ -1,0 +1,29 @@
+# config for Laithorn Core
+
+#SQL settings
+username: #FILL IN
+password: #FILL IN
+url: #FILL IN
+database: #FILL IN
+prefix: #FILL IN
+testprefix: #FILL IN
+options: 
+
+# Turn on for debug logs
+debug: false
+
+# Turn on to disable saving/loading
+development: false
+
+# Control
+material: FLINT
+
+# Balancing
+tag_experience:
+    WELLSPRING: 5
+    DROP: 1
+    DAILY_BONUS: 64
+    BONUS_EXP: 15
+    BONUS_CAP: 640
+    EXPONENT: 1.17
+    BASE: 7500

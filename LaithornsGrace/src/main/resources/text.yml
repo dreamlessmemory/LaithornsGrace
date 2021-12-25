@@ -1,0 +1,106 @@
+# Fragments
+Title: Laithorn Fragment
+Instruction: Return the fragment to the wellspring to release its power, or harness it for crafting purposes.
+# Level Text
+DULL_title: Dull 
+DULL_desc: A dull fragment of Laithorn's power. 
+FAINT_title: Faint
+FAINT_desc: A faint fragment of Laithorn's power.
+PALE_title: Pale
+PALE_desc: A pale fragment of Laithorn's power.
+GLOWING_title: Glowing
+GLOWING_desc: A glowing fragment of Laithorn's power.
+SPARKLING_title: Sparkling
+SPARKLING_desc: A sparkling fragment of Laithorn's power.
+BRIGHT_title: Bright
+BRIGHT_desc: A bright fragment of Laithorn's power.
+SHINING_title: Shining
+SHINING_desc: A shining fragment of Laithorn's power.
+RADIANT_title: Radiant
+RADIANT_desc: A radiant fragment of Laithorn's power.
+INCANDESCENT_title: Incandescent
+INCANDESCENT_desc: An incandescent fragment of Laithorn's power.
+
+# Type
+RAW_title: Raw 
+RAW_desc: There is an unknown tinge to this fragment.
+
+## World
+ARBOREAL_title: Arboreal
+ARBOREAL_desc: This fragment is tinted with the energy of the trees.
+HARVEST_title: Harvest
+HARVEST_desc: The soul of the harvest beats on in this fragment.
+OVERWORLD_title: Overworld
+OVERWORLD_desc: The heartbeat of the Overworld is captured in this fragment
+INFERNAL_title: Infernal
+INFERNAL_desc: The Nether's energy seems to pulse from this fragment.
+VOID_title: Eerie
+VOID_desc: A strange darkness pulses from this fragment.
+SCIOPHYTIC_title: Sciophytic
+SCIOPHYTIC_desc: An aroma of shady vegetation eminates from this fragment.
+
+## Blocks
+FERROUS_title: Ferrous
+FERROUS_desc: There is a tinge of iron in this fragment.
+AURUM_title: Aurum
+AURUM_desc: There is a tinge of gold in this fragment.
+CARBONIC_title: Carbonic
+CARBONIC_desc: There is a tinge of diamond in this fragment.
+REDSTONE_title: Conductive
+REDSTONE_desc: Veins of redstone line this fragment.
+CODLIKE_title: Absolutely Codlike
+CODLIKE_desc: All Hail the One True Cod.
+PRISMATIC_title: Prismatic
+PRISMATIC_desc: A faint light of the sea seams to shimmer in this fragment
+EMERALD_title: Emerald
+EMERALD_desc: Verdant light seems to filter through this fragment.
+SPELUNKER_title: Spelunker
+SPELUNKER_desc: Cavernous echoes seem to emanate from this fragment.
+CUPRIC_title: Cupric
+CUPRIC_desc: There is a tinge of copper in this fragment.
+
+## Aspects
+AQUATIC_title: Aquatic
+AQUATIC_desc: This fragment echoes with roar of moving water.
+LITHIC_title: Lithic
+LITHIC_desc: There is a tinge of stone in this fragment.
+AERIAL_title: Aerial
+AERIAL_desc: The sound of wind seems to echo from this fragment.
+PYROTIC_title: Fiery
+PYROTIC_desc: This fragment eminates an usual warmth.
+
+## Mobs
+MELEE_title: Warrior's
+MELEE_desc: A memory of a warrior's valor still pulses in this fragment. 
+RANGED_title: Archer's
+RANGED_desc: A memory of a ranger's cunning still pulses in this fragment. 
+MAGE_title: Magician's
+MAGE_desc:  A memory of a mage's intellect still pulses in this fragment.
+UNDEAD_title: Undead
+UNDEAD_desc: The pulse of one who have risen again still beats in this fragment.
+DRACONIC_title: Draconic
+DRACONIC_desc: The Ender Dragon's fury still pulses in this fragment.
+
+## Retired
+ZOMBIE_title: Zombie
+ZOMBIE_desc: The pulse of one who has risen again still beats in this fragment.
+SKELETON_title: Skeletal
+SKELETON_desc: The pulse of one who has risen again still beats in this fragment.
+
+# Command Handling
+CMD_Reload: Laithorn config reloaded
+CMD_Well_Success: Corner sucessfully added
+CMD_Well_Failure: Well area must be the same elevation
+CMD_Well_Cleared: Well area cleared
+
+# Errors
+Error_NoPermissions: You don't have permission to use that command
+Error_PlayerOnly: Only players can use that command
+Error_SurvivalOnly: This command only works in survival mode
+Error_NoPlayerID: Error, no player data
+Error_NeedPlayer: Please supply a player name
+Error_NoPermissions_Action: You do not have Laithorn's blessing
+Error_NoPermissions_Deny: Laithorn's power rebuffs your attempts
+
+#Events
+Player_EjectReservior: Your reservoir rejects unpowered items

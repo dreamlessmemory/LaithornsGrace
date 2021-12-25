@@ -1,0 +1,533 @@
+RAW:
+    EXPERIENCE_BOTTLE:
+        chance: 100.0
+        min: 1
+        max: 2
+        
+## World
+SCIOPHYTIC:
+    AZALEA:
+        chance: 15.0
+        min: 1
+        max: 2
+    FLOWERING_AZALEA:
+        chance: 15.0
+        min: 1
+        max: 2
+    ROOTED_DIRT:
+        chance: 50.0
+        min: 1
+        max: 2
+    MOSS_BLOCK:
+        chance: 10.0
+        min: 1
+        max: 2
+    SMALL_DRIPLEAF:
+        chance: 10.0
+        min: 1
+        max: 2
+    GLOW_BERRIES:
+        chance: 10.0
+        min: 1
+        max: 2
+    GLOW_LICHEN:
+        chance: 50.0
+        min: 1
+        max: 2
+    SPORE_BLOSSOM:
+        chance: 5.0
+        min: 1
+        max: 1
+
+ARBOREAL:
+    OAK_LOG:
+        chance: 100.0
+        min: 1
+        max: 8
+    DARK_OAK_LOG:
+        chance: 100.0
+        min: 1
+        max: 8
+    BRICH_LOG:
+        chance: 100.0
+        min: 1
+        max: 8
+    ACACIA_LOG:
+        chance: 100.0
+        min: 1
+        max: 8
+    JUNGLE_LOG:
+        chance: 100.0
+        min: 1
+        max: 8
+    SPRUCE_LOG:
+        chance: 100.0
+        min: 1
+        max: 8
+    OAK_LEAVES:
+        chance: 100.0
+        min: 1
+        max: 8
+    DARK_OAK_LEAVES:
+        chance: 100.0
+        min: 1
+        max: 8
+    BRICH_LEAVES:
+        chance: 100.0
+        min: 1
+        max: 8
+    ACACIA_LEAVES:
+        chance: 100.0
+        min: 1
+        max: 8
+    JUNGLE_LEAVES:
+        chance: 100.0
+        min: 1
+        max: 8
+    SPRUCE_LEAVES:
+        chance: 100.0
+        min: 1
+        max: 8
+
+HARVEST:
+    APPLE:
+        chance: 100.0
+        min: 1
+        max: 8
+    MELON:
+        chance: 100.0
+        min: 1
+        max: 8
+    PUMPKIN:
+        chance: 100.0
+        min: 1
+        max: 8
+    WHEAT_SEEDS:
+        chance: 100.0
+        min: 1
+        max: 8
+    WHEAT:
+        chance: 100.0
+        min: 1
+        max: 8
+    POTATO:
+        chance: 100.0
+        min: 1
+        max: 82
+    CARROT:
+        chance: 100.0
+        min: 1
+        max: 8
+    BEETROOT:
+        chance: 100.0
+        min: 1
+        max: 8
+    COCOA_BEANS:
+        chance: 100.0
+        min: 1
+        max: 8
+    HONEYCOMB:
+        chance: 100.0
+        min: 1
+        max: 8
+    SWEET_BERRIES:
+        chance: 100.0
+        min: 1
+        max: 8
+    SUGAR_CANE:
+        chance: 100.0
+        min: 1
+        max: 8
+        
+OVERWORLD:
+    GUNPOWDER:
+        chance: 100.0
+        min: 1
+        max: 8
+    SPIDER_EYE:
+        chance: 100.0
+        min: 1
+        max: 8
+    SLIME_BALL:
+        chance: 100.0
+        min: 1
+        max: 8
+    STRING:
+        chance: 100.0
+        min: 1
+        max: 8
+
+INFERNAL:
+    GLOWSTONE_DUST:
+        chance: 100.0
+        min: 1
+        max: 8
+    NETHER_WART:
+        chance: 100.0
+        min: 1
+        max: 8
+    QUARTZ:
+        chance: 100.0
+        min: 1
+        max: 8
+    BLAZE_ROD:
+        chance: 50.0
+        min: 1
+        max: 8
+    GHAST_TEAR:
+        chance: 35.0
+        min: 1
+        max: 2
+    ANCIENT_DEBRIS:
+        chance: 1.0
+        min: 1
+        max: 2
+    WITHER_SKELETON_SKULL:
+        chance: 10.0
+        min: 1
+        max: 3
+    NETHER_STAR:
+        chance: 1.0
+        min: 1
+        max: 1
+    MAGMA_CREAM:
+        chance: 15.0
+        min: 1
+        max: 8
+
+VOID:
+    CHORUS_FRUIT:
+        chance: 100.0
+        min: 1
+        max: 8
+    ELYTRA:
+        chance: 5.0
+        min: 1
+        max: 1
+    DRAGON_BREATH:
+        chance: 20.0
+        min: 1
+        max: 8
+    SHULKER_SHELL:
+        chance: 30.0
+        min: 1
+        max: 2
+#Blocks
+SPELUNKER:
+    AMETHYST_CLUSTER:
+        chance: 10.0
+        min: 1
+        max: 4
+    CALCITE:
+        chance: 25.0
+        min: 1
+        max: 2
+    SMOOTH_BASALT:
+        chance: 25.0
+        min: 1
+        max: 2
+    POINTED_DRIPSTONE:
+        chance: 50.0
+        min: 1
+        max: 2
+    TUFF:
+        chance: 50.0
+        min: 1
+        max: 2
+CUPRIC:
+    RAW_COPPER:
+        chance: 100.0
+        min: 2
+        max: 8
+    COPPER_INGOT:
+        chance: 10.0
+        min: 1
+        max: 2
+    COPPER_BLOCK:
+        chance: 10.0
+        min: 1
+        max: 2
+FERROUS: 
+    IRON_NUGGET: 
+        chance: 100.0
+        min: 2
+        max: 8
+    IRON_INGOT: 
+        chance: 10.0
+        min: 1
+        max: 2
+    IRON_BLOCK:
+        chance: 10.0
+        min: 1
+        max: 2
+AURUM: 
+    GOLD_NUGGET: 
+        chance: 100.0
+        min: 2
+        max: 8
+    GOLD_INGOT: 
+        chance: 10
+        min: 1
+        max: 2
+    GOLD_BLOCK: 
+        chance: 10
+        min: 1
+        max: 2
+REDSTONE:
+    REDSTONE:
+        chance: 100
+        min: 12
+        max: 24
+    REDSTONE_BLOCK:
+        chance: 10
+        min: 2
+        max: 3
+CARBONIC:
+    DIAMOND_ORE:
+        chance: 100
+        min: 1
+        max: 1
+    DIAMOND:
+        chance: 10
+        min: 1
+        max: 4
+EMERALD:
+    EMERALD_ORE:
+        chance: 100
+        min: 1
+        max: 1
+    EMERALD:
+        chance: 10
+        min: 1
+        max: 4
+
+PRISMATIC:
+    PRISMARINE_CRYSTALS:
+        chance: 100
+        min: 16
+        max: 32
+    PRISMARINE_SHARD:
+        chance: 100
+        min: 16
+        max: 32
+    SEA_LANTERN:
+        chance: 10
+        min: 16
+        max: 32    
+# Aspects
+LITHIC:
+    IRON_NUGGET:
+        chance: 10.0
+        min: 1
+        max: 3
+    GOLD_NUGGET:
+        chance: 10.0
+        min: 1
+        max: 3
+    IRON_ORE:
+        chance: 5.0
+        min: 1
+        max: 2
+    GOLD_ORE:
+        chance: 5.0
+        min: 1
+        max: 2
+    EMERALD:
+        chance: 10.0
+        min: 1
+        max: 2
+    EMERALD_ORE:
+        chance: 5.0
+        min: 1
+        max: 2
+    REDSTONE:
+        chance: 5.0
+        min: 1
+        max: 2
+    REDSTONE_ORE:
+        chance: 5.0
+        min: 1
+        max: 2
+    DIAMOND:
+        chance: 5.0
+        min: 1
+        max: 2
+    DIAMOND_ORE:
+        chance: 5.0
+        min: 1
+        max: 2
+
+AQUATIC:
+    COD:
+        chance: 100.0
+        min: 16
+        max: 32
+    HEART_OF_THE_SEA:
+        chance: 1.0
+        min: 1
+        max: 1
+    NAUTILUS_SHELL:
+        chance: 5.0
+        min: 1
+        max: 4
+    TRIDENT:
+        chance: 10.0
+        min: 1
+        max: 1
+    INK_SAC:
+        chance: 100.0
+        min: 4
+        max: 8
+    TURTLE_EGG:
+        chance: 15.0
+        min: 1
+        max: 3
+
+AERIAL:
+    PHANTOM_MEMBRANE:
+        chance: 5.0
+        min: 3
+        max: 6
+    GHAST_TEAR:
+        chance: 10.0
+        min: 3
+        max: 6
+    HONEYCOMB:
+        chance: 100.0
+        min: 4
+        max: 8
+
+PYROTIC:
+    COAL:
+        chance: 100.0
+        min: 16
+        max: 32
+    BLAZE_ROD:
+        chance: 30.0
+        min: 16
+        max: 32
+    MAGMA_CREAM:
+        chance: 15.0
+        min: 16
+        max: 32
+    MAGMA_BLOCK:
+        chance: 10.0
+        min: 16
+        max: 32
+#Mobs
+#Mob Type - Combat
+MELEE: 
+    DIAMOND_SWORD:
+        chance: 30
+        min: 1
+        max: 1
+    DIAMOND_AXE:
+        chance: 30
+        min: 1
+        max: 1
+    NETHERITE_SWORD:
+        chance: 3
+        min: 1
+        max: 1
+    NETHERITE_AXE:
+        chance: 3
+        min: 1
+        max: 1
+    TRIDENT:
+        chance: 30
+        min: 1
+        max: 1
+        
+RANGED:
+    BOW:
+        chance: 30
+        min: 1
+        max: 1
+    CROSSBOW:
+        chance: 20
+        min: 1
+        max: 1
+    ARROW:
+        chance: 50
+        min: 32
+        max: 64
+
+MAGE:
+    LAPIS_LAZULI:
+        chance: 100.0
+        min: 32
+        max: 64
+    REDSTONE:
+        chance: 50.0
+        min: 16
+        max: 32
+    GLOWSTONE_DUST:
+        chance: 50.0
+        min: 16
+        max: 32
+    GUNPOWDER:
+        chance: 50.0
+        min: 16
+        max: 32
+    TOTEM_OF_UNDYING:
+        chance: 3.0
+        min: 1
+        max: 1
+#Mob Type
+UNDEAD:
+    BONE:
+        chance: 100.0
+        min: 1
+        max: 8
+    CROSSBOW:
+        chance: 50
+        min: 2
+        max: 4
+    DIAMOND:
+        chance: 20
+        min: 1
+        max: 2
+    EMERALD:
+        chance: 75
+        min: 1
+        max: 3
+    GOLD_INGOT:
+        chance: 75
+        min: 1
+        max: 2
+    IRON_INGOT:
+        chance: 75
+        min: 1
+        max: 2
+    WITHER_SKULL:
+        chance: 10
+        min: 1
+        max: 1
+        
+DRACONIC: 
+    DRAGON_BREATH:
+        chance: 100
+        min: 1
+        max: 32
+    ELYTRA:
+        chance: 10
+        min: 1
+        max: 1
+#Fishing
+CODLIKE:
+    HEART_OF_THE_SEA:
+        chance: 100
+        min: 1
+        max: 1
+        
+## RETIRED
+ZOMBIE:
+    ROTTEN_FLESH:
+        chance: 100
+        min: 1
+        max: 2
+SKELETON:
+    BONE:
+        chance: 100
+        min: 1
+        max: 2
