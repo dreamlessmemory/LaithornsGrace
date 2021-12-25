@@ -141,14 +141,22 @@ public class PlayerListener implements Listener {
 
 		PlayerMessager.debugLog("NEW: " + newExpRating + " REQ: " + requiredExpRating);
 
-		while (newExpRating > requiredExpRating) {
+		while (newExpRating >= requiredExpRating) {
 			// Level up
 			newExpRating -= requiredExpRating;
-			requiredExpRating = PlayerDataHandler.getNewEXPRequirement(currentLevel + ++levelsGained + 1);
+			requiredExpRating = PlayerDataHandler.getNewEXPRequirement(currentLevel + ++levelsGained);
 			PlayerMessager.debugLog("LEVELUP - NEW: " + newExpRating + " REQ: " + requiredExpRating);
 			
 			// Zero out Fragments
 			data.setBoostedFragments(0);
+			
+			// Level cap check
+			if(currentLevel + levelsGained >= PlayerDataHandler.getLevelCap()) 
+			{
+				newExpRating = 0;
+				requiredExpRating = 0;
+				break;
+			}
 		}
 
 		// Set EXP

@@ -45,6 +45,11 @@ public class PlayerDataHandler {
 		GROWTH_RATE = growthRate;
 	}
 	
+	public static int getLevelCap()
+	{
+		return LEVEL_CAP;
+	}
+	
 	public static PlayerData applyDataChanges(PlayerData data, GainType type, int newLevel, int newExp) {
 		if (type == GainType.ATTUNEMENT) {
 			data.setAttunementLevel(newLevel);
