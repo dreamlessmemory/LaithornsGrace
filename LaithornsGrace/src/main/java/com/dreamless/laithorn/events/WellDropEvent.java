@@ -49,7 +49,7 @@ public class WellDropEvent extends BukkitRunnable {
 
 				// Give EXP
 				Bukkit.getPluginManager().callEvent(new PlayerExperienceGainEvent(player,
-						DropTableLookup.calculateEXPValue(itemStack), GainType.ATTUNEMENT, true));
+						DropTableLookup.calculateEXPValue(itemStack), itemStack.getAmount(), GainType.ATTUNEMENT, true));
 				// Remove item
 				item.remove();
 			}

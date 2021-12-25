@@ -1,6 +1,7 @@
 package com.dreamless.laithorn.player;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.util.HashMap;
 
 import org.bukkit.inventory.Inventory;
@@ -10,6 +11,10 @@ import com.dreamless.laithorn.LaithornUtils;
 import com.dreamless.laithorn.PlayerMessager;
 
 public class PlayerData implements InventoryHolder {
+	
+	public static final String AUTOPICKUP_FLAG =  "autopickup";
+	public static final String LOGIN_MESSAGE_FLAG =  "loginMsg";
+	public static final String BONUS_MESSAGE_FLAG =  "bonusMsg";
 
 	private int attunementEXP;
 	private int attunementLevel;
@@ -18,14 +23,18 @@ public class PlayerData implements InventoryHolder {
 	private HashMap<String, Boolean> flags;
 	private Inventory inventory;
 	private boolean isValid;
+	private int boostedFragments;
+	private Date lastLoginDate;
 
 	public PlayerData(int attunementEXP, int attunementLevel, int smithingEXPNeeded, int smithingLevel,
-			HashMap<String, Boolean> flags, String inventoryString, boolean isValid) {
+			HashMap<String, Boolean> flags, String inventoryString, int boostedFragments, Date date, boolean isValid) {
 		this.attunementEXP = attunementEXP;
 		this.attunementLevel = attunementLevel;
 		this.smithingEXP = smithingEXPNeeded;
 		this.smithingLevel = smithingLevel;
 		this.isValid = isValid;
+		this.boostedFragments = boostedFragments;
+		this.lastLoginDate = date;
 
 		PlayerMessager.debugLog(inventoryString);
 		
@@ -49,9 +58,29 @@ public class PlayerData implements InventoryHolder {
 		}
 	}
 
+	public int getBoostedFragments() {
+		return boostedFragments;
+	}
+
+	public void setBoostedFragments(int boostedFragments) {
+		this.boostedFragments = boostedFragments;
+	}
+
+	public Date getLastLoginDate() {
+		return lastLoginDate;
+	}
+
+	public void setLastLoginDate(Date lastLoginDate) {
+		this.lastLoginDate = lastLoginDate;
+	}
+
 	@Override
 	public String toString() {
-		return "Attument Level: " + attunementLevel + " Smithing Level: " + smithingLevel;
+		return "Attument lv " + attunementLevel +
+				" (" + attunementEXP + "/" + PlayerDataHandler.getNewEXPRequirement(attunementLevel) + ")" +
+				" Bonus Fragments: " + boostedFragments + 
+				" Smithing Lv: " + smithingLevel +
+				" (" + smithingEXP + "/" + PlayerDataHandler.getNewEXPRequirement(smithingLevel) + ")";
 	}
 
 	public int getAttunementEXP() {

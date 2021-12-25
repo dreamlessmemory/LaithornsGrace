@@ -4,12 +4,12 @@ import com.dreamless.laithorn.events.PlayerExperienceVariables.GainType;
 
 public class PlayerDataHandler {
 
-	public static int LEVEL_ONE_EXP = 7500;
-	public static double GROWTH_RATE = 1.50;
-	public static int LEVEL_CAP = 10;
+	private static int LEVEL_ONE_EXP = 7500;
+	private static double GROWTH_RATE = 1.75;
+	private static int LEVEL_CAP = 10;
 
 	public static int getNewEXPRequirement(int level) {
-		if(level > LEVEL_CAP)
+		if(level >= LEVEL_CAP)
 		{
 			return 0;
 		}
@@ -33,6 +33,16 @@ public class PlayerDataHandler {
 		default:
 			return "";
 		}
+	}
+	
+	public static void setLevelOneExp(int levelOneExp)
+	{
+		LEVEL_ONE_EXP = levelOneExp;
+	}
+	
+	public static void setGrowthRate(double growthRate)
+	{
+		GROWTH_RATE = growthRate;
 	}
 	
 	public static PlayerData applyDataChanges(PlayerData data, GainType type, int newLevel, int newExp) {
@@ -62,7 +72,7 @@ public class PlayerDataHandler {
 				currentExpRating = data.getSmithingEXP();
 			}
 			levelCap = currentLevel >= LEVEL_CAP;
-			requiredExpRating = PlayerDataHandler.getNewEXPRequirement(currentLevel + 1);
+			requiredExpRating = PlayerDataHandler.getNewEXPRequirement(currentLevel);
 		}
 
 		public final int getCurrentLevel() {

@@ -30,6 +30,8 @@ import com.dreamless.laithorn.listeners.MobDeathListener;
 import com.dreamless.laithorn.listeners.PlayerListener;
 import com.dreamless.laithorn.listeners.WellListener;
 import com.dreamless.laithorn.player.CacheHandler;
+import com.dreamless.laithorn.player.DatabaseHandler;
+import com.dreamless.laithorn.player.PlayerDataHandler;
 
 import java.sql.Connection;
 
@@ -101,6 +103,8 @@ public class LaithornsGrace extends JavaPlugin{
 		getCommand("attunementlevel").setExecutor(commandListener);
 		getCommand("smithinglevel").setExecutor(commandListener);
 		getCommand("autopickup").setExecutor(commandListener);
+		getCommand("loginmessage").setExecutor(commandListener);
+		getCommand("bonusmessage").setExecutor(commandListener);
 		getCommand("laithornreload").setExecutor(commandListener);
 		
 		grace.getServer().getPluginManager().registerEvents(new PlayerListener(), grace);
@@ -189,9 +193,16 @@ public class LaithornsGrace extends JavaPlugin{
 		// Balancing
 		ConfigurationSection tagEXP = currentConfig.getConfigurationSection("tag_experience");
 		PlayerExperienceVariables.setFragmentExp(tagEXP.getInt("WELLSPRING", 10));
+		PlayerExperienceVariables.setBonusExp(tagEXP.getInt("BONUS_EXP", 10));
 		PlayerExperienceVariables.setDropExp(tagEXP.getInt("DROP", 1));
 		
 		FragmentRarity.initializeWeightsMap();
+		
+		DatabaseHandler.setBonusCap(tagEXP.getInt("BONUS_CAP", 640));
+		DatabaseHandler.setDailyBonus(tagEXP.getInt("DAILY_BONUS", 64));
+		
+		PlayerDataHandler.setGrowthRate(tagEXP.getDouble("EXPONENT", 1.75));
+		PlayerDataHandler.setLevelOneExp(tagEXP.getInt("BASE", 7500));
 		
 		// Parse loot tables
 		currentFile = new File(grace.getDataFolder(), "tags.yml");
