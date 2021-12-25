@@ -81,7 +81,7 @@ public class PlayerListener implements Listener {
 		}
 
 		// Calculate bonus
-		if(event.getBonusesUsed() > 0)
+		if(event.getBonusesUsed() > 0 && data.getBoostedFragments() > 0)
 		{
 			//get number of bonuses to apply
 			int usedBonuses = event.getBonusesUsed();
