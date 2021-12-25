@@ -131,26 +131,51 @@ public enum FragmentRarity {
 		}
 	}
 
-	public final int rarityDropQuantityBonus() {
+	public final int rarityDropQuantityMinBonus() {
+		switch (this) {
+		case DULL:
+			return 0;
+		case FAINT:
+			return 0;
+		case PALE:
+			return 0;
+		case GLOWING:
+			return 0;
+		case SPARKLING:
+			return 1;
+		case BRIGHT:
+			return 1;
+		case SHINING:
+			return 1;
+		case RADIANT:
+			return 1;
+		case INCANDESCENT:
+			return 2;
+		default:
+			return 0;
+		}
+	}
+	
+	public final int rarityDropQuantityMaxBonus() {
 		switch (this) {
 		case DULL:
 			return 0;
 		case FAINT:
 			return 1;
 		case PALE:
-			return 1;
+			return 2;
 		case GLOWING:
-			return 2;
-		case SPARKLING:
-			return 2;
-		case BRIGHT:
 			return 3;
-		case SHINING:
+		case SPARKLING:
+			return 3;
+		case BRIGHT:
 			return 4;
-		case RADIANT:
+		case SHINING:
 			return 5;
-		case INCANDESCENT:
+		case RADIANT:
 			return 6;
+		case INCANDESCENT:
+			return 7;
 		default:
 			return 0;
 		}
