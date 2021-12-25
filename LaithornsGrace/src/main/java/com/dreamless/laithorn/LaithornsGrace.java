@@ -208,9 +208,6 @@ public class LaithornsGrace extends JavaPlugin{
 		DatabaseHandler.setBonusCap(tagEXP.getInt("BONUS_CAP", 640));
 		DatabaseHandler.setDailyBonus(tagEXP.getInt("DAILY_BONUS", 64));
 		
-		PlayerDataHandler.setGrowthRate(tagEXP.getDouble("EXPONENT", 1.75));
-		PlayerDataHandler.setLevelOneExp(tagEXP.getInt("BASE", 7500));
-		
 		// Parse loot tables
 		currentFile = new File(grace.getDataFolder(), "tags.yml");
 		if (currentFile.exists()) {

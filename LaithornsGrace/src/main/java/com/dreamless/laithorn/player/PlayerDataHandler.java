@@ -14,6 +14,7 @@ public class PlayerDataHandler {
 		GROWTH_RATE = Math.pow((double)(maxLevelStacks)/levelOneStacks, 1.0/(levelCap-1));
 	}
 
+	// getNewEXPRequirement returns the requirements to level up for a player at the given attunement level.
 	public static int getNewEXPRequirement(int level) {
 		if(level >= LEVEL_CAP)
 		{
