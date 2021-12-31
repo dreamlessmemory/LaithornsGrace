@@ -2,8 +2,6 @@ package com.dreamless.laithorn.api;
 
 import com.dreamless.laithorn.player.PlayerDataHandler;
 
-import java.util.HashMap;
-
 public enum FragmentRarity {
 	DULL(0), FAINT(1), PALE(2), GLOWING(3), SPARKLING(4), BRIGHT(5), SHINING(6), RADIANT(7), INCANDESCENT(8);
 

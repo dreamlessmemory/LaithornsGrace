@@ -32,8 +32,6 @@ import com.dreamless.laithorn.listeners.PlayerListener;
 import com.dreamless.laithorn.listeners.WellListener;
 import com.dreamless.laithorn.player.CacheHandler;
 import com.dreamless.laithorn.player.DatabaseHandler;
-import com.dreamless.laithorn.player.PlayerDataHandler;
-
 import java.sql.Connection;
 
 public class LaithornsGrace extends JavaPlugin{

@@ -154,7 +154,7 @@ public class PlayerListener implements Listener {
 			}
 			
 			// Level cap check
-			if(currentLevel + levelsGained >= PlayerDataHandler.getLevelCap()) 
+			if(currentLevel + levelsGained >= PlayerDataHandler.LEVEL_CAP) 
 			{
 				newExpRating = 0;
 				requiredExpRating = 0;
