@@ -14,6 +14,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.dreamless.laithorn.api.AnvilListener;
 import com.dreamless.laithorn.api.CraftingBenchListener;
 import com.dreamless.laithorn.api.Fragment;
+import com.dreamless.laithorn.api.FragmentRarity;
 import com.dreamless.laithorn.api.ItemCrafting;
 import com.dreamless.laithorn.api.ItemRepair;
 import com.dreamless.laithorn.api.LaithornRegister;
@@ -29,6 +30,8 @@ import com.dreamless.laithorn.listeners.MobDeathListener;
 import com.dreamless.laithorn.listeners.PlayerListener;
 import com.dreamless.laithorn.listeners.WellListener;
 import com.dreamless.laithorn.player.CacheHandler;
+import com.dreamless.laithorn.player.DatabaseHandler;
+import com.dreamless.laithorn.player.PlayerDataHandler;
 
 import java.sql.Connection;
 
@@ -100,6 +103,8 @@ public class LaithornsGrace extends JavaPlugin{
 		getCommand("attunementlevel").setExecutor(commandListener);
 		getCommand("smithinglevel").setExecutor(commandListener);
 		getCommand("autopickup").setExecutor(commandListener);
+		getCommand("loginmessage").setExecutor(commandListener);
+		getCommand("bonusmessage").setExecutor(commandListener);
 		getCommand("laithornreload").setExecutor(commandListener);
 		
 		grace.getServer().getPluginManager().registerEvents(new PlayerListener(), grace);
@@ -182,21 +187,24 @@ public class LaithornsGrace extends JavaPlugin{
 		debug = currentConfig.getBoolean("debug", false);
 		development = currentConfig.getBoolean("development", false);
 		
-		// Effects
-
-		
 		// Control
 		Fragment.setFragmentMaterial(Material.getMaterial(currentConfig.getString("material", "FLINT")));
 		
 		// Balancing
 		ConfigurationSection tagEXP = currentConfig.getConfigurationSection("tag_experience");
-		PlayerExperienceVariables.experienceValues.clear();
-		for(String key: tagEXP.getKeys(false)) {
-			PlayerExperienceVariables.experienceValues.put(key, tagEXP.getInt(key));
-		}
+		PlayerExperienceVariables.setFragmentExp(tagEXP.getInt("WELLSPRING", 10));
+		PlayerExperienceVariables.setBonusExp(tagEXP.getInt("BONUS_EXP", 10));
+		PlayerExperienceVariables.setDropExp(tagEXP.getInt("DROP", 1));
 		
-		// Parse Mob Drops
+		FragmentRarity.initializeWeightsMap();
 		
+		DatabaseHandler.setBonusCap(tagEXP.getInt("BONUS_CAP", 640));
+		DatabaseHandler.setDailyBonus(tagEXP.getInt("DAILY_BONUS", 64));
+		
+		PlayerDataHandler.setGrowthRate(tagEXP.getDouble("EXPONENT", 1.75));
+		PlayerDataHandler.setLevelOneExp(tagEXP.getInt("BASE", 7500));
+		
+		// Parse loot tables
 		currentFile = new File(grace.getDataFolder(), "tags.yml");
 		if (currentFile.exists()) {
 			DropTableLookup.loadTagTables(YamlConfiguration.loadConfiguration(currentFile));

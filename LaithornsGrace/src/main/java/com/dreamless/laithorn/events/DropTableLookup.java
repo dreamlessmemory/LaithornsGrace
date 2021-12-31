@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -90,6 +91,14 @@ public class DropTableLookup {
 	}
 
 	protected static final List<ItemStack> dropItems(ItemStack item) {
+		
+		// Air/null check
+		if(item == null || item.getType() == Material.AIR)
+		{
+			PlayerMessager.debugLog("Item is air or null");
+			return null;
+		}
+		
 		NBTItem nbti = new NBTItem(item);
 		NBTCompound laithorn = nbti.getCompound("Laithorn");
 		if (laithorn == null) {
@@ -136,10 +145,11 @@ public class DropTableLookup {
 				PlayerMessager.debugLog("Rolled a " + resultString);
 				LootPool itemPool = poolClass.get(resultString);
 				if (itemPool.getMax() > 1) {
-					int baseAmount = itemPool.min + FragmentRarity.valueOf(rarity).rarityDropQuantityBonus();
-					int randomAmount = new Random().nextInt(itemPool.getMax() - itemPool.getMin() + 1);
-					PlayerMessager.debugLog("Base: " + baseAmount + " Random: " + randomAmount);
-					drop.setAmount(baseAmount + randomAmount);
+					int minAmount = itemPool.getMin() + FragmentRarity.valueOf(rarity).rarityDropQuantityMinBonus();
+					int maxAmount = itemPool.getMax() + FragmentRarity.valueOf(rarity).rarityDropQuantityMaxBonus();
+					int randomAmount = ThreadLocalRandom.current().nextInt(minAmount, maxAmount + 1);
+					PlayerMessager.debugLog("Min: " + minAmount + " Max: " + maxAmount);
+					drop.setAmount(randomAmount);
 					PlayerMessager.debugLog("Changed drop amount to: " + drop.getAmount());
 				}
 				drops.add(drop);
@@ -156,30 +166,7 @@ public class DropTableLookup {
 			PlayerMessager.debugLog("Item is not a fragment");
 			return 0;
 		}
-
-		String level = laithorn.getString("level");
-		ArrayList<String> keywords = new ArrayList<String>();
-		keywords.add(laithorn.getString("type"));
-
-		for (String key : laithorn.getKeys()) {
-			if (key.contains("Loot_"))
-				keywords.add(laithorn.getString(key));
-		}
-
-		int total = 0;
-
-		// Add base exp
-		if (PlayerExperienceVariables.experienceValues.containsKey(level))
-			total += PlayerExperienceVariables.experienceValues.get(level);
-
-		// Add tags
-
-		for (String keyword : keywords) {
-			if (PlayerExperienceVariables.experienceValues.containsKey(keyword))
-				total += PlayerExperienceVariables.experienceValues.get(keyword);
-		}
-
-		return total * item.getAmount();
+		return PlayerExperienceVariables.getFragmentExp() * item.getAmount();
 	}
 
 	public static final boolean containsDropTable(EntityType type) {

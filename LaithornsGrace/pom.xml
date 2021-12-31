@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.dreamless.LaithornsGrace</groupId>
 	<artifactId>LaithornsGrace</artifactId>
-	<version>2.5.0</version>
+	<version>2.5.1</version>
 	<name>Laithorn's Grace</name>
 	<description>Core plugin for all Laithorn-related functions</description>
 	<build>

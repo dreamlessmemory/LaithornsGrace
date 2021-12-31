@@ -45,6 +45,10 @@ public class CommandListener implements CommandExecutor {
 			return cmdAttunementInfo(sender);
 		case "autopickup":
 			return cmdAutopickup(sender, args);
+		case "loginmessage":
+			return cmdLoginMsg(sender, args);
+		case "bonusmessage":
+			return cmdBonusMsg(sender, args);
 		case "laithornreload":
 			return cmdReload();
 		}
@@ -224,10 +228,41 @@ public class CommandListener implements CommandExecutor {
 		}
 		if(args.length > 0) {
 			boolean result = Boolean.parseBoolean(args[0]);
-			CacheHandler.getPlayer((Player) sender).setFlag("autopickup", result);
+			CacheHandler.getPlayer((Player) sender).setFlag(PlayerData.AUTOPICKUP_FLAG, result);
 			PlayerMessager.msg(sender, (result ? "Fragment autopickup enabled" : "Fragment autopickup disabled"));
 		} else {
-			PlayerMessager.msg(sender, "Autopickup is " + (CacheHandler.getPlayer((Player) sender).getFlag("autopickup")? "enabled" : "disabled"));
+			PlayerMessager.msg(sender, "Autopickup is currently " + (CacheHandler.getPlayer((Player) sender).getFlag(PlayerData.AUTOPICKUP_FLAG)? "enabled" : "disabled"));
+		}
+		return true;
+	}
+	
+	private boolean cmdLoginMsg(CommandSender sender, String[] args) {
+		if (!(sender instanceof Player)) { // No console commands please
+			PlayerMessager.msg(sender, LanguageReader.getText("Error_PlayerOnly"));
+			PlayerMessager.debugLog("Test");
+			return false;
+		}
+		if(args.length > 0) {
+			boolean result = Boolean.parseBoolean(args[0]);
+			CacheHandler.getPlayer((Player) sender).setFlag(PlayerData.LOGIN_MESSAGE_FLAG, result);
+			PlayerMessager.msg(sender, (result ? "Login message enabled" : "Login message disabled"));
+		} else {
+			PlayerMessager.msg(sender, "Login Message is currently " + (CacheHandler.getPlayer((Player) sender).getFlag(PlayerData.LOGIN_MESSAGE_FLAG)? "enabled" : "disabled"));
+		}
+		return true;
+	}
+	
+	private boolean cmdBonusMsg(CommandSender sender, String[] args) {
+		if (!(sender instanceof Player)) { // No console commands please
+			PlayerMessager.msg(sender, LanguageReader.getText("Error_PlayerOnly"));
+			return false;
+		}
+		if(args.length > 0) {
+			boolean result = Boolean.parseBoolean(args[0]);
+			CacheHandler.getPlayer((Player) sender).setFlag(PlayerData.BONUS_MESSAGE_FLAG, result);
+			PlayerMessager.msg(sender, (result ? "Fragment bonus status message enabled" : "Fragment bonus status message disabled"));
+		} else {
+			PlayerMessager.msg(sender, "Bonus status message is currently " + (CacheHandler.getPlayer((Player) sender).getFlag(PlayerData.BONUS_MESSAGE_FLAG)? "enabled" : "disabled"));
 		}
 		return true;
 	}

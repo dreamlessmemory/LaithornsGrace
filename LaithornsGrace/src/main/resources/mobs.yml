@@ -1,0 +1,253 @@
+#Overworld
+##Passive
+
+### Terrestrial
+PIG:
+    chance: 5
+    pool:
+        RAW: 85
+        OVERWORLD: 15
+        
+COW:
+    chance: 5
+    pool:
+        RAW: 85
+        OVERWORLD: 15
+        
+CHICKEN:
+    chance: 5
+    pool:
+        RAW: 85
+        OVERWORLD: 15
+        
+RABBIT:
+    chance: 5
+    pool:
+        RAW: 85
+        OVERWORLD: 15
+SHEEP:
+    chance: 5
+    pool:
+        RAW: 85
+        OVERWORLD: 15
+### Aquatic
+
+SQUID:
+    chance: 5
+    pool:
+        RAW: 70
+        AQUATIC: 15
+        OVERWORLD: 15
+GLOW_SQUID:
+    chance: 5
+    pool:
+        RAW: 70
+        AQUATIC: 15
+        OVERWORLD: 15
+##Hostile
+###Undead
+ZOMBIE:
+    chance: 5
+    pool:
+        RAW: 70
+        UNDEAD: 25
+        MELEE: 5
+        
+DROWNED:
+    chance: 5
+    pool:
+        RAW: 75
+        UNDEAD: 15
+        AQUATIC: 10
+        MELEE: 5
+        
+SKELETON:
+    chance: 5
+    pool:
+        UNDEAD: 15
+        RAW: 75
+        RANGED: 10
+HUSK:
+    chance: 5
+    pool:
+        UNDEAD: 15
+        RAW: 75
+        RANGED: 10
+STRAY:
+    chance: 5
+    pool:
+        UNDEAD: 15
+        RAW: 75
+        RANGED: 10
+
+ZOMBIE_VILLAGER:
+    chance: 5
+    pool:
+        RAW: 70
+        UNDEAD: 25
+        MELEE: 5
+
+### Humanoid Living
+
+WITCH:
+    chance: 10
+    pool:
+        RAW: 70
+        MAGE: 15
+        OVERWORLD: 15
+        
+EVOKER:
+    chance: 10
+    pool:
+        RAW: 70
+        MAGE: 15
+        OVERWORLD: 15
+        
+VINDICATOR:
+    chance: 10
+    pool:
+        RAW: 70
+        MELEE: 15
+        OVERWORLD: 15
+        
+PILLAGER:
+    chance: 10
+    pool:
+        RAW: 70
+        RANGED: 15
+        OVERWORLD: 15
+VEX:
+    chance: 10
+    pool:
+        RAW: 70
+        MAGE: 15
+        OVERWORLD: 15
+
+### Others
+SPIDER:
+    chance: 5
+    pool:
+        RAW: 85
+        OVERWORLD: 15
+CAVE_SPIDER:
+    chance: 5
+    pool:
+        RAW: 85
+        OVERWORLD: 15
+CREEPER:
+    chance: 5
+    pool:
+        RAW: 80
+        OVERWORLD: 15
+        MAGE: 5
+        
+PHANTOM:
+    chance: 5
+    pool:
+        RAW: 70
+        AERIAL: 15
+        OVERWORLD: 15
+RAVAGER:
+    chance: 5
+    pool:
+        RAW: 85
+        OVERWORLD: 15
+SILVERFISH:
+    chance: 5
+    pool:
+        RAW: 70
+        OVERWORLD: 15
+        VOID: 15
+SLIME:
+    chance: 2
+    pool:
+        RAW: 70
+        OVERWORLD: 15
+        VOID: 15
+
+# Nether
+##Neutral
+
+STRIDER:
+    chance: 3
+    pool:
+        RAW: 85
+        INFERNAL: 15
+PIGLIN:
+    chance: 3
+    pool:
+        RAW: 70
+        INFERNAL: 15
+        AURUM: 15
+
+##Hostile
+### Undead
+WITHER_SKELETON:
+    chance: 5
+    pool:
+        RAW: 65
+        UNDEAD: 15
+        INFERNAL: 15
+        MELEE: 5
+
+ZOGLIN:
+    chance: 5
+    pool:
+        RAW: 85
+        INFERNAL: 15
+
+WITHER:
+    chance: 100
+    pool:
+        INFERNAL: 100
+### Other
+
+STRIDER:
+    chance: 5
+    pool:
+        RAW: 70
+        INFERNAL: 15
+        AURUM: 15
+BLAZE:
+    chance: 2
+    pool:
+        RAW: 70
+        INFERNAL: 15
+        PYROTIC: 15
+        
+MAGMA_CUBE:
+    chance: 2
+    pool:
+        RAW: 70
+        INFERNAL: 15
+        PYROTIC: 15
+GHAST:
+    chance: 5
+    pool:
+        RAW: 70
+        INFERNAL: 15
+        AERIAL: 15
+
+PIGLIN_BRUTE:
+    chance: 5
+    pool:
+        RAW: 70
+        INFERNAL: 15
+        AURUM: 15
+
+# End
+SHULKER:
+    chance: 5
+    pool:
+        RAW: 70
+        VOID: 15
+        AERIAL: 15
+ENDERMITE:
+    chance: 5
+    pool:
+        RAW: 85
+        VOID: 15
+ENDER_DRAGON:
+    chance: 100
+    pool:
+        DRACONIC: 100

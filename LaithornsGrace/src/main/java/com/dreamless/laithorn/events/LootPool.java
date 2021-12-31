@@ -1,10 +1,10 @@
 package com.dreamless.laithorn.events;
 
 public class LootPool {
-	public String item;
-	public int min;
-	public int max;
-	public double chance;
+	private final String item;
+	private final int min;
+	private final int max;
+	private final double chance;
 	
 	public LootPool(String item, int min, int max, double chance) {
 		this.item = item;

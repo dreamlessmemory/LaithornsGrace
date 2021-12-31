@@ -33,7 +33,7 @@ public class FishingListener implements Listener {
 		ItemStack drop = DropTableLookup.dropBlockItems(material, player);
 		if(drop != null) {
 			player.getWorld().dropItemNaturally(player.getLocation(), drop);
-			Bukkit.getPluginManager().callEvent(new PlayerExperienceGainEvent(player, DropTableLookup.calculateEXPValue(drop)/10, GainType.ATTUNEMENT, false));
+			Bukkit.getPluginManager().callEvent(new PlayerExperienceGainEvent(player, DropTableLookup.calculateEXPValue(drop)/10, 0, GainType.ATTUNEMENT, false));
 		}
 	}
 	}

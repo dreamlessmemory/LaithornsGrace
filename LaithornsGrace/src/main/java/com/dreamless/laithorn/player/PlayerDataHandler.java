@@ -4,14 +4,19 @@ import com.dreamless.laithorn.events.PlayerExperienceVariables.GainType;
 
 public class PlayerDataHandler {
 
-	public static int LEVEL_ONE_EXP = 150;
-	public static double GROWTH_RATE = 1.17; // ~7% increase
-	public static int LEVEL_CAP = 99;
-
-	// Note, level 99 needs 1,795,670 exp
+	private static int LEVEL_ONE_EXP = 7500;
+	private static double GROWTH_RATE = 1.75;
+	private static int LEVEL_CAP = 10;
 
 	public static int getNewEXPRequirement(int level) {
-		return (int) Math.round(LEVEL_ONE_EXP * Math.pow(GROWTH_RATE, level));
+		if(level >= LEVEL_CAP)
+		{
+			return 0;
+		}
+		else 
+		{
+			return (int) Math.round(LEVEL_ONE_EXP * Math.pow(GROWTH_RATE, level));	
+		}
 	}
 
 	public static boolean canCraftItem(String item) {
@@ -28,6 +33,21 @@ public class PlayerDataHandler {
 		default:
 			return "";
 		}
+	}
+	
+	public static void setLevelOneExp(int levelOneExp)
+	{
+		LEVEL_ONE_EXP = levelOneExp;
+	}
+	
+	public static void setGrowthRate(double growthRate)
+	{
+		GROWTH_RATE = growthRate;
+	}
+	
+	public static int getLevelCap()
+	{
+		return LEVEL_CAP;
 	}
 	
 	public static PlayerData applyDataChanges(PlayerData data, GainType type, int newLevel, int newExp) {
@@ -57,7 +77,7 @@ public class PlayerDataHandler {
 				currentExpRating = data.getSmithingEXP();
 			}
 			levelCap = currentLevel >= LEVEL_CAP;
-			requiredExpRating = PlayerDataHandler.getNewEXPRequirement(currentLevel + 1);
+			requiredExpRating = PlayerDataHandler.getNewEXPRequirement(currentLevel);
 		}
 
 		public final int getCurrentLevel() {

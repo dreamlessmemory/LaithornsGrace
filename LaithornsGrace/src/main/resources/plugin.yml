@@ -1,5 +1,5 @@
 name: LaithornsGrace
-version: 2.5.0
+version: 2.5.1
 description: Core plugin for Stumped server
 main: com.dreamless.laithorn.LaithornsGrace
 api-version: 1.18
@@ -32,6 +32,18 @@ commands:
   autopickup:
     description: Set whether or not fragments you pick up go directly to your reservoir
     alias: [fragmentpickup, fragpick, apick]
+    permission: laithorn.user
+    permission-message: You have not yet attuned to Laithorn's power!
+    usage: /<command> true|false
+  loginmessage:
+    description: Set whether or not fragments you get a login message with your bonus fragment level
+    alias: [fgmsg, loginmsg]
+    permission: laithorn.user
+    permission-message: You have not yet attuned to Laithorn's power!
+    usage: /<command> true|false
+  bonusmessage:
+    description: Set whether or not fragments you  get a status message with your bonus fragment level
+    alias: [fgbonus, fgbonusmsg]
     permission: laithorn.user
     permission-message: You have not yet attuned to Laithorn's power!
     usage: /<command> true|false
