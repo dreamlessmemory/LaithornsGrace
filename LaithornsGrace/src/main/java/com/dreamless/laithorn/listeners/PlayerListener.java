@@ -103,16 +103,16 @@ public class PlayerListener implements Listener {
 				data.setBoostedFragments(remainingBonus);
 				if(data.getFlag(PlayerData.BONUS_MESSAGE_FLAG))
 				{
-					PlayerMessager.msg(player, appliedBonuses + " fragments were empowered. This will last for " 
-							+ data.getBoostedFragments() + " more fragments.");
+					String secondHalf = "";
 					if(remainingBonus > 0)
 					{
-						PlayerMessager.msg(player, "This will last for " + remainingBonus + " more fragments.");
+						secondHalf = " This will last for " + remainingBonus + " more fragments.";
 					}
 					else 
 					{
-						PlayerMessager.msg(player, "Your empowered connection with Laithorn has faded.");
+						secondHalf = " Your empowered connection with Laithorn has faded.";
 					}
+					PlayerMessager.msg(player, appliedBonuses + " fragments were empowered." + secondHalf);
 				}
 			}
 			expGained += appliedBonuses * PlayerExperienceVariables.getBonusExp();
@@ -148,7 +148,10 @@ public class PlayerListener implements Listener {
 			PlayerMessager.debugLog("LEVELUP - NEW: " + newExpRating + " REQ: " + requiredExpRating);
 			
 			// Zero out Fragments
-			data.setBoostedFragments(0);
+			if(event.getGainType() == GainType.ATTUNEMENT)
+			{
+				data.setBoostedFragments(0);
+			}
 			
 			// Level cap check
 			if(currentLevel + levelsGained >= PlayerDataHandler.getLevelCap()) 
@@ -163,7 +166,7 @@ public class PlayerListener implements Listener {
 		if (levelsGained > 0) {
 			PlayerMessager.msg(player, "You have reached " + PlayerDataHandler.getTypeDescription(type) + " level "
 					+ (currentLevel + levelsGained));
-			if(data.getFlag(PlayerData.BONUS_MESSAGE_FLAG))
+			if(data.getFlag(PlayerData.BONUS_MESSAGE_FLAG) && event.getGainType() == GainType.ATTUNEMENT)
 			{
 				PlayerMessager.msg(player, "Your empowered connection has faded and returned to normal.");
 			}
