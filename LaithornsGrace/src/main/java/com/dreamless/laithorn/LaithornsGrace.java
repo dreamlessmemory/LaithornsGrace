@@ -4,6 +4,7 @@ import java.io.File;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import com.dreamless.laithorn.player.PlayerDataHandler;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -31,8 +32,6 @@ import com.dreamless.laithorn.listeners.PlayerListener;
 import com.dreamless.laithorn.listeners.WellListener;
 import com.dreamless.laithorn.player.CacheHandler;
 import com.dreamless.laithorn.player.DatabaseHandler;
-import com.dreamless.laithorn.player.PlayerDataHandler;
-
 import java.sql.Connection;
 
 public class LaithornsGrace extends JavaPlugin{
@@ -195,14 +194,17 @@ public class LaithornsGrace extends JavaPlugin{
 		PlayerExperienceVariables.setFragmentExp(tagEXP.getInt("WELLSPRING", 10));
 		PlayerExperienceVariables.setBonusExp(tagEXP.getInt("BONUS_EXP", 10));
 		PlayerExperienceVariables.setDropExp(tagEXP.getInt("DROP", 1));
+		PlayerDataHandler.setLevelingConfiguration(
+				tagEXP.getInt("LEVEL_ONE_STACKS", 2),
+				tagEXP.getInt("LEVEL_MAX_STACKS", 150),
+				tagEXP.getInt("LEVEL_CAP", 10),
+				PlayerExperienceVariables.getFragmentExp()*64
+		);
 		
 		FragmentRarity.initializeWeightsMap();
 		
 		DatabaseHandler.setBonusCap(tagEXP.getInt("BONUS_CAP", 640));
 		DatabaseHandler.setDailyBonus(tagEXP.getInt("DAILY_BONUS", 64));
-		
-		PlayerDataHandler.setGrowthRate(tagEXP.getDouble("EXPONENT", 1.75));
-		PlayerDataHandler.setLevelOneExp(tagEXP.getInt("BASE", 7500));
 		
 		// Parse loot tables
 		currentFile = new File(grace.getDataFolder(), "tags.yml");
