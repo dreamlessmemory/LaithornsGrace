@@ -1,8 +1,8 @@
 name: LaithornsGrace
-version: 2.6.2
+version: 2.6.4
 description: Core plugin for Stumped server
 main: com.dreamless.laithorn.LaithornsGrace
-api-version: 1.19
+api-version: 1.20
 authors: [DreamlessMemory/MemoryReborn]
 prefix: Laithorn
 loadbefore: [StumpedTreeWarp, LaithornTools]
