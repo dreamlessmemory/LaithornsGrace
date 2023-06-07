@@ -4,7 +4,7 @@
   <groupId>com.dreamless.LaithornsGrace</groupId>
   <artifactId>LaithornsGrace</artifactId>
   <name>Laithorn's Grace</name>
-  <version>2.6.2</version>
+  <version>2.6.3</version>
   <description>Core plugin for all Laithorn-related functions</description>
   <build>
     <plugins>
@@ -52,7 +52,7 @@
     <dependency>
       <groupId>org.spigotmc</groupId>
       <artifactId>spigot-api</artifactId>
-      <version>1.19.3-R0.1-SNAPSHOT</version>
+      <version>1.20-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>
