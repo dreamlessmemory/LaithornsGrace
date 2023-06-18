@@ -24,11 +24,6 @@ public class PlayerDataHandler {
 
 		return (int) Math.round(LEVEL_ONE_EXP * Math.pow(GROWTH_RATE, level));
 	}
-
-	public static boolean canCraftItem(String item) {
-		// TODO: Logic
-		return true;
-	}
 	
 	public static String getTypeDescription(GainType type) {
 		switch (type) {

@@ -114,17 +114,17 @@ public class Fragment {
 	public static boolean isEssence(ItemStack item) {
 		if (item == null || item.getType() != FRAGMENT_MATERIAL)
 			return false;
-		return new NBTItem(item).hasKey(NBT_TOP_LEVEL_TAG);
+		return new NBTItem(item).hasTag(NBT_TOP_LEVEL_TAG);
 	}
 	
 	public static boolean isStorable(ItemStack item) {
-		return item != null  && new NBTItem(item).hasKey(NBT_TOP_LEVEL_TAG);
+		return item != null  && new NBTItem(item).hasTag(NBT_TOP_LEVEL_TAG);
 	}
 
 	public static boolean isLaithornEnchanted(ItemStack item) {
 		if (item == null || item.getType() == Material.AIR)
 			return false;
-		return new NBTItem(item).hasKey(NBT_TOP_LEVEL_TAG);
+		return new NBTItem(item).hasTag(NBT_TOP_LEVEL_TAG);
 	}
 
 	public static final String getTopLevelTag() {

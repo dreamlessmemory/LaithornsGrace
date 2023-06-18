@@ -29,7 +29,7 @@ public class WellListener implements Listener {
 		}
 
 		NBTItem nbti = new NBTItem(itemStack);
-		if (!nbti.hasKey("Laithorn")) {
+		if (!nbti.hasTag("Laithorn")) {
 			// PlayerMessager.debugLog("Not warp leaf");
 			return;
 		} // else PlayerMessager.debugLog("Nope?");
