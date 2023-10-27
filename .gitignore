@@ -1,3 +1,7 @@
 dependency-reduced-pom.xml
 target
 LaithornsGrace
+bin
+.classpath
+.project
+.settings
