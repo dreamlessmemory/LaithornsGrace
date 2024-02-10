@@ -1,0 +1,336 @@
+# Overworld
+##Stone
+STONE:
+    chance: 1
+    pool:
+        LITHIC: 50
+        FERROUS: 3
+        AURUM: 1
+        REDSTONE: 5
+        EMERALD: 3
+        CARBONIC: 1
+        RAW: 50
+DIORITE:
+    chance: 1
+    pool:
+        LITHIC: 50
+        RAW: 50
+ANDESITE:
+    chance: 1
+    pool:
+        LITHIC: 50
+        RAW: 50
+GRANITE:
+    chance: 1
+    pool:
+        LITHIC: 50
+        RAW: 50
+IRON_ORE:
+    chance: 2
+    pool:
+        FERROUS: 100
+        RAW: 50
+DEEPSLATE_IRON_ORE:
+    chance: 2
+    pool:
+        FERROUS: 100
+        RAW: 50
+GOLD_ORE:
+    chance: 2
+    pool:
+        AURUM: 100
+DEEPSLATE_GOLD_ORE:
+    chance: 2
+    pool:
+        AURUM: 100
+REDSTONE_ORE:
+    chance: 5
+    pool:
+        REDSTONE: 100
+DEEPSLATE_REDSTONE_ORE:
+    chance: 5
+    pool:
+        REDSTONE: 100
+DEEPSLATE:
+    chance: 2
+    pool:
+        SPELUNKER: 100
+COPPER_ORE:
+    chance: 2
+    pool:
+        CUPRIC: 100
+DEEPSLATE_COPPER_ORE:
+    chance: 2
+    pool:
+        CUPRIC: 100
+
+## Harvest Plants
+GLOW_LICHEN:
+    chance: 3
+    pool:
+        SCIOPHYTIC: 100
+AZALEA:
+    chance: 3
+    pool: 
+        SCIOPHYTIC: 100
+FLOWERING_AZALEA:
+    chance: 3
+    pool: 
+        SCIOPHYTIC: 100
+MELON:
+    chance: 1
+    pool:
+        RAW: 75
+        HARVEST: 25
+        
+PUMPKIN:
+    chance: 1
+    pool:
+        RAW: 75
+        HARVEST: 25
+        
+BEETROOTS:
+    chance: 1
+    pool:
+        RAW: 75
+        HARVEST: 25
+        
+SUGAR_CANE:
+    chance: 1
+    pool:
+        RAW: 75
+        HARVEST: 25
+        
+TALL_GRASS:
+    chance: 2
+    pool:
+        RAW: 75
+        HARVEST: 25
+        
+SEAGRASS:
+    chance: 2
+    pool:
+        RAW: 75
+        HARVEST: 25
+        AQUATIC: 25
+        
+TALL_SEAGRASS:
+    chance: 2
+    pool:
+        RAW: 50
+        HARVEST: 25
+        AQUATIC: 25
+        
+SWEET_BERRY_BUSH:
+    chance: 10
+    pool:
+        RAW: 75  
+        HARVEST: 25
+        
+WHEAT:
+    chance: 3
+    pool:
+        RAW: 75
+        HARVEST: 25
+        
+CARROTS:
+    chance: 3
+    pool:
+        RAW: 75
+        HARVEST: 25
+        
+POTATOES:
+    chance: 3
+    pool:
+        RAW: 75
+        HARVEST: 25
+        
+## Trees
+OAK_LOG:
+    chance: 3
+    pool:
+        RAW: 75
+        ARBOREAL: 25
+DARK_OAK_LOG:
+    chance: 3
+    pool:
+        RAW: 75
+        ARBOREAL: 25
+ACACIA_LOG:
+    chance: 3
+    pool:
+        RAW: 75
+        ARBOREAL: 25
+JUNGLE_LOG:
+    chance: 3
+    pool:
+        RAW: 75
+        ARBOREAL: 25
+BIRCH_LOG:
+    chance: 3
+    pool:
+        RAW: 75
+        ARBOREAL: 25
+SPRUCE_LOG:
+    chance: 3
+    pool:
+        RAW: 75
+        ARBOREAL: 25
+
+OAK_LEAVES:
+    chance: 3
+    pool:
+        RAW: 60
+        ARBOREAL: 20
+        AERIAL: 20
+        
+DARK_OAK_LEAVES:
+    chance: 3
+    pool:
+        RAW: 60
+        ARBOREAL: 20
+        AERIAL: 20
+        
+ACACIA_LEAVES:
+    chance: 3
+    pool:
+        RAW: 60
+        ARBOREAL: 20
+        AERIAL: 20
+JUNGLE_LEAVES:
+    chance: 3
+    pool:
+        RAW: 60
+        ARBOREAL: 20
+        AERIAL: 20
+BIRCH_LEAVES:
+    chance: 3
+    pool:
+        RAW: 60
+        ARBOREAL: 20
+        AERIAL: 20
+SPRUCE_LEAVES:
+    chance: 3
+    pool:
+        RAW: 60
+        ARBOREAL: 20
+        AERIAL: 20
+
+#Nether
+NETHERRACK:
+    chance: 1
+    pool:
+        RAW: 70
+        INFERNAL: 5
+        AURUM: 25
+        
+NETHER_QUARTZ_ORE:
+    chance: 5
+    pool:
+        RAW: 50
+        INFERNAL: 15
+        
+NETHER_GOLD_ORE:
+    chance: 5
+    pool:
+        RAW: 50
+        INFERNAL: 15
+        AURUM: 15
+        
+NETHER_WART:
+    chance: 1
+    pool:
+        RAW: 50
+        INFERNAL: 15
+        
+CRIMSON_NYLIUM:
+    chance: 3
+    pool:
+        RAW: 50
+        INFERNAL: 15
+        
+WARPED_NYLIUM:
+    chance: 3
+    pool:
+        RAW: 50
+        INFERNAL: 25
+        
+SOUL_SAND:
+    chance: 2
+    pool:
+        RAW: 50
+        INFERNAL: 25
+        
+SOUL_SOIL:
+    chance: 2
+    pool:
+        RAW: 50
+        INFERNAL: 25
+        
+BASALT:
+    chance: 2
+    pool:
+        RAW: 50
+        INFERNAL: 15
+        
+BLACKSTONE:
+    chance: 1
+    pool:
+        RAW: 50
+        INFERNAL: 15
+        
+        
+GLOWSTONE:
+    chance: 5
+    pool:
+        RAW: 75
+        MAGE: 25
+        INFERNAL: 15
+
+#End
+END_STONE:
+    chance: 2
+    pool:
+        RAW: 75
+        VOID: 25
+        
+CHORUS_PLANT:
+    chance: 3
+    pool:
+        RAW: 75
+        VOID: 25
+        
+
+#Tree
+#Fishing
+COD:
+    chance: 2
+    pool:
+        RAW: 50
+        AQUATIC: 25 
+        CODLIKE: 1
+        PRISMATIC: 25
+        
+SALMON:
+    chance: 2
+    pool:
+        RAW: 50
+        AQUATIC: 25 
+        CODLIKE: 1
+        PRISMATIC: 25
+        
+TROPICAL_FISH:
+    chance: 3
+    pool:
+        RAW: 50
+        AQUATIC: 25 
+        CODLIKE: 1
+        PRISMATIC: 25
+        
+PUFFERFISH:
+    chance: 3
+    pool:
+        RAW: 50
+        AQUATIC: 25 
+        CODLIKE: 1
+        PRISMATIC: 25

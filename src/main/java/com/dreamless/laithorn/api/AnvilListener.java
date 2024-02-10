@@ -25,6 +25,12 @@ public class AnvilListener implements Listener{
 		if(event.getSlot() != 2) {
 			return;
 		}
+		
+		if(event.getCurrentItem() == null)
+		{
+			return;
+		}
+		
 		ItemRepair.anvilPickupCheck(event.getInventory(), event.getCurrentItem(), (Player) event.getWhoClicked(), event.isShiftClick());
 	}
 }

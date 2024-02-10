@@ -55,6 +55,10 @@ public class ItemRepair {
 		// Exp Event
 		Damageable previousDamage = (Damageable) leftSide.getItemMeta();
 		Damageable finalDamage = (Damageable) result.getItemMeta();
+		if(finalDamage == null)
+		{
+			return;
+		}
 
 		int repairValue = previousDamage.getDamage() - finalDamage.getDamage();
 
