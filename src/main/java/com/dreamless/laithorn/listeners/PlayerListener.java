@@ -19,7 +19,6 @@ import org.bukkit.inventory.ItemStack;
 import com.dreamless.laithorn.PlayerMessager;
 import com.dreamless.laithorn.api.Fragment;
 import com.dreamless.laithorn.events.PlayerExperienceGainEvent;
-import com.dreamless.laithorn.events.PlayerExperienceVariables;
 import com.dreamless.laithorn.events.PlayerExperienceVariables.GainType;
 import com.dreamless.laithorn.player.CacheHandler;
 import com.dreamless.laithorn.player.PlayerData;
@@ -47,8 +46,8 @@ public class PlayerListener implements Listener {
 			
 			if(data.getBoostedFragments() > 0)
 			{
-				PlayerMessager.msg(player, "Your connection to Laithorn is empowered. The next " + 
-						data.getBoostedFragments() + " fragments will give more experience");
+				PlayerMessager.msg(player, "Your connection to Laithorn is empowered. You have an increased chance to find " + 
+						data.getBoostedFragments() + " more fragments.");
 			}
 			else 
 			{
@@ -80,44 +79,6 @@ public class PlayerListener implements Listener {
 			return; // Ignore if levelcapped
 		}
 
-		// Calculate bonus
-		if(event.getBonusesUsed() > 0 && data.getBoostedFragments() > 0)
-		{
-			//get number of bonuses to apply
-			int usedBonuses = event.getBonusesUsed();
-			int availableBonuses = data.getBoostedFragments();
-			int appliedBonuses = 0;
-			if(availableBonuses <= usedBonuses)
-			{
-				appliedBonuses = availableBonuses;
-				data.setBoostedFragments(0);
-				if(data.getFlag(PlayerData.BONUS_MESSAGE_FLAG))
-				{
-					PlayerMessager.msg(player, "Your empowered connection with Laithorn has faded.");
-				}
-			}
-			else 
-			{
-				appliedBonuses = usedBonuses;
-				int remainingBonus = availableBonuses - usedBonuses;
-				data.setBoostedFragments(remainingBonus);
-				if(data.getFlag(PlayerData.BONUS_MESSAGE_FLAG))
-				{
-					String secondHalf = "";
-					if(remainingBonus > 0)
-					{
-						secondHalf = " This will last for " + remainingBonus + " more fragments.";
-					}
-					else 
-					{
-						secondHalf = " Your empowered connection with Laithorn has faded.";
-					}
-					PlayerMessager.msg(player, appliedBonuses + " fragments were empowered." + secondHalf);
-				}
-			}
-			expGained += appliedBonuses * PlayerExperienceVariables.getBonusExp();
-		}
-
 		// Send message
 		if (event.shouldInformPlayer()) {
 			switch (event.getGainType()) {
@@ -131,7 +92,6 @@ public class PlayerListener implements Listener {
 				break;
 			}
 		}
-
 
 		// Calculate levelup
 		int currentLevel = expSet.getCurrentLevel();
@@ -147,12 +107,6 @@ public class PlayerListener implements Listener {
 			requiredExpRating = PlayerDataHandler.getNewEXPRequirement(currentLevel + ++levelsGained);
 			PlayerMessager.debugLog("LEVELUP - NEW: " + newExpRating + " REQ: " + requiredExpRating);
 			
-			// Zero out Fragments
-			if(event.getGainType() == GainType.ATTUNEMENT)
-			{
-				data.setBoostedFragments(0);
-			}
-			
 			// Level cap check
 			if(currentLevel + levelsGained >= PlayerDataHandler.LEVEL_CAP) 
 			{
@@ -166,10 +120,6 @@ public class PlayerListener implements Listener {
 		if (levelsGained > 0) {
 			PlayerMessager.msg(player, "You have reached " + PlayerDataHandler.getTypeDescription(type) + " level "
 					+ (currentLevel + levelsGained));
-			if(data.getFlag(PlayerData.BONUS_MESSAGE_FLAG) && event.getGainType() == GainType.ATTUNEMENT)
-			{
-				PlayerMessager.msg(player, "Your empowered connection has faded and returned to normal.");
-			}
 		}
 
 		CacheHandler.updatePlayer(player,

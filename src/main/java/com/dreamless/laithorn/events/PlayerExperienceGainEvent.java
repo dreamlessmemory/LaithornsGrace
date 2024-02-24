@@ -12,8 +12,6 @@ public class PlayerExperienceGainEvent extends Event implements Cancellable {
 	private final Player player;
 	private final GainType gainType;
 	private final int expGain;
-	private final int bonusesUsed;
-
 	private final boolean informPlayer;
 
 	private static final HandlerList HANDLERS_LIST = new HandlerList();
@@ -35,11 +33,10 @@ public class PlayerExperienceGainEvent extends Event implements Cancellable {
 		return HANDLERS_LIST;
 	}
 
-	public PlayerExperienceGainEvent(Player player, int expGain, int bonusesUsed, GainType gainType, boolean informPlayer) {
+	public PlayerExperienceGainEvent(Player player, int expGain, GainType gainType, boolean informPlayer) {
 		this.player = player;
 		this.gainType = gainType;
 		this.expGain = expGain;
-		this.bonusesUsed = bonusesUsed;
 		this.informPlayer = informPlayer;
 	}
 
@@ -64,10 +61,6 @@ public class PlayerExperienceGainEvent extends Event implements Cancellable {
 
 	public static HandlerList getHandlerList() {
 		return HANDLERS_LIST;
-	}
-	
-	public final int getBonusesUsed() {
-		return bonusesUsed;
 	}
 
 }

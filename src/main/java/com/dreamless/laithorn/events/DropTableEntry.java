@@ -10,9 +10,14 @@ import org.bukkit.potion.PotionEffectType;
 public class DropTableEntry {
 	
 	private static double LUCK_LEVEL_MODIFIER = 0.1;
+	private static double BOOST_MODIFIER = 0.1;
 	
 	public static final void setLuckLevelModifier(double luckLevelModifier) {
 		LUCK_LEVEL_MODIFIER = luckLevelModifier;
+	}
+
+	public static final void setBoostModifier(double boostModifier) {
+		BOOST_MODIFIER = boostModifier;
 	}
 
 	private final double DROP_CHANCE;
@@ -23,8 +28,8 @@ public class DropTableEntry {
 		this.TAGS = tags;
 	}
 	
-	protected final String rollForTag(Player player, Random random) {
-		return (rollForDrop(player, random) ? new WeightedRandom<String>(random, TAGS).rollValue() : null);
+	protected final String rollForTag(Player player, Random random, boolean isBoosted) {
+		return (rollForDrop(player, random, isBoosted) ? new WeightedRandom<String>(random, TAGS).rollValue() : null);
 	}
 	
 	private final int getPlayerLuckLevel(Player player) {
@@ -35,7 +40,18 @@ public class DropTableEntry {
 		return Math.max(luck.getAmplifier() + 1, 0);
 	}
 	
-	private final boolean rollForDrop(Player player, Random random) {
-		return random.nextDouble() - getPlayerLuckLevel(player) * LUCK_LEVEL_MODIFIER <= DROP_CHANCE;
+	private final boolean rollForDrop(Player player, Random random, boolean isBoosted) {
+		// The base drop chance
+		double finalDropChance = DROP_CHANCE;
+
+		// Add any bonuses for luck
+		finalDropChance += getPlayerLuckLevel(player) * LUCK_LEVEL_MODIFIER;
+		
+		// If boosted, add another drop chance
+		finalDropChance += isBoosted ? BOOST_MODIFIER : 0;
+
+		// If the roll is less than the drop chance, it succeeds.
+		// e.g. a 15% drop chance means 0-0.15 will succeed, but 0.3 will fail
+		return random.nextDouble() <= finalDropChance;
 	}
 }

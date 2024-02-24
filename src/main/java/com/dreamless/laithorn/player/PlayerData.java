@@ -63,7 +63,14 @@ public class PlayerData implements InventoryHolder {
 	}
 
 	public void setBoostedFragments(int boostedFragments) {
-		this.boostedFragments = boostedFragments;
+		if(boostedFragments >= 0)
+		{
+			this.boostedFragments = boostedFragments;
+		}
+		else
+		{
+			this.boostedFragments = 0;
+		}
 	}
 
 	public Date getLastLoginDate() {

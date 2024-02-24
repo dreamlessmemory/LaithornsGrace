@@ -39,12 +39,12 @@ public class DropTableLookup {
 	public static void loadDropTables(FileConfiguration fileConfiguration, DropType type) {
 		// Wipe tables
 		switch (type) {
-		case MOB:
-			mobDropTables.clear();
-			break;
-		case BLOCK:
-			blockDropTables.clear();
-			break;
+			case MOB:
+				mobDropTables.clear();
+				break;
+			case BLOCK:
+				blockDropTables.clear();
+				break;
 		}
 
 		for (String entry : fileConfiguration.getKeys(false)) {
@@ -60,14 +60,14 @@ public class DropTableLookup {
 			}
 
 			switch (type) {
-			case MOB:
-				if (EntityType.valueOf(entry) != null)
-					mobDropTables.put(EntityType.valueOf(entry), new DropTableEntry(dropChance, tags));
-				break;
-			case BLOCK:
-				if (Material.valueOf(entry) != null)
-					blockDropTables.put(Material.valueOf(entry), new DropTableEntry(dropChance, tags));
-				break;
+				case MOB:
+					if (EntityType.valueOf(entry) != null)
+						mobDropTables.put(EntityType.valueOf(entry), new DropTableEntry(dropChance, tags));
+					break;
+				case BLOCK:
+					if (Material.valueOf(entry) != null)
+						blockDropTables.put(Material.valueOf(entry), new DropTableEntry(dropChance, tags));
+					break;
 			}
 		}
 	}
@@ -91,14 +91,13 @@ public class DropTableLookup {
 	}
 
 	protected static final List<ItemStack> dropItems(ItemStack item) {
-		
+
 		// Air/null check
-		if(item == null || item.getType() == Material.AIR)
-		{
+		if (item == null || item.getType() == Material.AIR) {
 			PlayerMessager.debugLog("Item is air or null");
 			return null;
 		}
-		
+
 		NBTItem nbti = new NBTItem(item);
 		NBTCompound laithorn = nbti.getCompound("Laithorn");
 		if (laithorn == null) {
@@ -132,14 +131,14 @@ public class DropTableLookup {
 			while (pools.hasNext()) {
 				Entry<String, LootPool> pool = pools.next();
 				double rawChance = pool.getValue().getChance();
-				double finalChance = rawChance < 1.0 ? rawChance * FragmentRarity.valueOf(rarity).rarityModifier() : rawChance;
+				double finalChance = rawChance < 1.0 ? rawChance * FragmentRarity.valueOf(rarity).rarityModifier()
+						: rawChance;
 				weightedChances.put(pool.getKey(), finalChance);
 				PlayerMessager.debugLog("Added Weight for item: " + pool.getKey() + " @ " + finalChance);
 			}
-			
+
 			String resultString;
-			for(int i = 0; i < times; i++)
-			{
+			for (int i = 0; i < times; i++) {
 				resultString = new WeightedRandom<String>(RANDOM, weightedChances).rollValue();
 				ItemStack drop = new ItemStack(Material.getMaterial(resultString));
 				PlayerMessager.debugLog("Rolled a " + resultString);
@@ -197,11 +196,22 @@ public class DropTableLookup {
 	}
 
 	private static ItemStack rollDropTable(DropTableEntry entry, Player player) {
-		String result = entry.rollForTag(player, RANDOM);
+		PlayerData data = CacheHandler.getPlayer(player);
+		int boostsRemaining = data.getBoostedFragments();
+		String result = entry.rollForTag(player, RANDOM, boostsRemaining > 0);
+
+		// If the result fails, then just return nothing
 		if (result == null) {
 			return null;
 		}
-		PlayerData data = CacheHandler.getPlayer(player);
+
+		// Adjust boost if needed
+		if (boostsRemaining > 0) {
+			data.setBoostedFragments(boostsRemaining--);
+			if (data.getFlag(PlayerData.BONUS_MESSAGE_FLAG) && boostsRemaining == 0) {
+				PlayerMessager.msg(player, "Your empowered connection with Laithorn has faded.");
+			}
+		}
 		return Fragment.fragmentItem(getLevel(data), result);
 	}
 

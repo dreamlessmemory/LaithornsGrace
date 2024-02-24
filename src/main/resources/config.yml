@@ -23,7 +23,10 @@ tag_experience:
     WELLSPRING: 5
     DROP: 1
     DAILY_BONUS: 64
-    BONUS_EXP: 15
+    # In Percent. E.g. 0.1 = 10%
+    LUCK_BONUS: 0.1
+    # In Percent. E.g. 0.1 = 10%
+    BONUS_CHANCE: 0.1
     BONUS_CAP: 640
     LEVEL_ONE_STACKS: 2
     LEVEL_MAX_STACKS: 150

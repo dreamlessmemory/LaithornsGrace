@@ -70,7 +70,7 @@ public class ItemRepair {
 
 		int expGain = repairValue * requirements.getExpRate();
 
-		Bukkit.getPluginManager().callEvent(new PlayerExperienceGainEvent(player, expGain, 0, GainType.SMITHING, true));
+		Bukkit.getPluginManager().callEvent(new PlayerExperienceGainEvent(player, expGain, GainType.SMITHING, true));
 
 		// Blank out Left Side
 		inventory.setItem(0, null);

@@ -19,6 +19,7 @@ import com.dreamless.laithorn.api.FragmentRarity;
 import com.dreamless.laithorn.api.ItemCrafting;
 import com.dreamless.laithorn.api.ItemRepair;
 import com.dreamless.laithorn.api.LaithornRegister;
+import com.dreamless.laithorn.events.DropTableEntry;
 import com.dreamless.laithorn.events.DropTableLookup;
 import com.dreamless.laithorn.events.DropTableLookup.DropType;
 import com.dreamless.laithorn.events.PlayerExperienceVariables;
@@ -192,7 +193,6 @@ public class LaithornsGrace extends JavaPlugin{
 		// Balancing
 		ConfigurationSection tagEXP = currentConfig.getConfigurationSection("tag_experience");
 		PlayerExperienceVariables.setFragmentExp(tagEXP.getInt("WELLSPRING", 10));
-		PlayerExperienceVariables.setBonusExp(tagEXP.getInt("BONUS_EXP", 10));
 		PlayerExperienceVariables.setDropExp(tagEXP.getInt("DROP", 1));
 		PlayerDataHandler.setLevelingConfiguration(
 				tagEXP.getInt("LEVEL_ONE_STACKS", 2),
@@ -200,6 +200,8 @@ public class LaithornsGrace extends JavaPlugin{
 				tagEXP.getInt("LEVEL_CAP", 10),
 				PlayerExperienceVariables.getFragmentExp()*64
 		);
+		DropTableEntry.setBoostModifier(tagEXP.getDouble("BONUS_CHANCE", 0.1));
+		DropTableEntry.setLuckLevelModifier(tagEXP.getDouble("LUCK_BONUS", 0.1));
 		
 		FragmentRarity.initializeWeightsMap();
 		
